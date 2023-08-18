@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+}
+
+enum sizeSystems {
+  letters
+  numbers
+}
+
+model ProductType {
+  id           String      @id @default(uuid())
+  name         String      @unique
+  imageName    String[]
+  sizingSystem sizeSystems
+  products     Product[]
+}
+
+model Field {
+  id          Int           @id @default(autoincrement())
+  name        String        @unique
+  htmlType    String
+  jsType      String
+  productData ProductData[]
+}
+
+model Product {
+  id              Int           @id @default(autoincrement())
+  name            String        @unique
+  isAvailable     Boolean       @default(false)
+  path            String        @default("")
+  price           Float         @default(0)
+  previous_price  Float         @default(0)
+  howManyPics     Int           @default(3)
+  trending        Boolean       @default(false)
+  comingSoon      Boolean       @default(false)
+  new             Boolean       @default(false)
+  productTypeName String
+  design          String        @default("")
+  fit             String        @default("")
+  material        String        @default("")
+  model           String        @default("")
+  reducedPrice    Int           @default(0)
+  productType     ProductType   @relation(fields: [productTypeName], references: [name], onDelete: Cascade)
+  ProductData     ProductData[]
+  orders          Order[]
+}
+
+model CodePromo {
+  id         Int    @id @default(autoincrement())
+  codePromo  String
+  count      Int
+  percentage Int
+  profit     Int
+
+  @@unique([codePromo])
+}
+
+model ProductData {
+  id         Int      @id @default(autoincrement())
+  productId  Int
+  fieldName  String
+  dataTypeId Int
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  field      Field    @relation(fields: [fieldName], references: [name], onDelete: Cascade)
+  value      dataType @relation(fields: [dataTypeId], references: [id], onDelete: Cascade)
+
+  @@unique([fieldName, dataTypeId])
+}
+
+model dataType {
+  id          Int           @id @default(autoincrement())
+  int         Int?
+  string      String?
+  bolean      Boolean?
+  float       Float?
+  productData ProductData[]
+}
+
+model Order {
+  id                Int      @id @default(autoincrement())
+  productName       String
+  fullName          String
+  phoneNumber       Int
+  secondPhoneNumber Int?
+  wilaya            String
+  fullAdress        String
+  quantity          Int
+  size              String
+  color             String?
+  createdAt         DateTime
+  codePromo         String
+  price             Int
+  isPaid            Boolean  @default(false)
+  isReturned        Boolean  @default(false)
+  revenue           Int      @default(0)
+  product           Product  @relation(fields: [productName], references: [name], onDelete: Cascade)
+}
+
+model FieldToProductType {
+  A Int
+  B Int
+
+  @@unique([A, B], map: "_FieldToProductType_AB_unique")
+  @@index([B], map: "_FieldToProductType_B_index")
+  @@map("_FieldToProductType")
+}
