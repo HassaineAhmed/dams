@@ -7,13 +7,11 @@ const CategoryPage = async ({
 }: {
   params: { categoryId: string }
 }) => {
-  console.log("id :",params.categoryId);
   const category = await prismadb.productType.findUnique({
     where: {
       id: params.categoryId
     }
   });
-  console.log("the category :", category);
 
   return (
     <div className="flex-col">

@@ -21,9 +21,20 @@ enum sizeSystems {
 model ProductType {
   id           String      @id @default(uuid())
   name         String      @unique
-  imageName    String[]
   sizingSystem sizeSystems
   products     Product[]
+  imageName    ImageName[]
+}
+
+model ImageName {
+  id        String @id @default(uuid())
+  imageName String
+
+  productType   ProductType? @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
+  productTypeId String
+
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
 }
 
 model Field {
@@ -35,7 +46,7 @@ model Field {
 }
 
 model Product {
-  id              Int           @id @default(autoincrement())
+  id              String        @id @default(uuid())
   name            String        @unique
   isAvailable     Boolean       @default(false)
   path            String        @default("")
@@ -54,6 +65,7 @@ model Product {
   productType     ProductType   @relation(fields: [productTypeName], references: [name], onDelete: Cascade)
   ProductData     ProductData[]
   orders          Order[]
+  imagesNames     ImageName[]
 }
 
 model CodePromo {
@@ -68,7 +80,7 @@ model CodePromo {
 
 model ProductData {
   id         Int      @id @default(autoincrement())
-  productId  Int
+  productId  String
   fieldName  String
   dataTypeId Int
   product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)

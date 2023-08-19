@@ -11,7 +11,7 @@ interface ImageUploadProps {
   disabled?: boolean;
   onChange: (value: string) => void;
   onRemove: (value: string) => void;
-  value: Array<{ url: string }> | string;
+  value: Array<{ imageName: string }>;
   isMultiple: boolean;
 }
 
@@ -52,7 +52,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           reject("didn't upload an image");
         } else {
           const reader = new FileReader();
-          reader.onload = async function (event) {
+          reader.onload = async function(event) {
             const base64Image = event.target?.result;
             const { data } = await axios
               .post<ApiResponse>(
@@ -77,13 +77,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         await sendImage(files[i])
           .catch((e) => console.log(e))
           .then((fileName) => {
-            setTimeout(() => {}, 2000);
-            console.log(
-              "going to give this file name to the on chaange",
-              fileName
-            );
-            console.log("previous array", value);
-            onChange(`/images/${fileName}`);
+            setTimeout(() => { }, 2000);
+            onChange(`${fileName}`);
           });
       }
     }
@@ -107,30 +102,29 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       </div>
     );
   }
-
   return (
     <div>
       <div className="mb-4 flex items-center gap-4">
-        {value.map(({ url }: { url: string }) =>
-          url != "" ? (
+        {value.map(({ imageName }: { imageName: string }) =>
+          imageName != "" ? (
             <div
-              key={url}
+              key={imageName}
               className="relative bg-gray-300 w-[200px] h-[200px] rounded-md overflow-hidden"
             >
               <div className="z-10 absolute top-2 right-2">
                 <Button
                   type="button"
-                  onClick={() => onRemove(url)}
+                  onClick={() => onRemove(imageName)}
                   variant="destructive"
                   size="sm"
                 >
                   <Trash className="h-4 w-4" />
                 </Button>
               </div>
-              <Image fill className="object-cover" alt="Image" src={url} />
+              <Image fill className="object-cover" alt="Image" src={`/images/temp/${imageName}`} />
             </div>
           ) : (
-            <div key={url}></div>
+            <div key={imageName}></div>
           )
         )}
       </div>

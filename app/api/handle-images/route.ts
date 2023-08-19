@@ -15,9 +15,8 @@ export async function POST(req: NextRequest) {
         } else {
             fileType = "jpeg"
         }
-        fs.writeFileSync(`./public/images/${fileName}.${fileType}`, buffer);
-        console.log("added image");
-        return NextResponse.json({ fileName : `${fileName}.${fileType}`},{ status: 200 })
+        fs.writeFileSync(`./public/images/temp/${fileName}.${fileType}`, buffer);
+        return NextResponse.json({ fileName: `${fileName}.${fileType}` }, { status: 200 })
     } catch (e) {
         console.log(e);
         return NextResponse.json({ "message": "server error" }, { status: 500 })
