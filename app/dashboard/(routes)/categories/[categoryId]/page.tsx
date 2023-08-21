@@ -10,6 +10,14 @@ const CategoryPage = async ({
   const category = await prismadb.productType.findUnique({
     where: {
       id: params.categoryId
+    },
+    include: {
+      imageName: {
+        select: {
+          id : true,
+          imageName: true
+        }
+      }
     }
   });
 

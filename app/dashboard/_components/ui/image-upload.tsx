@@ -11,7 +11,7 @@ interface ImageUploadProps {
   disabled?: boolean;
   onChange: (value: string) => void;
   onRemove: (value: string) => void;
-  value: Array<{ imageName: string }>;
+  value: Array<{ imageName: string, url: string }>;
   isMultiple: boolean;
 }
 
@@ -22,7 +22,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   isMultiple,
   value,
 }) => {
-  console.log("values : ", value);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -54,17 +53,20 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           const reader = new FileReader();
           reader.onload = async function(event) {
             const base64Image = event.target?.result;
-            const { data } = await axios
+            await axios
               .post<ApiResponse>(
                 "http://localhost:3000/api/handle-images",
                 JSON.stringify({ image: base64Image }),
                 { headers: { "Content-Type": `application/json` } }
               )
+              .then(response => {
+                resolve(response?.data?.fileName);
+              })
               .catch((e) => {
                 console.log("There was a problem");
                 reject(e);
               });
-            resolve(data?.fileName);
+            //resolve(data?.fileName);
           };
           reader.readAsDataURL(image);
         }
@@ -105,7 +107,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   return (
     <div>
       <div className="mb-4 flex items-center gap-4">
-        {value.map(({ imageName }: { imageName: string }) =>
+        {value.map(({ imageName, url }: { imageName: string }) =>
           imageName != "" ? (
             <div
               key={imageName}
@@ -121,7 +123,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                   <Trash className="h-4 w-4" />
                 </Button>
               </div>
-              <Image fill className="object-cover" alt="Image" src={`/images/temp/${imageName}`} />
+              {url ? <Image fill className="object-cover" alt="Image" src={`${url}`} /> :
+                <Image fill className="object-cover" alt="Image" src={`/images/temp/${imageName}`} />
+              }
             </div>
           ) : (
             <div key={imageName}></div>

@@ -28,13 +28,13 @@ model ProductType {
 
 model ImageName {
   id        String @id @default(uuid())
-  imageName String
+  imageName String @unique
 
   productType   ProductType? @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
   productTypeId String
 
   product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String
+  productId String?
 }
 
 model Field {

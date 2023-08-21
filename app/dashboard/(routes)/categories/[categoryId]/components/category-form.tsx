@@ -34,19 +34,22 @@ import {
 
 const formSchema = z.object({
   name: z.string().min(2),
-  imageName: z.object({ url: z.string() }).array(),
+  imageName: z.object({ imageName: z.string(), url: z.string().optional() }).array(),
   sizingSystem: z.string(),
 });
 
 type CategoryFormValues = z.infer<typeof formSchema> | ProductType;
 
-interface CategoryFormProps {
-  initialData: ProductType | null;
+type CategoryFormProps = {
+  initialData: ProductType & { imageName: Array<{ imageName: string, url: string }> } | null;
 }
 
 export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
+  if (initialData) {
+    initialData.imageName[0].url = `/images/${initialData.name}/${initialData.imageName[0].imageName}`
+  }
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -64,7 +67,12 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       sizingSystem: "",
     },
   });
-  console.log(initialData)
+  function wait(time: number) {
+    return new Promise((resolve) => {
+      setTimeout(() => { console.log("waiting ..."); }, time);
+      resolve("");
+    })
+  }
   const onSubmit = async (data: CategoryFormValues) => {
     interface ApiResponse {
       msg: string
@@ -72,21 +80,34 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     try {
       setLoading(true);
       if (initialData) {
-        //  await axios.patch(`/api/categories/${params.categoryId}`, data);
+        await axios.patch(`/api/categories/${params.categoryId}`, { data, initialData })
+          .then(res => {
+            if (res.status == 200) {
+              toast.success('Category updated succesffuly', { duration: 2000 });
+              router.refresh();
+              router.push(`/dashboard/categories`);
+            }
+          })
+          .catch(e => console.log('server error', e))
       } else {
         await axios
-          .post<ApiResponse>(
+          .post(
             "http://localhost:3000/api/categories/",
             data,
             { headers: { "Content-Type": `application/json` } }
           )
-          .catch((e) => {
-            toast.error("Something went wrong.");
-          });
+          .then(res => {
+            if (res.status == 200) {
+              toast.success(toastMessage, { duration: 2000 });
+              router.refresh();
+              router.push(`/dashboard/categories`);
+            }
+          })
+          .catch(async (e) => {
+            console.log(e);
+            toast.error("Something went wrong.", { duration: 3000 });
+          })
       }
-      router.refresh();
-      router.push(`/dashboard/categories`);
-      toast.success(toastMessage);
     } finally {
       setLoading(false);
     }
@@ -97,7 +118,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       setLoading(true);
       await axios.delete(`/api/categories/${params.categoryId}`);
       router.refresh();
-      router.push(`/categories`);
+      router.push(`/dashboard/categories`);
       toast.success("Category deleted.");
     } catch (error: any) {
       toast.error(
@@ -199,11 +220,11 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
                     <ImageUpload
                       value={field.value}
                       disabled={loading}
-                      onChange={(url) => {
-                        field.onChange(url);
+                      onChange={(imageName) => {
+                        field.onChange([{ imageName }]);
                       }}
-                      onRemove={(url) =>
-                        field.onChange()
+                      onRemove={() =>
+                        field.onChange([])
                       }
                       isMultiple={false}
                     />
@@ -213,7 +234,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
               );
             }}
           />
-          {form?.errors?.images && <h1>{form.errors.images.message}</h1>}
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}
           </Button>

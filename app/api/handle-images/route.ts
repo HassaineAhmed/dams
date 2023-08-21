@@ -3,8 +3,8 @@ import * as fs from "fs"
 
 
 export async function POST(req: NextRequest) {
+    const { image }: { image: string } = await req.json();
     try {
-        const { image } = await req.json();
         const buffer = Buffer.from(image.split(",")[1], "base64");
         const fileName = Math.random().toString(16).slice(2)
         let fileType: string;

@@ -1,34 +1,51 @@
 import { NextRequest, NextResponse } from "next/font/node_modules/next/server";
 import prismadb from "@/_lib/prismadb";
 import { auth } from "@clerk/nextjs";
+import * as fs from 'fs-extra';
+
+
+interface ReceivedData {
+  name: string;
+  sizingSystem: string;
+  imageName: Array<{ imageName: string }>
+}
+
 
 export async function POST(req: NextRequest) {
   try {
     const { userId } = auth();
-    const { name, images, sizingSystem } = await req.json();
+    let { name, imageName, sizingSystem }: ReceivedData = await req.json();
+    const imageNameStr: string = imageName[0].imageName;
     if (!userId) {
       return NextResponse.json("Unauthenticated!", { status: 400 });
     }
-    if (!name || !images || !sizingSystem) {
+    if (!name || !imageNameStr || !sizingSystem) {
       return NextResponse.json("invalid input data", { status: 400 });
     }
-    console.log("data recieved successfully");
-    console.log("name :", name);
-    console.log("name :", name);
-    console.log("images :", images[0].url.split("/")[2]);
+
     await prismadb.productType.create({
       data: {
         name: name,
-        imageName: images[0].url.split("/")[2],
+        imageName: { create: { imageName: imageNameStr } },
         sizingSystem: sizingSystem == "letters" ? "letters" : sizingSystem == "numbers" ? "numbers" : "letters"
       }
     })
-    return NextResponse.json("category created successfully", { status: 200 });
 
+    const isFolderCreated: boolean = await createFolder(`./public/images/${name}`);
+    if (isFolderCreated) {
+      const isImageMoved: boolean = await moveImage(`./public/images/temp/${imageNameStr}`, `./public/images/${name}/${imageNameStr}`)
+      if (isImageMoved) {
+        return NextResponse.json("category created successfully", { status: 200 });
+      } else {
+        return NextResponse.json("server error", { status: 500 });
+      }
+    } else {
+      return NextResponse.json("server error", { status: 500 });
+    }
   } catch (e) {
     console.log(e);
+    return NextResponse.json({ msg: "server error" }, { status: 500 });
   }
-  return NextResponse.json({ msg: "unable to insert data" }, { status: 200 });
 }
 
 export async function DELETE(req: NextRequest, { params }: { params: { categoryId: Array<string> } }) {
@@ -37,7 +54,11 @@ export async function DELETE(req: NextRequest, { params }: { params: { categoryI
     if (!id) {
       return NextResponse.json("problem indentifiying the id", { status: 404 });
     } else {
-      await prismadb.productType.delete({ where: { id: id } })
+      const productType = await prismadb.productType.delete({ where: { id: id } })
+      const isFolderDeleted = await deleteFolder(`./public/images/${productType.name}`);
+      if (!isFolderDeleted) {
+        return NextResponse.json("category deleted, but couldn't delete folder", { status: 500 });
+      }
       return NextResponse.json("Category Deleted Successfuly", { status: 202 });
     }
   } catch (e) {
@@ -45,3 +66,87 @@ export async function DELETE(req: NextRequest, { params }: { params: { categoryI
     return NextResponse.json("internal server error", { status: 500 });
   }
 }
+
+export async function PATCH(req: NextRequest, { params }: { params: { categoryId: Array<string> } }) {
+  console.log('hello');
+  try {
+    const { data, initialData } = await req.json();
+    const { name, imageName, sizingSystem }: ReceivedData = data;
+    const imageNameStr = imageName[0].imageName;
+    const categoryId = params.categoryId[0]
+    const newCategory = await prismadb.productType.update({
+      where: { id: categoryId },
+      data: {
+        name: name,
+        sizingSystem: sizingSystem == "numbers" ? "numbers" : "letters",
+        imageName: {
+          upsert: {
+            where: { id: initialData.imageName[0].id, imageName: initialData.imageName[0].imageName },
+            update: { imageName: imageNameStr },
+            create: { imageName: imageNameStr }
+          },
+        },
+      },
+      include: {
+        imageName: { select: { imageName: true } }
+      }
+    })
+    console.log(newCategory)
+    if (name != initialData.name) {
+      console.log('moving folder');
+      await moveImage(`./public/images/${initialData.name}`, `./public/images/${name}`)
+      if (imageNameStr != initialData.imageName[0].imageName) {
+        console.log('moving image');
+        await moveImage(`./public/images/temp/${imageNameStr}`, `./public/images/${name}/${imageNameStr}`)
+        console.log('deleting the old picutre')
+        await deleteFolder(`./public/temp/${imageNameStr}`);
+        await deleteFolder(`./public/images/${name}/${initialData.imageName[0].imageName}`)
+      }
+
+    } else if (imageNameStr != initialData.imageName[0].imageName) {
+      console.log('moving image');
+      await moveImage(`./public/images/${initialData.name}/${imageNameStr}`, `./public/images/${initialData.name}/${newCategory.imageName[0].imageName}`)
+    }
+
+    return NextResponse.json('You are the best programmer in the world', { status: 200 });
+  } catch (e) {
+    console.log("server error : ", e);
+    return NextResponse.json('server error', { status: 500 });
+  }
+}
+
+
+async function createFolder(folderPath: string) {
+  try {
+    await fs.ensureDir(folderPath);
+    console.log('Folder created successfully');
+    return true
+  } catch (error) {
+    console.error('Error creating folder:', error);
+    return false
+  }
+}
+
+async function moveImage(sourcePath: string, destinationPath: string) {
+  try {
+    await fs.move(sourcePath, destinationPath);
+    await fs.remove(sourcePath);
+    console.log('Image moved successfully');
+    return true
+  } catch (error) {
+    console.error('Error moving image:', error);
+    return false
+  }
+}
+
+async function deleteFolder(folderToDelete: string) {
+  try {
+    await fs.remove(folderToDelete);
+    console.log('Folder deleted successfully');
+    return true
+  } catch (error) {
+    console.error('Error deleting folder:', error);
+    return false
+  }
+}
+
