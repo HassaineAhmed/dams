@@ -11,7 +11,7 @@ interface ImageUploadProps {
   disabled?: boolean;
   onChange: (value: string) => void;
   onRemove: (value: string) => void;
-  value: Array<{ imageName: string, url: string }>;
+  value: Array<{ imageName: string, url?: string }>;
   isMultiple: boolean;
 }
 
@@ -107,7 +107,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   return (
     <div>
       <div className="mb-4 flex items-center gap-4">
-        {value.map(({ imageName, url }: { imageName: string }) =>
+        {value.map(({ imageName, url }: { imageName: string; }) =>
           imageName != "" ? (
             <div
               key={imageName}

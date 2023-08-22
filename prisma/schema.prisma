@@ -48,24 +48,45 @@ model Field {
 model Product {
   id              String        @id @default(uuid())
   name            String        @unique
-  isAvailable     Boolean       @default(false)
-  path            String        @default("")
   price           Float         @default(0)
-  previous_price  Float         @default(0)
-  howManyPics     Int           @default(3)
-  trending        Boolean       @default(false)
-  comingSoon      Boolean       @default(false)
-  new             Boolean       @default(false)
-  productTypeName String
+  imagesNames     ImageName[]
+  isAvailable     Boolean       @default(false)
+  isComingSoon    Boolean       @default(false)
+  isTrending      Boolean       @default(false)
+  isForMen        Boolean
+  isForWomen      Boolean
+  isNew           Boolean       @default(false)
+  isNewArrival    Boolean       @default(true)
   design          String        @default("")
   fit             String        @default("")
-  material        String        @default("")
   model           String        @default("")
+  orders          Order[]
+  material        String        @default("")
+  productTypeName String
   reducedPrice    Int           @default(0)
   productType     ProductType   @relation(fields: [productTypeName], references: [name], onDelete: Cascade)
   ProductData     ProductData[]
-  orders          Order[]
-  imagesNames     ImageName[]
+  previous_price  Float         @default(0)
+}
+
+model Order {
+  id                Int      @id @default(autoincrement())
+  productName       String
+  fullName          String
+  phoneNumber       Int
+  secondPhoneNumber Int?
+  wilaya            String
+  fullAdress        String
+  quantity          Int
+  size              String
+  color             String?
+  createdAt         DateTime
+  codePromo         String
+  price             Int
+  isPaid            Boolean  @default(false)
+  isReturned        Boolean  @default(false)
+  revenue           Int      @default(0)
+  product           Product  @relation(fields: [productName], references: [name], onDelete: Cascade)
 }
 
 model CodePromo {
@@ -97,26 +118,6 @@ model dataType {
   bolean      Boolean?
   float       Float?
   productData ProductData[]
-}
-
-model Order {
-  id                Int      @id @default(autoincrement())
-  productName       String
-  fullName          String
-  phoneNumber       Int
-  secondPhoneNumber Int?
-  wilaya            String
-  fullAdress        String
-  quantity          Int
-  size              String
-  color             String?
-  createdAt         DateTime
-  codePromo         String
-  price             Int
-  isPaid            Boolean  @default(false)
-  isReturned        Boolean  @default(false)
-  revenue           Int      @default(0)
-  product           Product  @relation(fields: [productName], references: [name], onDelete: Cascade)
 }
 
 model FieldToProductType {
