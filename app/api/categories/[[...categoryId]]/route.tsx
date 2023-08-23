@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json("invalid input data", { status: 400 });
     }
 
-    await prismadb.productType.create({
+    await prismadb.category.create({
       data: {
         name: name,
         imageName: { create: { imageName: imageNameStr } },
@@ -54,8 +54,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { categoryI
     if (!id) {
       return NextResponse.json("problem indentifiying the id", { status: 404 });
     } else {
-      const productType = await prismadb.productType.delete({ where: { id: id } })
-      const isFolderDeleted = await deleteFolder(`./public/images/${productType.name}`);
+      const category = await prismadb.category.delete({ where: { id: id } })
+      const isFolderDeleted = await deleteFolder(`./public/images/${category.name}`);
       if (!isFolderDeleted) {
         return NextResponse.json("category deleted, but couldn't delete folder", { status: 500 });
       }
@@ -68,13 +68,12 @@ export async function DELETE(req: NextRequest, { params }: { params: { categoryI
 }
 
 export async function PATCH(req: NextRequest, { params }: { params: { categoryId: Array<string> } }) {
-  console.log('hello');
   try {
     const { data, initialData } = await req.json();
     const { name, imageName, sizingSystem }: ReceivedData = data;
     const imageNameStr = imageName[0].imageName;
     const categoryId = params.categoryId[0]
-    const newCategory = await prismadb.productType.update({
+    const newCategory = await prismadb.category.update({
       where: { id: categoryId },
       data: {
         name: name,
@@ -91,7 +90,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { categoryId
         imageName: { select: { imageName: true } }
       }
     })
-    console.log(newCategory)
+
     if (name != initialData.name) {
       console.log('moving folder');
       await moveImage(`./public/images/${initialData.name}`, `./public/images/${name}`)

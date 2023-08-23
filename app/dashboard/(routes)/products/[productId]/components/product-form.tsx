@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "react-hot-toast"
 import { Trash } from "lucide-react"
-import { ProductType, Product } from "@prisma/client"
+import { Product, Category } from "@prisma/client"
 import { useParams, useRouter } from "next/navigation"
 
 import { Input } from "@/_components/ui/input"
@@ -27,13 +27,13 @@ import { AlertModal } from "@/_components/modals/alert-modal"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/_components/ui/select"
 import ImageUpload from "@/_components/ui/image-upload"
 import { Checkbox } from "@/_components/ui/checkbox"
-import { ProductColumn } from "../../components/columns";
+
 
 const formSchema = z.object({
   name: z.string().min(1),
-  imagesNames: z.object({ imageName: z.string(), url: z.string().optional() }).array(),
+  imagesNames: z.object({ imageName: z.string(), url: z.string().optional() }).array().min(1),
   price: z.coerce.number().min(1),
-  categoryId: z.string().min(1),
+  categoryName: z.string(),
   isAvailable: z.boolean().default(false),
   isNewArrival: z.boolean().default(true),
   isForMen: z.boolean().default(false),
@@ -48,8 +48,8 @@ const formSchema = z.object({
 type ProductFormValues = z.infer<typeof formSchema>
 
 interface ProductFormProps {
-  initialData: ProductColumn | null;
-  categories: ProductType[];
+  initialData: Product & { imagesNames: Array<{ imageName: string, url: string }> } | null;
+  categories: Category[];
 };
 
 export const ProductForm: React.FC<ProductFormProps> = ({
@@ -66,6 +66,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const description = initialData ? 'Edit a product.' : 'Add a new product';
   const toastMessage = initialData ? 'Product updated.' : 'Product created.';
   const action = initialData ? 'Save changes' : 'Create';
+  console.log(initialData);
+  if (initialData) {
+    initialData.imagesNames = initialData.imagesNames.map(({ imageName }) =>
+      ({ imageName: imageName, url: `/images/${initialData.categoryName}/${initialData.name}/${imageName}` }))
+  }
 
   const defaultValues = initialData ? {
     ...initialData,
@@ -82,7 +87,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     model: 'Einstein',
     fit: '',
     design: '',
-    categoryId: '',
+    categoryName: '',
   }
 
   const form = useForm<ProductFormValues>({
@@ -91,11 +96,24 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   });
 
   const onSubmit = async (data: ProductFormValues) => {
-    console.log('form data : ', data);
+    console.log('hello')
     try {
       setLoading(true);
       if (initialData) {
-        // await axios.patch(`/api/products/${params.productId}`, data);
+        console.log(initialData)
+        await axios.patch(`/api/products/${params.productId}`, { data, initialData })
+          .then(res => {
+            if (res.status == 200) {
+              router.refresh();
+              router.push(`/dashboard/products`);
+              toast.success(toastMessage);
+            }
+          })
+          .catch(e => {
+            toast.error("Incorrect data");
+            console.log(e)
+          }
+          )
       } else {
         await axios.post(`/api/products`, data)
           .then(res => {
@@ -105,7 +123,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               toast.success(toastMessage);
             }
           })
-          .catch(e => console.log(e))
+          .catch(e => {
+            toast.error("server error");
+            console.log(e)
+          }
+          )
       }
     } catch (error: any) {
       toast.error('Something went wrong.');
@@ -240,7 +262,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
             <FormField
               control={form.control}
-              name="categoryId"
+              name="categoryName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Category</FormLabel>
@@ -252,7 +274,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     </FormControl>
                     <SelectContent>
                       {categories.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>{category.name}</SelectItem>
+                        <SelectItem key={category.id} value={category.name}>{category.name}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -324,6 +346,29 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     </FormLabel>
                     <FormDescription>
                       Show product in New Arrival page. (default true)
+                    </FormDescription>
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="isForMen"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      // @ts-ignore
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      Men
+                    </FormLabel>
+                    <FormDescription>
+                      Show product in Men page
                     </FormDescription>
                   </div>
                 </FormItem>

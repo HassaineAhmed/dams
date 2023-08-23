@@ -27,11 +27,9 @@ export async function POST(req: NextRequest) {
         if (!userId) {
             return NextResponse.json("Unauthenticated!", { status: 400 });
         }
-
         let {
             name,
             price,
-            categoryId,
             categoryName,
             isAvailable,
             isNewArrival,
@@ -44,11 +42,22 @@ export async function POST(req: NextRequest) {
             design,
             fit,
         }: ReceivedData = await req.json();
+        let categoryId: string | null = '';
+        const categories = await prismadb.productType.findMany();
+        categories.forEach(c => {
+            if (c.name == categoryName) {
+                categoryId = c.id;
+                console.log('found it');
+            }
+        })
+        console.log(imagesNames)
+        console.log(categoryName)
+        console.log(categoryId)
 
         await prismadb.product.create({
             data: {
                 name: name,
-                imagesNames: { create: imagesNames },
+                imagesNames: { create: imagesNames.map(image => ({ imageName: image.imageName })) },
                 price: price,
                 isAvailable: isAvailable,
                 isTrending: isTrending,
@@ -59,7 +68,7 @@ export async function POST(req: NextRequest) {
                 model: model ? model : "",
                 fit: fit ? fit : "",
                 design: design ? design : "",
-                productType: { connect: { id: categoryId } }
+                productType: { connect: { name: categoryName, id : categoryId } },
             },
         })
 

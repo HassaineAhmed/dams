@@ -7,7 +7,7 @@ import { CategoriesClient } from "./components/client";
 
 const CategoriesPage = async () => {
 
-  const categories = await prismadb.productType.findMany();
+  const categories = await prismadb.category.findMany();
 
   const formattedCategories: CategoryColumn[] = categories.map((item) => ({
     id: item.id,

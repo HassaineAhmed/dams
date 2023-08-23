@@ -45,6 +45,14 @@ export function DataTable<TData, TValue>({
       columnFilters,
     }
   });
+  console.log(
+    'data : ', data,
+    'columns: ', columns,
+    "getCoreRowModel", getCoreRowModel(),
+    "getPaginationRowModel", getPaginationRowModel(),
+    "onColumnFiltersChange", setColumnFilters,
+    "getFilteredRowModel", getFilteredRowModel(),
+  )
 
   return (
     <div>

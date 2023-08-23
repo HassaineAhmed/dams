@@ -33,9 +33,14 @@ export const CellAction: React.FC<CellActionProps> = ({
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/products/${data.id}`);
-      toast.success('Product deleted.');
-      router.refresh();
+      await axios.delete(`/api/products/${data.id}`)
+        .then(res => {
+          if (res.status == 200) {
+            toast.success('Product deleted.');
+            router.refresh();
+          }
+        }
+        )
     } catch (error) {
       toast.error('Something went wrong');
     } finally {
@@ -72,7 +77,7 @@ export const CellAction: React.FC<CellActionProps> = ({
             <Copy className="mr-2 h-4 w-4" /> Copy Id
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => router.push(`/${params.storeId}/products/${data.id}`)}
+            onClick={() => router.push(`/dashboard/products/${data.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>

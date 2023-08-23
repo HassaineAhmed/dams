@@ -15,26 +15,24 @@ const ProductPage = async ({
       id: params.productId,
     },
     include: {
-      productType: { select: { id: true, name: true, sizingSystem: true } },
       imagesNames: { select: { imageName: true } },
       orders: { select: { id: true } }
     },
   });
 
-  let product: ProductColumn | null = null;
+  let product = null;
   if (unFormatedProduct) {
     product = {
       id: unFormatedProduct.id,
       name: unFormatedProduct.name,
       price: unFormatedProduct.price,
-      category: unFormatedProduct.productType,
+      categoryName: unFormatedProduct.categoryName,
       isAvailable: unFormatedProduct.isAvailable,
       isNewArrival: unFormatedProduct.isNewArrival,
       isForMen: unFormatedProduct.isForMen,
       isForWomen: unFormatedProduct.isForWomen,
       isComingSoon: unFormatedProduct.isComingSoon,
       isTrending: unFormatedProduct.isTrending,
-      howManyOrders: unFormatedProduct.orders.length,
       imagesNames: unFormatedProduct.imagesNames,
       model: unFormatedProduct.model,
       fit: unFormatedProduct.fit,
@@ -42,7 +40,7 @@ const ProductPage = async ({
     }
   }
 
-  const categories = await prismadb.productType.findMany();
+  const categories = await prismadb.category.findMany();
 
   return (
     <div className="flex-col">

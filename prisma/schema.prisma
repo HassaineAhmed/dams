@@ -18,55 +18,40 @@ enum sizeSystems {
   numbers
 }
 
-model ProductType {
-  id           String      @id @default(uuid())
-  name         String      @unique
-  sizingSystem sizeSystems
-  products     Product[]
-  imageName    ImageName[]
-}
-
 model ImageName {
-  id        String @id @default(uuid())
-  imageName String @unique
-
-  productType   ProductType? @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
-  productTypeId String
-
-  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String?
-}
-
-model Field {
-  id          Int           @id @default(autoincrement())
-  name        String        @unique
-  htmlType    String
-  jsType      String
-  productData ProductData[]
+  id         String    @id @default(uuid())
+  imageName  String    @unique
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  product    Product?  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId  String?
+  categoryId String?
 }
 
 model Product {
-  id              String        @id @default(uuid())
-  name            String        @unique
-  price           Float         @default(0)
-  imagesNames     ImageName[]
-  isAvailable     Boolean       @default(false)
-  isComingSoon    Boolean       @default(false)
-  isTrending      Boolean       @default(false)
-  isForMen        Boolean
-  isForWomen      Boolean
-  isNew           Boolean       @default(false)
-  isNewArrival    Boolean       @default(true)
-  design          String        @default("")
-  fit             String        @default("")
-  model           String        @default("")
-  orders          Order[]
-  material        String        @default("")
-  productTypeName String
-  reducedPrice    Int           @default(0)
-  productType     ProductType   @relation(fields: [productTypeName], references: [name], onDelete: Cascade)
-  ProductData     ProductData[]
-  previous_price  Float         @default(0)
+  id           String      @id @default(uuid())
+  name         String      @unique
+  price        Float       @default(0)
+  imagesNames  ImageName[]
+  isAvailable  Boolean     @default(false)
+  isComingSoon Boolean     @default(false)
+  isTrending   Boolean     @default(false)
+  isForMen     Boolean
+  isForWomen   Boolean
+  isNewArrival Boolean     @default(true)
+  design       String      @default("")
+  fit          String      @default("")
+  model        String      @default("")
+  orders       Order[]
+  category     Category    @relation(references: [name], fields: [categoryName])
+  categoryName String
+}
+
+model Category {
+  id           String      @id @default(uuid())
+  name         String      @unique
+  sizingSystem sizeSystems
+  Product      Product[]
+  imageName    ImageName[]
 }
 
 model Order {
@@ -97,34 +82,4 @@ model CodePromo {
   profit     Int
 
   @@unique([codePromo])
-}
-
-model ProductData {
-  id         Int      @id @default(autoincrement())
-  productId  String
-  fieldName  String
-  dataTypeId Int
-  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  field      Field    @relation(fields: [fieldName], references: [name], onDelete: Cascade)
-  value      dataType @relation(fields: [dataTypeId], references: [id], onDelete: Cascade)
-
-  @@unique([fieldName, dataTypeId])
-}
-
-model dataType {
-  id          Int           @id @default(autoincrement())
-  int         Int?
-  string      String?
-  bolean      Boolean?
-  float       Float?
-  productData ProductData[]
-}
-
-model FieldToProductType {
-  A Int
-  B Int
-
-  @@unique([A, B], map: "_FieldToProductType_AB_unique")
-  @@index([B], map: "_FieldToProductType_B_index")
-  @@map("_FieldToProductType")
 }

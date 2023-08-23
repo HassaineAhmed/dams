@@ -6,7 +6,7 @@ import { formatter } from "@/_lib/utils";
 import { ProductsClient } from "./components/client";
 import { ProductColumn } from "./components/columns";
 
-
+prismadb.category.deleteMany();
 const ProductsPage = async ({
   params
 }: {
@@ -15,7 +15,7 @@ const ProductsPage = async ({
 
   const products = await prismadb.product.findMany({
     include: {
-      productType: { select: { id: true, name: true, sizingSystem: true } },
+      category: { select: { id: true, name: true, sizingSystem: true } },
       imagesNames: { select: { imageName: true } },
       orders: { select: { id: true } }
     },
@@ -25,19 +25,10 @@ const ProductsPage = async ({
     id: item.id,
     name: item.name,
     price: item.price,
-    category: item.productType,
+    categoryName: item.category.name,
     isAvailable: item.isAvailable,
-    isNewArrival: item.isNewArrival,
-    isForMen: item.isForMen,
-    isForWomen: item.isForWomen,
-    isComingSoon: item.isComingSoon,
-    isTrending: item.isTrending,
+    gender: item.isForMen ? "men" : "women",
     howManyOrders: item.orders.length,
-    imagesNames: item.imagesNames,
-    model: item.model,
-    fit: item.fit,
-    design: item.design
-
   }));
 
   return (
