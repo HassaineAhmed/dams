@@ -42,7 +42,7 @@ model Product {
   fit          String      @default("")
   model        String      @default("")
   orders       Order[]
-  category     Category    @relation(references: [name], fields: [categoryName])
+  category     Category    @relation(references: [name], fields: [categoryName], onDelete: Cascade)
   categoryName String
 }
 

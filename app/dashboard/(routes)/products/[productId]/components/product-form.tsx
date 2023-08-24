@@ -33,7 +33,7 @@ const formSchema = z.object({
   name: z.string().min(1),
   imagesNames: z.object({ imageName: z.string(), url: z.string().optional() }).array().min(1),
   price: z.coerce.number().min(1),
-  categoryName: z.string(),
+  categoryName: z.string().min(1),
   isAvailable: z.boolean().default(false),
   isNewArrival: z.boolean().default(true),
   isForMen: z.boolean().default(false),
@@ -139,9 +139,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
+      await axios.delete(`/api/products/${params.productId}`);
       router.refresh();
-      router.push(`/${params.storeId}/products`);
+      router.push(`/dashboard/products`);
       toast.success('Product deleted.');
     } catch (error: any) {
       toast.error('Something went wrong.');

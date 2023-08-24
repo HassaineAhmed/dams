@@ -15,7 +15,7 @@ export type ReceivedData = {
     isComingSoon: boolean,
     isTrending: boolean,
     howManyOrders: number,
-    imagesNames: Array<{ imageName: string }>
+    imagesNames: Array<{ imageName: string, url?: string }>
     model: string,
     design: string,
     fit: string,
@@ -137,12 +137,17 @@ export async function PATCH(req: NextRequest, { params }: { params: { productId:
                 }
                 if (!found) {
                     console.log(`./public/images/${categoryName}/${name}/${initialData.imagesNames[initialImageName].imageName}`)
-                    await deleteFolder(`./public/images/${categoryName}/${name}/${initialData.imagesNames[initialImageName].imageName}`)
+                    if (initialData.imagesNames[initialImageName].url) {
+                        await deleteFolder(`./public${initialData.imagesNames[initialImageName].url}`)
+                    } else {
+                        await deleteFolder(`./public/images/${categoryName}/${name}/${initialData.imagesNames[initialImageName].imageName}`)
+                    }
                     deletedImages.push({ imageName: initialData.imagesNames[initialImageName].imageName })
                 }
             }
             return deletedImages;
         }
+
         const deletedImages = await findDeletedImages()
         console.log('the final result: ', deletedImages)
         await prismadb.product.update({
@@ -176,16 +181,24 @@ export async function PATCH(req: NextRequest, { params }: { params: { productId:
             await moveImage(`./public/images/${categoryName}/${initialData.name}`, `./public/images/${categoryName}/${name}`)
         }
 
-        imagesNames.forEach(({ imageName }: { imageName: string }) => {
-            initialData.imagesNames.forEach(async ({ initialImageName }: { initialImageName: string }) => {
-                if (initialImageName == imageName) {
-                    await moveImage(`./public/images/temp/${initialImageName}`, `./public/images/${categoryName}/${name}/${imageName}`)
-                    await deleteFolder(`./public/images/temp/${initialImageName}`)
+        let found = false;
+        let newImageName = ''
+        for (let newImageNameIndex in imagesNames) {
+            found = false;
+            newImageName = imagesNames[newImageNameIndex].imageName
+            for (let initialImageName in initialData.imagesNames) {
+                if (initialData.imagesNames[initialImageName].imageName == newImageName) {
+                    found = true;
                 }
-            })
-        })
-        return NextResponse.json('You are the best programmer in the world', { status: 200 });
+            }
+            if (!found) {
+                await moveImage(`./public/images/temp/${newImageName}`, `./public/images/${categoryName}/${name}/${newImageName}`)
+                await deleteFolder(`./public/images/temp/${newImageName}`)
+                console.log(`./public/images/${categoryName}/${name}/${newImageName}`)
+            }
+        }
 
+        return NextResponse.json('You are the best programmer in the world', { status: 200 });
     } catch (e) {
         console.log("server error : ", e);
         return NextResponse.json('server error', { status: 500 });

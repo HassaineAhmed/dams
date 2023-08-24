@@ -17,8 +17,17 @@ const config: Config = {
       },
     },
     extend: {
+      fontFamily: {
+        "lora": ['var(--font-lora)'],
+        "mr": ['var(--font-merriweather)'],
+      },
       colors: {
-        border: "hsl(var(--border))",
+        pr: '#3D7D7A',
+        sd: '#244A48',
+        td: '#9FC9C7',
+        gold: '#D8B4A0',
+        whitish: '#F2E9DA',
+        bordea: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
@@ -58,6 +67,26 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        'bounce': {
+          '0%': {
+            transform: 'translateY(0)'
+          },
+          '20%': {
+            transform: 'translateY(1px)'
+          },
+          '40%': {
+            transform: 'translateY(0px)'
+          },
+          '60%': {
+            transform: 'translateY(1px)'
+          },
+          '80%': {
+            transform: 'translateY(0px)'
+          },
+          '100%': {
+            transform: 'translateY(1px)'
+          },
+        },
         "accordion-down": {
           from: { height: '0' },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -70,6 +99,7 @@ const config: Config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "giggle": "bounce 1s  infinite"
       },
     },
   },
