@@ -10,7 +10,7 @@ import { Trash } from "lucide-react";
 import { Category } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
 
-import { Input } from "@/_components/ui/input";
+import { Input } from "./input";
 import { Button } from "@/_components/ui/button";
 import {
   Form,
@@ -67,16 +67,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       sizingSystem: "",
     },
   });
-  function wait(time: number) {
-    return new Promise((resolve) => {
-      setTimeout(() => { console.log("waiting ..."); }, time);
-      resolve("");
-    })
-  }
+
   const onSubmit = async (data: CategoryFormValues) => {
-    interface ApiResponse {
-      msg: string
-    }
     try {
       setLoading(true);
       if (initialData) {

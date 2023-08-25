@@ -83,3 +83,18 @@ model CodePromo {
 
   @@unique([codePromo])
 }
+
+model FAQ {
+  id       String @id @default(uuid())
+  question String
+  answer   String
+}
+
+model Feedback {
+  id          String   @id @default(uuid())
+  name        String
+  email       String
+  phoneNumber Int?
+  message     String
+  date        DateTime
+}
