@@ -13,7 +13,7 @@ export function BrandInfo() {
     <div className="grid gap-3">
 
       <p className="text-lg font-bold text-center">
-        What should expect from us:
+        What should you expect from us:
       </p>
 
       <div className="flex flex-col gap-4 w-full items-center">

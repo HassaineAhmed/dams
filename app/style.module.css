@@ -1,0 +1,7 @@
+.DropDownFAQ {
+  max-heigth : 0;
+  transition : opacity 700ms ease-in-out;
+}
+.ReactCollapse--collapse {
+  transition: height 500ms;
+}

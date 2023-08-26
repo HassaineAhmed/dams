@@ -20,6 +20,7 @@ const config: Config = {
       fontFamily: {
         "lora": ['var(--font-lora)'],
         "mr": ['var(--font-merriweather)'],
+        "ds": ['var(--font-ds)'],
       },
       colors: {
         pr: '#3D7D7A',
@@ -27,10 +28,10 @@ const config: Config = {
         td: '#9FC9C7',
         gold: '#D8B4A0',
         whitish: '#F2E9DA',
-        black : '#000000',
+        black: '#000000',
         bordea: "hsl(var(--border))",
-        formGrey : "#A9A395",
-        formGreen : "#324443",
+        formGrey: "#A9A395",
+        formGreen: "#324443",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
@@ -98,11 +99,65 @@ const config: Config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: '0' },
         },
+        "slideInFromRight": {
+          "0%": { transform: "scaleX(0)" },
+          "100%": { transform: "scanelX(1)" },
+        },
+        "slideOutFromRight": {
+          "0%": { transform: "scaleX(1)", },
+          "100%": { transform: "scaleX(0)", },
+        },
+        "fadeIn": {
+          "0%": { opacity: "0", display: "none" },
+          "95%": { opacity: "1" },
+          "100%": { opacity: "1", display: "flex", },
+        },
+        "fadeOut": {
+          "0%": { opacity: "1" },
+          "95%": { opacity: "0" },
+          "100%": { opacity: "0", display: "none", },
+        },
+        "fadeInOut": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(10px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          }
+        },
+        "rotateChevron": {
+          "0%": {
+            transform: "rotate(0deg)"
+          },
+          "100%": {
+            transform: "rotate(180deg)"
+          },
+        },
+        "dropdown": {
+          "0%": {
+            height: "0"
+          },
+          "100%": {
+            height: "100%"
+          },
+        },
+
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "giggle": "bounce 1s  infinite"
+        "giggle": "bounce 1s  infinite",
+        "slideIn": "slideInFromRight 500ms forwards ease-out",
+        "slideOut": "slideOutFromRight 500ms forwards ease-out ",
+        "fadeIn": "fadeIn 400ms ease-in-out forwards ",
+        "fadeOut": "fadeOut 200ms ease-in-out  frowards",
+
+        "fadeInOut": "fadeInOut 0.5s ease-in-out",
+        "rotateChevron": "rotateChevron 0.4s ease-in-out forwards",
+        "rotateChevronDown": "rotateChevron 0.4s ease-in-out reverse",
+        "dropdown": "dropdown 400ms ease-in-out  forwards",
       },
     },
   },

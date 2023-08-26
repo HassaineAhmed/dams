@@ -1,0 +1,86 @@
+"use client"
+import ProductComponent from "./product-component"
+import { Product } from "@prisma/client"
+import { useState } from "react"
+
+
+export function TabSection({ products }: { products: Product[] }) {
+  const [activeTab, setActiveTab] = useState(1);
+  const [tab1, setTab1] = useState("animate-slideIn origin-left w-full");
+  const [tab2, setTab2] = useState("");
+  const [tab3, setTab3] = useState("");
+
+  let trendingProducts = products.filter(product => product.isTrending == true);
+  let comingSoonProudcts = products.filter(product => product.isComingSoon == true);
+  let newArrivalProducts = products.filter(product => product.isNewArrival == true);
+
+  return (
+    <div className="bg-[#519D99] outline-none mx-1 border-[2px] border-gold py-6">
+
+      <div className="bg-[#519D99]">
+        <div className="flex justify-center gap-6 items-center">
+          <button onClick={() => {
+            if (activeTab == 2) {
+              setTab2("w-full animate-slideOut origin-left");
+            } else {
+              setTab3("w-full animate-slideOut origin-left")
+            }
+            setTab1("animate-slideIn origin-right  w-full")
+            setActiveTab(1);
+          }} className="flex flex-col gap-1 justify-stretch">
+
+            <p className="font-mr font-bold text-[19px] py-1">Trending</p>
+            <div className={`h-[2px] bg-white ${tab1} `} />
+          </button>
+
+          <button onClick={() => {
+            if (activeTab == 1) {
+              setTab1("w-full animate-slideOut origin-right")
+              setTab2("animate-slideIn origin-left w-full");
+            }
+            if (activeTab == 3) {
+              setTab2("animate-slideIn origin-right w-full");
+              setTab3("w-full animate-slideOut origin-left")
+            }
+            setActiveTab(2);
+          }} className="flex flex-col gap-1 justify-stretch">
+            <p className="font-mr font-bold text-[19px] py-1">New Arrival</p>
+            <div className={`h-[2px]  bg-white ${tab2} `} />
+          </button>
+
+          <button onClick={() => {
+            setTab3("animate-slideIn origin-left w-full")
+            if (activeTab == 1) {
+              setTab1("w-full animate-slideOut origin-right")
+            }
+            if (activeTab == 2) {
+              setTab2("w-full animate-slideOut origin-right")
+            }
+            setActiveTab(3)
+          }} className="flex flex-col gap-1 justify-stretch">
+            <p className="font-mr font-bold text-[19px] py-1">Coming Soon</p>
+            <div className={`h-[2px]  bg-white ${tab3} `} />
+          </button>
+
+        </div>
+      </div>
+      <div className="">
+        <div className={`gap-2 pt-8 pb-8 items-center justify-center transition-all flex duration-500 animate-fadeInOut ${activeTab == 1 ? 'flex' : 'hidden'}`}>
+          {trendingProducts[0] && <ProductComponent product={trendingProducts[0]} />}
+          {trendingProducts[1] && <ProductComponent product={trendingProducts[1]} />}
+        </div>
+
+        <div className={`gap-2 pt-6 pb-10 items-center justify-center flex animate-fadeInOut ${activeTab == 2 ? 'flex' : "hidden"} `}>
+          {newArrivalProducts[0] && <ProductComponent product={newArrivalProducts[0]} />}
+          {newArrivalProducts[1] && <ProductComponent product={newArrivalProducts[1]} />}
+        </div>
+
+        <div className={`gap-2 pt-6 pb-10 items-center justify-center animate-fadeInOut ${activeTab == 3 ? "flex" : "hidden"} `}>
+          {comingSoonProudcts[0] && <ProductComponent product={comingSoonProudcts[0]} />}
+          {comingSoonProudcts[1] && <ProductComponent product={comingSoonProudcts[1]} />}
+        </div>
+      </div>
+
+    </div>
+  )
+}

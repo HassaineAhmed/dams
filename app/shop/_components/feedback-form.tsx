@@ -4,45 +4,55 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { Toaster } from "react-hot-toast"
 
 import { Feedback } from "@prisma/client";
 
 import { Input } from "./input";
-import { Button } from "@/_components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/_components/ui/form";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(4),
   email: z.string().email(),
-  phoneNumber: z.number().optional(),
   message: z.string().min(4),
+  phone_number: z.string().optional()
 });
 type FormValues = z.infer<typeof formSchema> | Feedback;
 
 export function FeedbackForm() {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       email: "",
-      phoneNumber: null,
+      phone_number: "",
       message: "",
     },
   });
 
   async function onSubmit(data: FormValues) {
-    //await axios.post("/give-feedbac", data);
-    console.log(data);
+    setLoading(true)
+    await axios.post("/api/give-feedback", data)
+      .then(res => {
+        if (res.status == 200) {
+          toast.success("Feedback sent! Thank you");
+          router.refresh()
+          router.push('/shop')
+          form.reset()
+          setLoading(false);
+        }
+      }
+      ).catch(e => console.log(e))
   }
-
-  const [loading, setLoading] = useState(false);
   return (
     <Form {...form}>
       <form
@@ -59,6 +69,7 @@ export function FeedbackForm() {
                   <Input
                     disabled={loading}
                     placeholder="Full Name"
+                    type="text"
                     {...field}
                   />
                 </FormControl>
@@ -74,6 +85,7 @@ export function FeedbackForm() {
                 <FormItem>
                   <FormControl>
                     <Input
+                      type="text"
                       disabled={loading}
                       placeholder="Email"
                       {...field}
@@ -87,11 +99,12 @@ export function FeedbackForm() {
           />
           <FormField
             control={form.control}
-            name="phoneNumber"
+            name="phone_number"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
                   <Input
+                    type="number"
                     disabled={loading}
                     placeholder="Phone Number (optional)"
                     {...field}
@@ -125,6 +138,10 @@ export function FeedbackForm() {
           </button >
         </div>
       </form >
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
     </Form >
   )
 }

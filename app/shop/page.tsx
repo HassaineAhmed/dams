@@ -13,7 +13,13 @@ import { Category } from "@prisma/client"
 
 export default async function Shop() {
   const categories: Array<Category & { imageName: Array<{ imageName: string }> }> = await prismadb.category.findMany({ include: { imageName: { select: { imageName: true } } } });
-  const tabs_products: Product[] = await prismadb.product.findMany({ where: { OR: [{ isTrending: true }, { isNewArrival: true }, { isComingSoon: true }] } })
+  const tabs_products: Product[] = await prismadb.product.findMany({
+    where: { OR: [{ isTrending: true }, { isNewArrival: true }, { isComingSoon: true }] },
+    include: {
+      imagesNames: { select: { imageName: true } }
+    }
+  })
+  console.log("tabs products: ", tabs_products)
   return (<div className="mt-1 flex flex-col gap-1">
     <div className="bg-[url('/light_bg.png')] mx-1 border-[2px] border-gold overflow-hidden" >
       <Navbar />
