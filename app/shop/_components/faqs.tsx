@@ -1,17 +1,18 @@
 "use client"
 import { ChevronDown } from "lucide-react"
-import { ChevronUp } from "lucide-react"
 import { useState } from "react"
-import styles from "../../style.module.css"
 import { Collapse } from "react-collapse"
+import { useOnScrollAnimation } from "../_hooks/useOnScrollAnimation"
+
+import { FAQ } from "@prisma/client"
 
 
-export function FAQs() {
+export function FAQs({ faqs }: { faqs: FAQ[] }) {
 
   function FAQComponent({ question, answer }: { question: string, answer: string }) {
     const [open, setOpen] = useState(false);
     const [chevronAnimataion, setChevronAnimation] = useState("")
-    console.log(open)
+    const { visible, entryRef } = useOnScrollAnimation();
 
     function Head() {
       return (
@@ -45,7 +46,7 @@ export function FAQs() {
       )
     }
     return (
-      <div className="flex-col w-[90%] flex gap-0">
+      <div className={`flex-col w-[90%] flex gap-0 ${visible ? "animate-fadeInFromUp" : ""}`}>
         <Head />
         <Body />
       </div>
@@ -60,13 +61,7 @@ export function FAQs() {
         </p>
 
         <div className="w-full gap-4 flex flex-col justify-center items-center">
-          <FAQComponent question='How and when do i pay?' answer="
-Not necessarily.
-‍
-Once inside The Real World, many of our students chose copywriting and freelancing, which are businesses without money requirements, and saw great success!" />
-          <FAQComponent question='How much does shipping cost?' answer="askdfj" />
-          <FAQComponent question='What is your delivery time frame?' answer="askdfj" />
-          <FAQComponent question='Do you have a size chart?' answer="askdfj" />
+          { faqs.map( ( faq : FAQ , index : number ) => <FAQComponent key={index} question={faq.question} answer={faq.answer} /> )}
         </div>
 
       </div>

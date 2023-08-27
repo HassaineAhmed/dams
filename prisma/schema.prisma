@@ -87,7 +87,7 @@ model CodePromo {
 model FAQ {
   id       String @id @default(uuid())
   question String
-  answer   String
+  answer   String @db.Text
 }
 
 model Feedback {
@@ -95,6 +95,6 @@ model Feedback {
   name        String
   email       String
   phoneNumber Int?
-  message     String
+  message     String @db.Text
   date        DateTime
 }

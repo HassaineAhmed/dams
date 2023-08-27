@@ -1,6 +1,22 @@
+"use client"
+
 import Image from "next/image"
+import { useOnScrollAnimation } from "../_hooks/useOnScrollAnimation"
+
+
 export function BrandInfo() {
-  return <div className="mx-1 bg-sd border-[2px] grid gap-5 border-gold py-6 px-2">
+  function Card({ content }: { content: string }) {
+    return <div className={` animate-slideInFromLeft bg-td py-3 text-center w-[90%]`}>
+      <p className="text-black font-bold text-xl">{content}</p>
+    </div>
+  }
+
+  const cards = ["1- World Class Quality",
+    "2- Very Fast Delivery",
+    "3- Artistic Design"
+  ]
+
+  return <div className="mx-1 bg-sd border-[2px] grid gap-5 border-gold py-6 px-2 animate-fadeInOut">
     <div className="grid gap-2">
       <div className="flex gap-3 justify-center items-center">
         <Image src='/logo.svg' height={50} width={50} alt="logo" />
@@ -17,17 +33,7 @@ export function BrandInfo() {
       </p>
 
       <div className="flex flex-col gap-4 w-full items-center">
-        <div className="bg-td py-3 text-center w-[90%]">
-          <p className="text-black font-bold text-xl">1-World Class Quality</p>
-        </div>
-
-        <div className="bg-td w-[90%] py-3 text-center">
-          <p className="text-black font-bold text-xl">2-Very Vast Delivery</p>
-        </div>
-
-        <div className="bg-td w-[90%] py-3 text-center">
-          <p className="text-black font-bold text-xl">3-Artistic Designs</p>
-        </div>
+        {cards.map((content) => <Card content={content} />)}
       </div>
     </div>
   </div>

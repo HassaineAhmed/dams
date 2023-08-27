@@ -16,24 +16,9 @@ export function MainNav({
       active: pathname === `/`,
     },
     {
-      href: `/dashboard/billboards`,
-      label: "Billboards",
-      active: pathname === `/billboards`,
-    },
-    {
       href: `/dashboard/categories`,
       label: "Categories",
       active: pathname === `/categories`,
-    },
-    {
-      href: `/dashboard/sizes`,
-      label: "Sizes",
-      active: pathname === `/sizes`,
-    },
-    {
-      href: `/dashboard/colors`,
-      label: "Colors",
-      active: pathname === `/colors`,
     },
     {
       href: `/dashboard/products`,
@@ -46,29 +31,32 @@ export function MainNav({
       active: pathname === `/orders`,
     },
     {
-      href: `/dashboard/settings`,
-      label: "Settings",
-      active: pathname === `/settings`,
+      href: `/dashboard/faqs`,
+      label: "FAQs",
+      active: pathname === `/faqs`,
+    },
+    {
+      href: `/dashboard/feedbacks`,
+      label: "FeedBacks",
+      active: pathname === `/feedbacks`,
     },
   ];
 
-  return ( <nav className={"flex items-center space-x-4 lg:space-x-6"} {...props}>
-      {routes.map((route) => (
-        <Link
-          key={route.href}
-          href={route.href}
-          className={`text-sm font-medium transition-colors hover:text-primary,
-            ${
-              route.active
-                ? "text-black dark:text-white"
-                : "text-muted-foreground"
-            }
+  return (<nav className={"flex items-center space-x-4 lg:space-x-6"} {...props}>
+    {routes.map((route) => (
+      <Link
+        key={route.href}
+        href={route.href}
+        className={`text-sm font-medium transition-colors hover:text-primary,
+            ${route.active
+            ? "text-black dark:text-white"
+            : "text-muted-foreground"
+          }
           `}
-        >
-          {route.label}
-        </Link>
-      ))}
-    </nav>
+      >
+        {route.label}
+      </Link>
+    ))} </nav>
   );
 }
 

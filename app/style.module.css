@@ -2,6 +2,20 @@
   max-heigth : 0;
   transition : opacity 700ms ease-in-out;
 }
-.ReactCollapse--collapse {
+.ReactCollapse {
   transition: height 500ms;
+}
+
+
+.DropDown {
+  -webkit-transition: max-height 1s; 
+  -moz-transition: max-height 1s; 
+  -ms-transition: max-height 1s; 
+  -o-transition: max-height 1s; 
+  transition: max-height 1s;  
+  overflow: hidden;
+  max-height: 0px;
+}
+.DropDown:hover {
+  max-height : 600px;
 }

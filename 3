@@ -120,7 +120,7 @@ const config: Config = {
         "fadeInOut": {
           "0%": {
             opacity: "0",
-            transform: "translateY(-10px)",
+            transform: "translateY(10px)",
           },
           "100%": {
             opacity: "1",
@@ -145,7 +145,7 @@ const config: Config = {
         },
         "slideInFromLeft": {
           "0%": {
-            opacity: "0",
+            opacity: "0.2",
             transform: "translateX(-100px)"
           },
           "100%": {
@@ -153,35 +153,7 @@ const config: Config = {
             transform: "translateX(0)",
           },
         },
-        "fadeInFromRight": {
-          "0%": {
-            opacity: "0",
-            transform: "translateX(40px)"
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translateX(0)",
-          },
-        },
-        "fadeInFromUp": {
-          "0%": {
-            opacity: "0",
-            transform: "translateY(-40px)"
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translateY(0)",
-          },
-        },
 
-        "slowFadeIn": {
-          "0%": {
-            opacity: "0",
-          },
-          "100%": {
-            opacity: "1",
-          },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -198,11 +170,7 @@ const config: Config = {
         "rotateChevronDown": "rotateChevron 0.4s ease-in-out reverse",
         "dropdown": "dropdown 400ms ease-in-out  forwards",
 
-        "slideInFromLeft": "slideInFromLeft 500ms ease-out",
-        "fadeInFromRight": "fadeInFromRight 500ms ease-out",
-        "fadeInFromUp": "fadeInFromUp 500ms ease-in-out",
-        "slowFadeIn": "slowFadeIn 2s ease-out",
-
+        "slideInFromLeft": "slideInFromLeft 400ms ease-out"
       },
     },
   },

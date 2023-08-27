@@ -5,9 +5,7 @@ import { Heading } from "./_components/ui/heading";
 import { getTotalRevenue } from "./_actions/get-total-revenue";
 import { getSalesCount } from "./_actions/get-sales-count";
 import { getGraphRevenue } from "./_actions/get-graph-revenue";
-import { getStockCount } from "./_actions/get-stock-count";
-import { formatter } from "./_lib/utils";
-
+import { getStockCount } from "./_actions/get-stock-count"; import { formatter } from "./_lib/utils";
 interface DashboardPageProps {
   params: {
     storeId: string;

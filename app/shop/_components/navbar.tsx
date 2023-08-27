@@ -1,6 +1,17 @@
+"use client"
+
 import Image from "next/image"
+
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from "react"
+
 export function Navbar() {
-  return <div className="px-4 border-sd h-[70px] font-lora flex justify-between items-center w-[100%]">
+  useEffect(() => {
+    AOS.init();
+  }, [])
+
+  return <div className="animate-fadeInFromUp  px-4 border-sd h-[70px] font-lora flex justify-between items-center w-[100%]">
     <div className='flex items-center gap-1'>
       <Image src='/logo.svg' height={30} width={30} alt='logo' />
       <p className='text-xl text-gold font-semibold'>DAMS</p>

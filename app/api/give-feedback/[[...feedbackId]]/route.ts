@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import prismadb from "../../dashboard/_lib/prismadb";
+import prismadb from "../../../dashboard/_lib/prismadb";
 
 function parseStringToNumber(input: any): number | null {
     const parsedNumber = parseFloat(input);
@@ -22,6 +22,21 @@ export async function POST(req: NextRequest) {
             }
         })
         return NextResponse.json('created succesfully', { status: 200 })
+    } catch (e) {
+        console.log(e);
+        return NextResponse.json({ "message": "server error" }, { status: 500 })
+    }
+}
+
+export async function DELETE(req: NextRequest, { params }: { params: { feedbackId: Array<string> } }) {
+    const [id] = params.feedbackId
+    try {
+        const deletedfeeeeeeeeeeedback = await prismadb.feedback.delete({
+            where: {
+                id: id
+            },
+        })
+        return NextResponse.json('deleted ', { status: 200 })
     } catch (e) {
         console.log(e);
         return NextResponse.json({ "message": "server error" }, { status: 500 })

@@ -9,10 +9,12 @@ import { Footer } from "./_components/footer"
 import prismadb from "../dashboard/_lib/prismadb"
 import { Product } from "@prisma/client"
 import { Category } from "@prisma/client"
+import { FAQ } from "@prisma/client"
 
 
 export default async function Shop() {
   const categories: Array<Category & { imageName: Array<{ imageName: string }> }> = await prismadb.category.findMany({ include: { imageName: { select: { imageName: true } } } });
+  const faqs: Array<FAQ> = await prismadb.fAQ.findMany();
   const tabs_products: Product[] = await prismadb.product.findMany({
     where: { OR: [{ isTrending: true }, { isNewArrival: true }, { isComingSoon: true }] },
     include: {
@@ -21,14 +23,11 @@ export default async function Shop() {
   })
   console.log("tabs products: ", tabs_products)
   return (<div className="mt-1 flex flex-col gap-1">
-    <div className="bg-[url('/light_bg.png')] mx-1 border-[2px] border-gold overflow-hidden" >
-      <Navbar />
-      <HeroSection />
-    </div>
+    <HeroSection />
     <BrandInfo />
     <Categories categories={categories} />
     <TabSection products={tabs_products} />
-    <FAQs />
+    <FAQs faqs={faqs} />
     <Footer />
   </div >
   )
