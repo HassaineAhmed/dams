@@ -182,6 +182,22 @@ const config: Config = {
             opacity: "1",
           },
         },
+        "borderOut": {
+          "0%": {
+            border: "2px",
+          },
+          "100%": {
+            opacity: "0",
+          },
+        },
+        "borderIn": {
+          "0%": {
+            border: "0px",
+          },
+          "100%": {
+            opacity: "2px",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -193,15 +209,18 @@ const config: Config = {
         "fadeIn": "fadeIn 400ms ease-in-out forwards ",
         "fadeOut": "fadeOut 200ms ease-in-out  frowards",
 
-        "fadeInOut": "fadeInOut 0.5s ease-in-out",
+        "fadeInOut": "fadeInOut 1s ease-in-out",
         "rotateChevron": "rotateChevron 0.4s ease-in-out forwards",
         "rotateChevronDown": "rotateChevron 0.4s ease-in-out reverse",
         "dropdown": "dropdown 400ms ease-in-out  forwards",
 
-        "slideInFromLeft": "slideInFromLeft 500ms ease-out",
+        "slideInFromLeft": "slideInFromLeft 900ms ease-out",
         "fadeInFromRight": "fadeInFromRight 500ms ease-out",
         "fadeInFromUp": "fadeInFromUp 500ms ease-in-out",
         "slowFadeIn": "slowFadeIn 2s ease-out",
+
+        "borderIn": "borderIn 100ms ease-out",
+        "borderOut": "borderOut 100ms ease-out",
 
       },
     },

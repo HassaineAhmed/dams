@@ -59,7 +59,7 @@ export function FeedbackForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 w-full"
       >
-        <div className="md:grid mt-4 md:grid-cols-3 gap-4 grid ">
+        <div className="md:flex mt-4 md:grid-cols-3 gap-4 flex flex-col ">
           <FormField
             control={form.control}
             name="name"

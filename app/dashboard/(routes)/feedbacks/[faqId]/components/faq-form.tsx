@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { Trash } from "lucide-react";
-import { FAQ } from "@prisma/client";
+import { Feedback } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
 
 import { Input } from "../../../../_components/ui/input"
@@ -25,7 +25,9 @@ import { Heading } from "@/_components/ui/heading";
 import { AlertModal } from "@/_components/modals/alert-modal";
 
 const formSchema = z.object({
-  question: z.string().min(2),
+  name: z.string().min(2),
+  email: z.string().min(2),
+  phoneNumber: z.string().min(2),
   answer: z.string().min(2),
 });
 
@@ -60,7 +62,7 @@ export const FAQsForm: React.FC<FAQsFormProps> = ({ initialData }) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/faqs/${params.faqId}`,  data)
+        await axios.patch(`/api/faqs/${params.faqId}`, data)
           .then(res => {
             if (res.status == 200) {
               toast.success('FAQ updated succesffuly', { duration: 2000 });

@@ -2,22 +2,22 @@
 import Link from "next/link";
 import Image from "next/image"
 import { Category } from "@prisma/client";
-import { useEffect, useState, useRef } from "react"
-import { useOnScrollAnimation } from "../_hooks/useOnScrollAnimation";
+import { useInView } from "react-intersection-observer"
+import { clsx } from 'clsx';
+import { Element } from "react-scroll"
 
 
 type PropsType = {
   categories: Array<Category & { imageName: Array<{ imageName: string }> }>
 }
 
-
 function CategoryEntry({ cate }: { cate: Category & { imageName: Array<{ imageName: string }> } }) {
+  const { inView, ref } = useInView();
 
-  const { visible, entryRef } = useOnScrollAnimation();
   return (
-    <div style={{ WebkitOverflowScrolling: "touch" }} ref={entryRef}>
+    <div ref={ref} className={clsx({ "opacity-100 translate-x-[0px]": inView }, "translate-x-[-50px]  transition-all duration-700 ease-in-out")}>
       <Link href={"/shop"}>
-        <div className={`${visible && "animate-slideInFromLeft"} ${visible ? "bg-pr" : "bg-sd"} p-4 relative rounded-xl flex flex-col items-center w-[240px] h-[190px]`}>
+        <div className={`p-4 relative rounded-xl flex flex-col bg-pr items-center w-[240px] h-[190px]`}>
           <div className="flex max-w-[70%] justify-self-center items-center justify-center ">
             <Image
               src={`/images/${cate.name}/${cate.imageName[0].imageName}`}
@@ -35,14 +35,18 @@ function CategoryEntry({ cate }: { cate: Category & { imageName: Array<{ imageNa
 }
 export function Categories({ categories }: PropsType) {
   return (
-    <div className="bg-td flex flex-col justify-center items-center gap-6 py-6 ">
-      <p className="text-black font-mr font-bold text-3xl">Our Categories</p>
-      <div style={{ WebkitOverflowScrolling: "touch" }} className="flex flex-col gap-4">
-        {categories.map((cate) => {
-          return <CategoryEntry cate={cate} />
-        }
-        )}
-      </div>
+    <div>
+        <div className="bg-td flex flex-col justify-center items-center gap-6 py-[40px] pb-[60px] ">
+        <Element name={'categories'}>
+          <p className="text-black font-mr font-bold text-4xl pb-2">Our Categories</p>
+          <div style={{ WebkitOverflowScrolling: "touch" }} className="flex flex-col lg:flex-row flex-wrap justify-center items-center gap-4">
+            {categories.map((cate) => {
+              return <CategoryEntry cate={cate} />
+            }
+            )}
+          </div>
+        </Element>
+        </div>
     </div>
   )
 }

@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE `FAQ` MODIFY `answer` TEXT NOT NULL;

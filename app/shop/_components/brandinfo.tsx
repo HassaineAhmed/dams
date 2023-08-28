@@ -1,13 +1,11 @@
 "use client"
-
 import Image from "next/image"
-import { useOnScrollAnimation } from "../_hooks/useOnScrollAnimation"
 
 
 export function BrandInfo() {
   function Card({ content }: { content: string }) {
-    return <div className={` animate-slideInFromLeft bg-td py-3 text-center w-[90%]`}>
-      <p className="text-black font-bold text-xl">{content}</p>
+    return <div className={` lg:w-[350px]  animate-slideInFromLeft bg-td py-3 lg:py-[16px] text-center w-[90%]`}>
+      <p className="text-black font-bold text-xl lg:text-[30px] lg:font-semibold ">{content}</p>
     </div>
   }
 
@@ -16,26 +14,33 @@ export function BrandInfo() {
     "3- Artistic Design"
   ]
 
-  return <div className="mx-1 bg-sd border-[2px] grid gap-5 border-gold py-6 px-2 animate-fadeInOut">
-    <div className="grid gap-2">
-      <div className="flex gap-3 justify-center items-center">
-        <Image src='/logo.svg' height={50} width={50} alt="logo" />
-        <p className="text-3xl font-bold text-gold">DAMS</p>
-      </div>
-      <p className="text-gold px-4 text-[13px] text-center font-semibold">
-        We are an Algerian clothing brand with the goal to provide youngsters with world class clothings, blending our rich cultural heritage with global fashion influences.
-      </p>
-    </div>
+  return <div className="mx-1 bg-sd border-[2px] grid gap-8 border-gold py-[40px] px-2 animate-fadeInOut">
     <div className="grid gap-3">
 
-      <p className="text-lg font-bold text-center">
+      <div className="flex gap-4 justify-center items-center">
+        <div className="lg:w-[82px]">
+          <Image src='/logo.svg' height={100} width={100} alt="logo" />
+        </div>
+        <p className="text-3xl font-bold lg:text-[47px] text-gold">DAMS</p>
+      </div>
+
+      <div className="flex justify-center">
+        <p className="text-gold px-4 text-[14px] lg:text-[25px] max-w-[1050px] text-center font-semibold">
+          We are an Algerian clothing brand with the goal to provide youngsters with world class clothings, blending our rich cultural heritage with global fashion influences.
+        </p>
+      </div>
+
+    </div>
+
+    <div className="grid gap-3 lg:gap-[32px] pb-4">
+      <p className="text-lg font-bold text-center lg:text-[34px]">
         What should you expect from us:
       </p>
-
-      <div className="flex flex-col gap-4 w-full items-center">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-[50px] w-full items-center justify-center">
         {cards.map((content) => <Card content={content} />)}
       </div>
     </div>
+
   </div>
 }
 

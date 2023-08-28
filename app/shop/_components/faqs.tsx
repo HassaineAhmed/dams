@@ -2,7 +2,9 @@
 import { ChevronDown } from "lucide-react"
 import { useState } from "react"
 import { Collapse } from "react-collapse"
-import { useOnScrollAnimation } from "../_hooks/useOnScrollAnimation"
+import { useInView } from "react-intersection-observer"
+import { clsx } from 'clsx'
+import { Element } from "react-scroll"
 
 import { FAQ } from "@prisma/client"
 
@@ -12,7 +14,7 @@ export function FAQs({ faqs }: { faqs: FAQ[] }) {
   function FAQComponent({ question, answer }: { question: string, answer: string }) {
     const [open, setOpen] = useState(false);
     const [chevronAnimataion, setChevronAnimation] = useState("")
-    const { visible, entryRef } = useOnScrollAnimation();
+    const { inView, ref } = useInView();
 
     function Head() {
       return (
@@ -46,7 +48,7 @@ export function FAQs({ faqs }: { faqs: FAQ[] }) {
       )
     }
     return (
-      <div className={`flex-col w-[90%] flex gap-0 ${visible ? "animate-fadeInFromUp" : ""}`}>
+      <div ref={ref} className={clsx({ "opacity-100 translate-x-0": inView }, "flex-col w-[95%] lg:w-[90%] flex gap-0 translate-x-[0px] transform transition-all duration-700 ease-in-out")}>
         <Head />
         <Body />
       </div>
@@ -54,18 +56,19 @@ export function FAQs({ faqs }: { faqs: FAQ[] }) {
   }
 
   return (
-    <div className="py-8">
-      <div className="flex flex-col justify-center items-center gap-8">
-        <p className="text-[#9FC9C7] font-mr font-bold text-[25px]">
-          Frequently Asked Questions
-        </p>
+    <div className="py-[40px] pb-[60px]">
+      <Element name={'FAQs'}>
+        <div className="flex flex-col justify-center items-center gap-8">
+          <p className="text-[#9FC9C7] font-mr font-bold text-[25px]">
+            Frequently Asked Questions
+          </p>
 
-        <div className="w-full gap-4 flex flex-col justify-center items-center">
-          { faqs.map( ( faq : FAQ , index : number ) => <FAQComponent key={index} question={faq.question} answer={faq.answer} /> )}
+          <div className="w-full gap-4 flex flex-col justify-center items-center">
+            {faqs.map((faq: FAQ, index: number) => <FAQComponent key={index} question={faq.question} answer={faq.answer} />)}
+          </div>
+
         </div>
-
-      </div>
-
+      </Element>
     </div>
   )
 }
