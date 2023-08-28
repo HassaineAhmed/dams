@@ -21,7 +21,7 @@ export default async function Page(){
 		<div className="random">
 			<Navbar/>
 			<div className="catergory">
-				<p className="gap-y-8 pl-20 pt-10 text-start text-gray-200 text-6xl font-bold " >name-of-catergory: </p>
+				<p className="pl-20 pt-10 text-start text-gray-200 text-6xl font-bold " >{category.name}</p>
 			</div>
 			<div className="flex flex-wrap gap-x-1 justify-center p-10 pt-5 ">
 				{Object.keys(categories).map((item)=>{ return <Itemo number={item} src={random} alt="works?" descreption={descrp} price={price} />})}
