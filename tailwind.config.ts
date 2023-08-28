@@ -194,8 +194,11 @@ const config: Config = {
           "0%": {
             border: "0px",
           },
+          "90%": {
+            border: "2px",
+          },
           "100%": {
-            opacity: "2px",
+            border: "2px",
           },
         },
       },
@@ -219,7 +222,7 @@ const config: Config = {
         "fadeInFromUp": "fadeInFromUp 500ms ease-in-out",
         "slowFadeIn": "slowFadeIn 2s ease-out",
 
-        "borderIn": "borderIn 100ms ease-out",
+        "borderIn": "borderIn 100ms ease-out forwards",
         "borderOut": "borderOut 100ms ease-out",
 
       },

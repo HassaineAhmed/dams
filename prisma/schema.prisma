@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -82,7 +82,7 @@ model CodePromo {
 model FAQ {
   id       String @id @default(uuid())
   question String
-  answer   String 
+  answer   String
 }
 
 model Feedback {
@@ -90,6 +90,6 @@ model Feedback {
   name        String
   email       String
   phoneNumber Int?
-  message     String 
+  message     String
   date        DateTime
 }

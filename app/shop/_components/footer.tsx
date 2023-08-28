@@ -18,7 +18,7 @@ export function Footer() {
           </Element>
         </div>
 
-        <div className="flex-1 bg-formGreen text-gold border-[2px] flex content-stretch justify-center border-black">
+        <div className="flex-1 bg-formGreen text-gold min-h-[288px] border-[2px] flex content-stretch justify-center border-black">
           <div className="border-black border-[2px] flex-1 flex m-2 gap-2  justify-center items-center">
             <Image src='/logo.svg' height={50} width={50} alt="logo" />
             <p className="font-semibold text-[40px]">DAMS</p>
