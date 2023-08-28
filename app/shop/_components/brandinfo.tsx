@@ -14,18 +14,18 @@ export function BrandInfo() {
     "3- Artistic Design"
   ]
 
-  return <div className="mx-1 bg-sd border-[2px] grid gap-8 border-gold py-[40px] px-2 animate-fadeInOut">
+  return <div className="mx-1 bg-sd border-[2px] grid gap-4 lg:gap-8 border-gold py-[40px] px-2 animate-fadeInOut">
     <div className="grid gap-3">
 
-      <div className="flex gap-4 justify-center items-center">
-        <div className="lg:w-[82px]">
+      <div className="flex gap-2 lg:gap-4 justify-center items-center">
+        <div className="lg:w-[82px] w-[50px]">
           <Image src='/logo.svg' height={100} width={100} alt="logo" />
         </div>
         <p className="text-3xl font-bold lg:text-[47px] text-gold">DAMS</p>
       </div>
 
       <div className="flex justify-center">
-        <p className="text-gold px-4 text-[14px] lg:text-[25px] max-w-[1050px] text-center font-semibold">
+        <p className="text-gold px-4 text-[15px] lg:text-[25px] max-w-[1050px] text-center font-semibold">
           We are an Algerian clothing brand with the goal to provide youngsters with world class clothings, blending our rich cultural heritage with global fashion influences.
         </p>
       </div>
@@ -33,7 +33,7 @@ export function BrandInfo() {
     </div>
 
     <div className="grid gap-3 lg:gap-[32px] pb-4">
-      <p className="text-lg font-bold text-center lg:text-[34px]">
+      <p className="text-xl font-bold text-center lg:text-[34px]">
         What should you expect from us:
       </p>
       <div className="flex flex-col lg:flex-row gap-4 lg:gap-[50px] w-full items-center justify-center">

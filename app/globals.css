@@ -9,9 +9,10 @@
 html,
 body,
 :root {
+  max-width: 100%;
+ overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   -webkit-tap-highlight-color: transparent;
-  height: 100%;
 }
  
 @layer base {
