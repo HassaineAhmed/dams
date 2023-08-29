@@ -32,8 +32,7 @@ export default async function Shop() {
   }
   await wait();
 
-  console.log("tabs products: ", tabs_products)
-  return (<div className="pt-1 lg:pt-2 flex bg-pr lg:gap-2 flex-col gap-1">
+  return (<div className=" pt-1 lg:pt-2 flex bg-pr lg:gap-2 flex-col gap-1">
     <HeroSection />
     <BrandInfo />
     <Categories categories={categories} />
