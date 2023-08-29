@@ -4,8 +4,8 @@ import { Link as ReactScrollLink, Element } from "react-scroll"
 import { Product } from "@prisma/client"
 import { useState } from "react"
 
-
-export function TabSection({ products }: { products: Product[] }) {
+type TProducts = Array<Product & { imagesNames: { imageName: string }[] }>
+export function TabSection({ products }: { products: TProducts }) {
   const [activeTab, setActiveTab] = useState(1);
   const [tab1, setTab1] = useState("animate-slideIn origin-left w-full");
   const [tab2, setTab2] = useState("");

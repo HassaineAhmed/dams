@@ -4,25 +4,23 @@ import Image from "next/image"
 import { Category, Product } from "@prisma/client"
 import { DownFooter } from "../_components/footer"
 
-type TProduct = Product & { imagesNames: Array<{ imageName: string }> };
-type TCategory = Category & { Product: TProduct[] }
 
 export default async function Page({ params }: { params: { categoryName: string } }) {
 	const categoryname = params.categoryName
-	const category: TCategory = await prismadb.category.findFirst({
+	const category = await prismadb.category.findFirst({
 		where: { name: categoryname },
 		include: { Product: { include: { imagesNames: { select: { imageName: true } } } } }
 	})
-
+	
 	return (
 		<div className="max-w-[100%]  flex flex-col items-between min-h-[100vh] overflow-hidden text-whitish animate-fadeInFromUp">
 			<Navbar variation={"withBg"} />
 			<div className="lg:py-16 py-8 pb-16 px-4 flex-1 h-[100%]">
 				<div className="">
-					<p className="text-whitish lg:pl-20 text-start text-[35px] lg:text-[60px] font-bold uppercase" >{category.name}:</p>
+					<p className="text-whitish lg:pl-20 text-start text-[35px] lg:text-[60px] font-bold uppercase" >{category?.name}:</p>
 				</div>
 				<div className="flex flex-wrap lg:gap-y-14 gap-y-6 lg:gap-x-1 justify-start lg:p-10 lg:px-20 pt-5 ">
-					{category.Product.map((product: TProduct) => <Itemo key={product.name} src={`/images/${category.name}/${product.name}/${product.imagesNames[0].imageName}`} descreption={product.name} price={product.price} />)}
+					{category?.Product.map((product) => <Itemo key={product.name} src={`/images/${category.name}/${product.name}/${product.imagesNames[0].imageName}`} descreption={product.name} price={product.price} />)}
 
 				</div>
 			</div>

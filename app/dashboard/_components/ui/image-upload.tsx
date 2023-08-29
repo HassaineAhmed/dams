@@ -107,7 +107,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   return (
     <div>
       <div className="mb-4 flex items-center gap-4">
-        {value.map(({ imageName, url }: { imageName: string; }) =>
+        {value.map(({ imageName, url }: { imageName: string; url?: string }) =>
           imageName != "" ? (
             <div
               key={imageName}

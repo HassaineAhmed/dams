@@ -8,7 +8,7 @@ export function HeroSection() {
   return (
     <div className="bg-[url('/light_bg.png')] lg:max-h-[758px] relative jusify-center items-center mx-1 lg:mx-2 border-[2px] border-gold overflow-hidden animate-fadeInOut" >
       <div className="w-full lg:absolute lg:top-0 lg:flex lg:justify-center">
-        <Navbar />
+        <Navbar variation="" />
       </div>
 
       <div className="lg:flex lg:flex-row">

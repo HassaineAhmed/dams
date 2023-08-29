@@ -12,10 +12,11 @@ import { Category } from "@prisma/client"
 import { FAQ } from "@prisma/client"
 
 
+type TProducts = Array<Product & { imagesNames: { imageName: string }[] }>
 export default async function Shop() {
   const categories: Array<Category & { imageName: Array<{ imageName: string }> }> = await prismadb.category.findMany({ include: { imageName: { select: { imageName: true } } } });
   const faqs: Array<FAQ> = await prismadb.fAQ.findMany();
-  const tabs_products: Product[] = await prismadb.product.findMany({
+  const tabs_products: TProducts = await prismadb.product.findMany({
     where: { OR: [{ isTrending: true }, { isNewArrival: true }, { isComingSoon: true }] },
     include: {
       imagesNames: { select: { imageName: true } }

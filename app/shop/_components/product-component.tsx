@@ -1,7 +1,7 @@
 import Image from "next/image"
 import { Product } from "@prisma/client"
 
-export default function ProductComponent({ product }: { product: Product }) {
+export default function ProductComponent({ product }: { product: Product & { imagesNames: Array<{ imageName: string }> } }) {
   if (!product) {
     return <></>
   }
