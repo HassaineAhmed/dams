@@ -30,8 +30,8 @@ export function TabSection({ products }: { products: Product[] }) {
       <Element name={'tabSectionMen'}>
         <div className={`${gender == "male" ? "bg-[#326967]" : "bg-[#519D99]"} lg:w-[1400px] lg:border-x-[2px] transition duration-500 outline-0  border-[2px] border-x-0  border-gold`}>
 
-          <div className="flex gap-0 w-full border-b-[2px] border-gold ">
-            <button onClick={() => { setGender("male") }} className="outline-0 flex-1 lg:py-6 py-2 bg-[#326967]">
+          <div className="flex gap-0 w-full border-b-[2px]  border-gold ">
+            <button onClick={() => { setGender("male") }} className="border-r-[2px] border-goldborder-r-[2px] outline-0 flex-1 lg:py-6 py-2 bg-[#326967]">
               <p className="text-2xl text-center font-bold font-mr lg:text-6xl">Men</p>
             </button>
 

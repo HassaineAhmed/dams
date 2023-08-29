@@ -41,8 +41,12 @@ export function Footer() {
 
 
       </div >
-      <div className="bg-td px-3 gap-2 border-x-[1px] border-b-[1px] border-black justify-start py-3 items-center flex flex-col">
-        <p className="text-black font-bold text-[15px] font-ds">Copyright © 2023. DAMES. All rights’re reserved.</p>
+      <div className="bg-td px-4 gap-2 border-x-[1px]  border-black justify-between py-4 items-center flex">
+        <p className="text-black font-bold text-[15px] font-ds lg:text-[20px]">Copyright © 2023. DAMES. All rights’re reserved.</p>
+        <div className="flex gap-4">
+        <p className="text-black font-bold text-[15px] font-ds lg:text-[20px] hidden lg:block">CALL US: 0575102363</p>
+        <p className="text-black font-bold text-[15px] font-ds lg:text-[20px] hidden lg:block"><span className="italic font-mw font-[400]">Algiers</span>, Algeria.</p>
+        </div>
       </div>
 
 
