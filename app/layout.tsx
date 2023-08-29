@@ -20,7 +20,7 @@ export default async function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${inter.className} ${dm_sans.variable}  ${merriweather.variable} ${lora.variable}`}>
+        <body className={`${inter.className} ${dm_sans.variable}  ${merriweather.variable} ${lora.variable} max-w-[100%] `}>
           {children}
         </body>
       </html>

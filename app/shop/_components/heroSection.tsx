@@ -2,6 +2,7 @@
 import Image from "next/image"
 import { Navbar } from "./navbar"
 
+
 export function HeroSection() {
 
   return (
@@ -21,7 +22,7 @@ export function HeroSection() {
 
         <div className="lg:flex lg:w-[40%] lg:h-[758px] bg-[url('/dark_bg.png')] py-2 flex-col items-center justify-center px-2 gap-0 bg-[200px] border-t-[2px] lg:border-t-0 lg:border-l-[2px]  border-gold">
 
-          <div className="gap-1 flex justify-center items-center h-[220px] lg:mt-[70px] lg:flex-col">
+          <div className="gap-1 flex justify-center items-center py-3 lg:h-[220px] lg:mt-[70px] lg:flex-col">
             <p className="animate-fadeInFromUp text-[16px] lg:hidden font-mr font-semibold  text-center">
               From chic streetwear to sophisticated elegance, we have the perfect outfit for every cahpter of your life.</p>
             <Image src='/clothes.png' className="animate-fadeInFromRight h-[100px] lg:h-[400px] w-auto" objectFit="contain" height={1586} width={1459} alt='bg' />

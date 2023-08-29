@@ -41,7 +41,7 @@ const formSchema = z.object({
 type CategoryFormValues = z.infer<typeof formSchema> | Category;
 
 type CategoryFormProps = {
-  initialData: Category & { imageName: Array<{ imageName: string, url: string }> } | null;
+  initialData: Category & { imageName: Array<{ imageName: string, url?: string }> } | null;
 }
 
 export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {

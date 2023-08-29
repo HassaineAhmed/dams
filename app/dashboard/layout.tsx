@@ -17,10 +17,10 @@ export default async function DashboardLayout({
 
 
   return (
-    <>
+    <div className='bg-white'>
       <Navbar />
       {children}
-    </>
+    </div>
   );
 };
 
