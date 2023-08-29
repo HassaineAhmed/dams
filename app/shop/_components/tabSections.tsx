@@ -30,8 +30,8 @@ export function TabSection({ products }: { products: Product[] }) {
       <Element name={'tabSectionMen'}>
         <div className={`${gender == "male" ? "bg-[#326967]" : "bg-[#519D99]"} lg:w-[1400px] lg:border-x-[2px] transition duration-500 outline-0  border-[2px] border-x-0  border-gold`}>
 
-          <div className="flex gap-0 w-full border-b-[2px] border-gold ">
-            <button onClick={() => { setGender("male") }} className="outline-0 flex-1 lg:py-6 py-2 bg-[#326967]">
+          <div className="flex gap-0 w-full border-b-[2px]  border-gold ">
+            <button onClick={() => { setGender("male") }} className="border-r-[2px] border-gold outline-0 flex-1 lg:py-6 py-2 bg-[#326967]">
               <p className="text-2xl text-center font-bold font-mr lg:text-6xl">Men</p>
             </button>
 
@@ -54,7 +54,7 @@ export function TabSection({ products }: { products: Product[] }) {
                 }} className="flex flex-col outline-0 gap-1 justify-stretch">
 
                   <p className="font-mr font-bold text-[19px] lg:text-[37px] py-1">Trending</p>
-                  <div className={`h-[2px] bg-white ${tab1} `} />
+                  <div className={`h-[2px] bg-whitish ${tab1} `} />
                 </button>
 
                 <button onClick={() => {
@@ -69,7 +69,7 @@ export function TabSection({ products }: { products: Product[] }) {
                   setActiveTab(2);
                 }} className="flex flex-col gap-1 justify-stretch outline-0">
                   <p className="font-mr font-bold text-[19px]  lg:text-[37px] py-1">New Arrival</p>
-                  <div className={`h-[2px]  bg-white ${tab2} `} />
+                  <div className={`h-[2px]  bg-whitish ${tab2} `} />
                 </button>
 
                 <button onClick={() => {
@@ -83,7 +83,7 @@ export function TabSection({ products }: { products: Product[] }) {
                   setActiveTab(3)
                 }} className="flex flex-col gap-1 justify-stretch outline-0">
                   <p className="font-mr font-bold text-[19px]  lg:text-[37px] py-1">Coming Soon</p>
-                  <div className={`h-[2px]  bg-white ${tab3} `} />
+                  <div className={`h-[2px]  bg-whitish ${tab3} `} />
                 </button>
 
               </div> </div>
