@@ -26,8 +26,8 @@ export function FAQs({ faqs }: { faqs: FAQ[] }) {
             setChevronAnimation("animate-rotateChevron")
           }
         }}>
-          <div className="bg-sd w-full py-4 text-gold flex between px-4 justify-between items-center">
-            <p className="font-mr font-semibold text-[18px]">{question}</p>
+          <div className="bg-sd w-full py-4 text-gold flex between px-4 lg:px-6 lg:py-5 justify-between items-center">
+            <p className="font-mr font-semibold text-[18px] lg:text-[28px] lg:font-medium">{question}</p>
             <div className={`${chevronAnimataion}`}>
               <ChevronDown size={26} />
             </div>
@@ -39,8 +39,8 @@ export function FAQs({ faqs }: { faqs: FAQ[] }) {
     function Body() {
       return (
         <Collapse isOpened={open}>
-          <div className="bg-formGreen border-[2px] border-gold border-t-0 p-2" >
-            <p className="text-[10ox]">
+          <div className="bg-formGreen px-4 border-[2px] border-gold border-t-0 p-2" >
+            <p className="lg:text-[23px]">
               {answer}
             </p>
           </div>
@@ -59,7 +59,7 @@ export function FAQs({ faqs }: { faqs: FAQ[] }) {
     <div className="py-[40px] pb-[60px]">
       <Element name={'FAQs'}>
         <div className="flex flex-col justify-center items-center gap-8">
-          <p className="text-[#9FC9C7] font-mr font-bold text-[25px]">
+          <p className="text-[#9FC9C7] font-mr font-bold lg:text-[45px] text-[25px]">
             Frequently Asked Questions
           </p>
 

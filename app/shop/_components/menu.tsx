@@ -10,7 +10,7 @@ const normalButton = "w-10 lg:w-14 animate-borderIn border-gold lg:h-14 h-10 p-2
 
 
 function Entry({ label, link }: { label: string, link: string }) {
-    return <ReactScrollLink to={link} smooth={true} >
+    return <ReactScrollLink className='cursor-pointer' to={link} smooth={true} >
         <div className="bg-sd flex justify-center items-center border-[2px] border-gold h-[50px] w-[200px]">
             <p className="text-gold font-mr font-bold text-[22px]">{label}</p>
     </div>

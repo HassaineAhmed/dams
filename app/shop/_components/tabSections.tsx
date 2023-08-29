@@ -26,21 +26,21 @@ export function TabSection({ products }: { products: Product[] }) {
   }
 
   return (
-    <div>
+    <div className="flex justify-center items-center lg:pt-20">
       <Element name={'tabSectionMen'}>
-        <div className={`${gender == "male" ? "bg-[#326967]" : "bg-[#519D99]"}  transition duration-500 outline-0  border-[2px] border-x-0  border-gold`}>
+        <div className={`${gender == "male" ? "bg-[#326967]" : "bg-[#519D99]"} lg:w-[1400px] lg:border-x-[2px] transition duration-500 outline-0  border-[2px] border-x-0  border-gold`}>
 
-          <div className="flex gap-0 w-full border-b-[2px] border-gold">
-            <button onClick={() => { setGender("male") }} className="outline-0 flex-1 py-2 bg-[#326967]">
-              <p className="text-2xl text-center font-bold font-mr">Men</p>
+          <div className="flex gap-0 w-full border-b-[2px] border-gold ">
+            <button onClick={() => { setGender("male") }} className="outline-0 flex-1 lg:py-6 py-2 bg-[#326967]">
+              <p className="text-2xl text-center font-bold font-mr lg:text-6xl">Men</p>
             </button>
 
-            <button onClick={() => { setGender("female") }} className="outline-0 flex-1 py-2 bg-[#519D99]  border-gold">
-              <p className="text-2xl font-bold text-center font-mr">Women</p>
+            <button onClick={() => { setGender("female") }} className="outline-0  flex-1 py-2 bg-[#519D99]  border-gold">
+              <p className="text-2xl font-bold text-center font-mr lg:text-6xl">Women</p>
             </button>
           </div>
 
-          <div className="flex flex-col lg:py-8 py-4 lg:gap-[68px]">
+          <div className="flex flex-col lg:py-8 py-4 lg:gap-[23px]">
             <div className="">
               <div className={`flex ${gender == "male" ? "animate-fadeInOut" : "animate-fadeInOut"} justify-center gap-6 pb-4 lg:gap-[104px] items-center`}>
                 <button onClick={() => {

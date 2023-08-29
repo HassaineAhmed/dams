@@ -4,8 +4,8 @@ import Image from "next/image"
 
 export function BrandInfo() {
   function Card({ content }: { content: string }) {
-    return <div className={` lg:w-[390px] lg:h-[70px] animate-slideInFromLeft flex justify-center items-center bg-td py-3 lg:py-[16px] text-center w-[90%]`}>
-      <p className="text-black font-bold text-xl text-center lg:text-[30px] lg:font-semibold ">{content}</p>
+    return <div className={` lg:w-[390px] h-[70px] animate-slideInFromLeft bg-td py-3 lg:py-[16px] text-center w-[90%]`}>
+      <p className="text-black font-bold text-xl lg:text-[30px] lg:font-semibold ">{content}</p>
     </div>
   }
 
@@ -24,7 +24,7 @@ export function BrandInfo() {
         <p className="text-3xl font-bold lg:text-[47px] text-gold">DAMS</p>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex items-center justify-center">
         <p className="text-gold px-4 text-[15px] lg:text-[25px] max-w-[1050px] text-center font-semibold">
           We are an Algerian clothing brand with the goal to provide youngsters with world class clothings, blending our rich cultural heritage with global fashion influences.
         </p>

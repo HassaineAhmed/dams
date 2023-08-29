@@ -22,7 +22,7 @@ export default async function Shop() {
     }
   })
   console.log("tabs products: ", tabs_products)
-  return (<div className="mt-1 flex flex-col gap-1">
+  return (<div className="mt-1 lg:mt-2 flex lg:gap-2 flex-col gap-1">
     <HeroSection />
     <BrandInfo />
     <Categories categories={categories} />
