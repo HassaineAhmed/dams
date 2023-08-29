@@ -37,9 +37,9 @@ export function BrandInfo() {
         What should you expect from us:
       </p>
       <div className="flex flex-col lg:flex-row gap-4 lg:gap-[50px] w-full items-center justify-center">
-        {cards.map((content) => <Card content={content} />)}
+        {cards.map((content, index) => <Card key={index} content={content} />)}
       </div>
-      <p className='font-semibold text-center pt-4 text-[24px]'>Take your time explore our website and discover the perfect fit that complements your style.</p>
+      <p className='font-semibold text-center pt-4 text-[15px] lg:text-[24px]'>Take your time explore our website and discover the perfect fit that complements your style.</p>
     </div>
 
   </div>
