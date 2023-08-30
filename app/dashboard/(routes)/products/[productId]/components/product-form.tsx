@@ -1,7 +1,7 @@
 "use client"
 
 import * as z from "zod"
-import axios from "axios"
+import axios from "~/axios"
 import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -66,7 +66,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const description = initialData ? 'Edit a product.' : 'Add a new product';
   const toastMessage = initialData ? 'Product updated.' : 'Product created.';
   const action = initialData ? 'Save changes' : 'Create';
-  console.log(initialData);
   if (initialData) {
     initialData.imagesNames = initialData.imagesNames.map(({ imageName }) =>
       ({ imageName: imageName, url: `/images/${initialData.categoryName}/${initialData.name}/${imageName}` }))
@@ -96,11 +95,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   });
 
   const onSubmit = async (data: ProductFormValues) => {
-    console.log('hello')
     try {
       setLoading(true);
       if (initialData) {
-        console.log(initialData)
         await axios.patch(`/api/products/${params.productId}`, { data, initialData })
           .then(res => {
             if (res.status == 200) {
@@ -132,6 +129,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     } catch (error: any) {
       toast.error('Something went wrong.');
     } finally {
+      await fetch("http://localhost:3000/api/rd", { cache: "no-cache" }).catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
     }
   };
@@ -146,6 +144,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     } catch (error: any) {
       toast.error('Something went wrong.');
     } finally {
+      await fetch("http://localhost:3000/api/rd", { cache: "no-cache" }).catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
       setOpen(false);
     }

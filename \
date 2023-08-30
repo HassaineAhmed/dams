@@ -6,6 +6,10 @@ import { useState } from "react"
 
 type TProducts = Array<Product & { imagesNames: { imageName: string }[] }>
 export function TabSection({ products }: { products: TProducts }) {
+  async function revalidate() {
+    await fetch("http://localhost:3000/api/rd").then(res => console.log(res.status))
+  }
+  revalidate()
   const [activeTab, setActiveTab] = useState(1);
   const [tab1, setTab1] = useState("animate-slideIn origin-left w-full");
   const [tab2, setTab2] = useState("");

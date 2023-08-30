@@ -92,18 +92,15 @@ export async function PATCH(req: NextRequest, { params }: { params: { categoryId
     })
 
     if (name != initialData.name) {
-      console.log('moving folder');
       await moveImage(`./public/images/${initialData.name}`, `./public/images/${name}`)
       if (imageNameStr != initialData.imageName[0].imageName) {
-        console.log('moving image');
         await moveImage(`./public/images/temp/${imageNameStr}`, `./public/images/${name}/${imageNameStr}`)
-        console.log('deleting the old picutre')
+        
         await deleteFolder(`./public/temp/${imageNameStr}`);
         await deleteFolder(`./public/images/${name}/${initialData.imageName[0].imageName}`)
       }
 
     } else if (imageNameStr != initialData.imageName[0].imageName) {
-      console.log('moving image');
       await moveImage(`./public/images/${initialData.name}/${imageNameStr}`, `./public/images/${initialData.name}/${newCategory.imageName[0].imageName}`)
     }
 
@@ -118,10 +115,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { categoryId
 async function createFolder(folderPath: string) {
   try {
     await fs.ensureDir(folderPath);
-    console.log('Folder created successfully');
     return true
   } catch (error) {
-    console.error('Error creating folder:', error);
     return false
   }
 }
@@ -130,7 +125,6 @@ async function moveImage(sourcePath: string, destinationPath: string) {
   try {
     await fs.move(sourcePath, destinationPath);
     await fs.remove(sourcePath);
-    console.log('Image moved successfully');
     return true
   } catch (error) {
     console.error('Error moving image:', error);
@@ -141,7 +135,6 @@ async function moveImage(sourcePath: string, destinationPath: string) {
 async function deleteFolder(folderToDelete: string) {
   try {
     await fs.remove(folderToDelete);
-    console.log('Folder deleted successfully');
     return true
   } catch (error) {
     console.error('Error deleting folder:', error);

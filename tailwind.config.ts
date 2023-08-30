@@ -201,8 +201,18 @@ const config: Config = {
             border: "2px",
           },
         },
+        "pulse": {
+          "0%, 100%": {
+            opacity: "0.9"
+          },
+          "50%": {
+            opacity: "0.8"
+          }
+        }
       },
+
       animation: {
+        "pluse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
 

@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from "zod";
-import axios from "axios";
+import axios from "~/axios";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -101,6 +101,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
           })
       }
     } finally {
+      await fetch("http://localhost:3000/api/rd", { cache: "no-cache" }).catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
     }
   };
@@ -117,6 +118,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
         "Make sure you removed all products using this category first."
       );
     } finally {
+      await fetch("http://localhost:3000/api/rd", { cache: "no-cache" }).catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
       setOpen(false);
     }

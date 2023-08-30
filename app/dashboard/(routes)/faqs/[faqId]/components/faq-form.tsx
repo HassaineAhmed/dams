@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from "zod";
-import axios from "axios";
+import axios from "~/axios";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -56,11 +56,10 @@ export const FAQsForm: React.FC<FAQsFormProps> = ({ initialData }) => {
   });
 
   const onSubmit = async (data: FAQsFormValues) => {
-    console.log("form data ", data)
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/faqs/${params.faqId}`,  data)
+        await axios.patch(`/api/faqs/${params.faqId}`, data)
           .then(res => {
             if (res.status == 200) {
               toast.success('FAQ updated succesffuly', { duration: 2000 });
@@ -89,6 +88,7 @@ export const FAQsForm: React.FC<FAQsFormProps> = ({ initialData }) => {
           })
       }
     } finally {
+      await fetch("http://localhost:3000/api/rd", { cache: "no-cache" }).catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
     }
   };
@@ -105,6 +105,7 @@ export const FAQsForm: React.FC<FAQsFormProps> = ({ initialData }) => {
         "There is an error"
       );
     } finally {
+      await fetch("http://localhost:3000/api/rd", { cache: "no-cache" }).catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
       setOpen(false);
     }

@@ -18,11 +18,11 @@ export default async function Page({ params }: { params: { categoryName: string 
 	return (
 		<div className="max-w-[100%]  flex flex-col items-between min-h-[100vh] overflow-hidden text-whitish animate-fadeInFromUp">
 			<Navbar variation={"withBg"} />
-			<div className="lg:py-16 py-8 pb-4 lg:pb-16 px-4 flex-1 h-[100%]">
+			<div className="lg:py-16 py-8 pb-16 px-4 flex-1 h-[100%]">
 				<div className="">
 					<p className="text-whitish lg:pl-20 text-start text-[35px] lg:text-[60px] font-bold uppercase" >{category?.name}:</p>
 				</div>
-				<div className="flex flex-wrap lg:gap-y-14 gap-y-6 lg:gap-x-1 justify-center lg:justify-start lg:p-10 lg:px-20 pt-5 ">
+				<div className="flex flex-wrap lg:gap-y-14 gap-y-6 lg:gap-x-1 justify-start lg:p-10 lg:px-20 pt-5 ">
 					{category?.Product.map((product) => <Itemo key={product.name} src={`/images/${category.name}/${product.name}/${product.imagesNames[0].imageName}`} descreption={product.name} price={product.price} />)}
 
 				</div>
@@ -35,8 +35,8 @@ export default async function Page({ params }: { params: { categoryName: string 
 function Itemo({ src, descreption, price }: { src: string, descreption: string, price: number }) {
 	return (
 		<div className="pic-of-items">
-			<div className="flex gap-[1px] justify-center flex-col min-h-full lg:justify-between">
-				<div className="bg-sd relative w-[350px] flex justify-center items-center lg:w-[420px] lg:h-[420px] h-[350px] animate-pulse">
+			<div className="flex gap-[1px]  flex-col min-h-full lg:justify-between">
+				<div className="bg-sd border-x-[1px] border-y-[8px] border-sd w-[350] flex justify-center items-center lg:w-[420px] lg:h-[420px] h-[350] animate-pulse">
 					<div className="absolute z-0">
 						<PuffSpinner color={"#D8B4A0"} />
 					</div>

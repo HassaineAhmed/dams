@@ -25,7 +25,7 @@ export function HeroSection() {
           <div className="gap-1 flex justify-center items-center py-3 lg:h-[220px] lg:mt-[70px] lg:flex-col">
             <p className="animate-fadeInFromUp text-[16px] lg:hidden font-mr font-semibold  text-center">
               From chic streetwear to sophisticated elegance, we have the perfect outfit for every cahpter of your life.</p>
-            <Image src='/clothes.png' className="animate-fadeInFromRight h-[100px] lg:h-[400px] w-auto" objectFit="contain" height={1586} width={1459} alt='bg' />
+            <Image src='/clothes.png' className="animate-fadeInFromRight h-[100px] lg:h-[400px] w-auto" objectFit="contain" height={1586} width={1459} alt='bg' priority />
           </div>
 
           <div className="flex justify-center text-center animate-giggle animate-slowFadeIn pb-2 lg:hidden">

@@ -1,6 +1,7 @@
 "use client"
 import Image from "next/image"
 
+import { revalidatePath } from "next/cache"
 
 export function BrandInfo() {
   function Card({ content }: { content: string }) {
