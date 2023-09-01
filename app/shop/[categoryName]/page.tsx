@@ -12,7 +12,7 @@ type TProduct = {
 
 export default async function Page({ params }: { params: { categoryName: string } }) {
 	const categoryname = params.categoryName
-	const res = await fetch("http://localhost:3000/api/pages/home")
+	const res = await fetch("https://dams-shop.vercel.app/api/pages/home")
 	const { categories } = await res.json();
 	const category = categories.filter((category: Category) => category.name == categoryname)[0]
 
