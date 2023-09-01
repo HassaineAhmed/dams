@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader } from "@/_components/ui/loader";
-import { useIsMobile } from "../../../shop/_hooks/useIsMobile";
+import { useIsMobile } from "../shop/_hooks/useIsMobile";
 
 const Loading = () => {
   const isMobile = useIsMobile()

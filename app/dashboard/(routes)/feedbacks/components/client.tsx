@@ -21,7 +21,7 @@ export const FeedbackClient: React.FC<FeedbackClientProps> = ({
 
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col lg:flex-row lg:items-center items-start gap-4 justify-between">
         <Heading title={`FAQs (${data.length})`} description="Manage manage faqs for your store" />
         <Button onClick={() => router.push(`/dashboard/faqs/new`)}>
           <Plus className="mr-2 h-4 w-4" /> Add New

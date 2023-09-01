@@ -6,7 +6,11 @@ type TProducts = Array<Product & { imagesNames: { imageName: string }[] }>
 export async function GET() {
     try {
         const start = performance.now();
-        const categories: Array<Category & { imageName: Array<{ imageName: string }> }> = await prismadb.category.findMany({ include: { imageName: { select: { imageName: true } } } });
+        const categories: Array<Category & { imageName: Array<{ imageName: string }> }> = await prismadb.category.findMany({
+            include:
+                { imageName: { select: { imageName: true } }, Product: { include: { imagesNames: { select: { imageName: true } } } } }
+        });
+
         const faqs: Array<FAQ> = await prismadb.fAQ.findMany();
         const tabs_products: TProducts = await prismadb.product.findMany({
             where: { OR: [{ isTrending: true }, { isNewArrival: true }, { isComingSoon: true }] },

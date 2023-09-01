@@ -1,12 +1,11 @@
 "use client"
 import { FeedbackForm } from "./feedback-form"
 import Image from "next/image"
-import { Facebook, Instagram } from "lucide-react"
 import { Element } from "react-scroll"
 
 export function ContactFooter() {
   return (
-    <div>
+    <div id="contact">
       <div className="flex flex-col lg:flex-row gap-0">
 
         <div className="flex-1 bg-[#A9A395] border-[2px] border-formGreen">

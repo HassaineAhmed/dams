@@ -115,7 +115,8 @@ export function DataTable<TData, TValue>({
           variant="outline"
           size="sm"
           onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
+          className={`${table.getCanPreviousPage() && "disabled:pointer-events-none disabled:opacity-50"}`}
+          disabled={false}
         >
           Previous
         </Button>
@@ -123,7 +124,8 @@ export function DataTable<TData, TValue>({
           variant="outline"
           size="sm"
           onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
+          className={`${table.getCanPreviousPage() && "disabled:pointer-events-none disabled:opacity-50"}`}
+          disabled={false}
         >
           Next
         </Button>

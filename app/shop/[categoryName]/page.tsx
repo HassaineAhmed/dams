@@ -1,19 +1,20 @@
 import { Navbar } from "../_components/navbar"
-import prismadb from "../../dashboard/_lib/prismadb"
 import Image from "next/image"
 import { Category, Product } from "@prisma/client"
 import { DownFooter } from "../_components/footer"
-import { revalidatePath } from "next/cache"
 import { PuffSpinner } from "@/_components/ui/loader";
 
+type TProduct = {
+	name: string,
+	price: number,
+	imagesNames: { imageName: string }[]
+}
 
 export default async function Page({ params }: { params: { categoryName: string } }) {
-	revalidatePath("/")
 	const categoryname = params.categoryName
-	const category = await prismadb.category.findFirst({
-		where: { name: categoryname },
-		include: { Product: { include: { imagesNames: { select: { imageName: true } } } } }
-	})
+	const res = await fetch("http://localhost:3000/api/pages/home")
+	const { categories } = await res.json();
+	const category = categories.filter((category: Category) => category.name == categoryname)[0]
 
 	return (
 		<div className="max-w-[100%]  flex flex-col items-between min-h-[100vh] overflow-hidden text-whitish animate-fadeInFromUp">
@@ -23,7 +24,7 @@ export default async function Page({ params }: { params: { categoryName: string 
 					<p className="text-whitish lg:pl-20 text-start text-[35px] lg:text-[60px] font-bold uppercase" >{category?.name}:</p>
 				</div>
 				<div className="flex flex-wrap lg:gap-y-14 gap-y-6 lg:gap-x-1 justify-center lg:justify-start lg:p-10 lg:px-20 pt-5 ">
-					{category?.Product.map((product) => <Itemo key={product.name} src={`/images/${category.name}/${product.name}/${product.imagesNames[0].imageName}`} descreption={product.name} price={product.price} />)}
+					{category?.Product.map((product: TProduct) => <Itemo key={product.name} src={`/images/${category.name}/${product.name}/${product.imagesNames[0].imageName}`} descreption={product.name} price={product.price} />)}
 
 				</div>
 			</div>

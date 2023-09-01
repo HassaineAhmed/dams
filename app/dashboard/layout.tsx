@@ -17,7 +17,7 @@ export default async function DashboardLayout({
 
 
   return (
-    <div className='bg-white'>
+    <div className='bg-white max-w-[100%] overflow-x-hidden '>
       <Navbar />
       {children}
     </div>

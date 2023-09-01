@@ -1,9 +1,28 @@
 "use client"
 import Image from "next/image"
 import { Navbar } from "./navbar"
+import { useSearchParams } from "next/navigation"
+import { scroller } from "react-scroll"
+import { useEffect } from "react"
 
 
 export function HeroSection() {
+  const searchParams = useSearchParams();
+  const section = searchParams.get('section');
+  console.log(section)
+  useEffect(() => {
+    if (section) {
+      console.log("seection is : ", section, "we are scrolling to");
+      scroller.scrollTo(section, {
+        duration: 1500,
+        delay: 100,
+        smooth: true,
+        offset: -20,
+      })
+    }
+    console.log(document)
+  }, [section])
+
 
   return (
     <div className="bg-[url('/light_bg.png')] lg:max-h-[758px] relative jusify-center items-center mx-1 lg:mx-2 border-[2px] border-gold overflow-hidden animate-fadeInOut" >

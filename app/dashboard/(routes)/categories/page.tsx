@@ -1,12 +1,17 @@
-import { format } from "date-fns";
-
 import prismadb from "@/_lib/prismadb";
 
 import { CategoryColumn } from "./components/columns"
 import { CategoriesClient } from "./components/client";
 
-const CategoriesPage = async () => {
+function wait() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => { resolve("wiatie") }, 10000)
+  })
 
+}
+
+const CategoriesPage = async () => {
+  await wait()
   const categories = await prismadb.category.findMany();
 
   const formattedCategories: CategoryColumn[] = categories.map((item) => ({
