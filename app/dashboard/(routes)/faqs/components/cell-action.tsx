@@ -38,7 +38,7 @@ export const CellAction: React.FC<CellActionProps> = ({
     } catch (error) {
       toast.error('There is an error');
     } finally {
-      await fetch("http://localhost:3000/api/rd", { cache: "no-cache" }).catch(e => toast.error("home page is not refreshed"))
+      await axios.get("/api/revalidate-data").catch(e => toast.error("home page is not refreshed"))
       setOpen(false);
       setLoading(false);
     }

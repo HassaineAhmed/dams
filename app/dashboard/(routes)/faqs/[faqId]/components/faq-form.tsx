@@ -71,7 +71,7 @@ export const FAQsForm: React.FC<FAQsFormProps> = ({ initialData }) => {
       } else {
         await axios
           .post(
-            "http://localhost:3000/api/faqs/",
+            "/api/faqs",
             data,
             { headers: { "Content-Type": `application/json` } }
           )
@@ -88,7 +88,7 @@ export const FAQsForm: React.FC<FAQsFormProps> = ({ initialData }) => {
           })
       }
     } finally {
-      await fetch("http://localhost:3000/api/rd", { cache: "no-cache" }).catch(e => toast.error("home page is not refreshed"))
+      await axios.get("/api/revalidate-data").catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
     }
   };
@@ -105,7 +105,7 @@ export const FAQsForm: React.FC<FAQsFormProps> = ({ initialData }) => {
         "There is an error"
       );
     } finally {
-      await fetch("http://localhost:3000/api/rd", { cache: "no-cache" }).catch(e => toast.error("home page is not refreshed"))
+      await axios.get("/api/revalidate-data").catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
       setOpen(false);
     }

@@ -55,7 +55,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             const base64Image = event.target?.result;
             await axios
               .post<ApiResponse>(
-                "http://localhost:3000/api/handle-images",
+                "/api/handle-images",
                 JSON.stringify({ image: base64Image }),
                 { headers: { "Content-Type": `application/json` } }
               )
@@ -63,6 +63,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 resolve(response?.data?.fileName);
               })
               .catch((e) => {
+                toast.error("could not upload this image")
                 console.log("There was a problem");
                 reject(e);
               });
@@ -79,7 +80,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         await sendImage(files[i])
           .catch((e) => console.log(e))
           .then((fileName) => {
-            setTimeout(() => { }, 2000);
+            //setTimeout(() => { }, 2000);
             onChange(`${fileName}`);
           });
       }

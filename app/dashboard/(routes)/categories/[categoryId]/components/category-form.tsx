@@ -84,7 +84,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       } else {
         await axios
           .post(
-            "http://localhost:3000/api/categories/",
+            "/api/categories",
             data,
             { headers: { "Content-Type": `application/json` } }
           )
@@ -101,7 +101,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
           })
       }
     } finally {
-      await fetch("http://localhost:3000/api/rd", { cache: "no-cache" }).catch(e => toast.error("home page is not refreshed"))
+      await axios.get("/api/revlidate-data").catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
     }
   };
@@ -118,7 +118,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
         "Make sure you removed all products using this category first."
       );
     } finally {
-      await fetch("http://localhost:3000/api/rd", { cache: "no-cache" }).catch(e => toast.error("home page is not refreshed"))
+      await axios.get("/api/revalidate-data").catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
       setOpen(false);
     }

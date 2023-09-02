@@ -6,7 +6,7 @@ import Link from "next/link"
 
 export function Navbar({ variation }: { variation: string }) {
   return (
-    <div id="navbar" className={`${variation == "withBg" && "bg-sd border-b-[2px]"} border-gold w-full justify-center items-center flex`}>
+    <div id="navbar" className={`${variation == "withBg" && "bg-sd border-b-[2px]"} z-50 border-gold w-full justify-center items-center flex`}>
       <div
         className={`animate-fadeInFromUp lg:w-[1800px] ${variation != "withBg" && "mt-1 lg:mt-2"}  lg:h-[110px] lg:px-[14px] relative px-4 h-[70px] font-lora flex justify-between items-center w-[100%]`}>
         <Link href="/" prefetch={false}>

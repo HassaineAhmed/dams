@@ -5,11 +5,11 @@ import { Link as ReactScrollLink } from "react-scroll"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
 
-const activeSide = "bg-pr border-[2px] justify-center items-center py-8 px-8 border-gold flex-col gap-4 w-60 transform transition-all fixed duration-700 text-white flex justify-center p-2 translate-x-[-250px]"
+const activeSide = "bg-pr border-[2px] justify-center items-center py-8 px-8 border-gold flex-col gap-4 w-60 transform transition-all fixed duration-700 text-white flex justify-center p-2 translate-x-[-230px]"
 const hiddenSide = "bg-gray-800 flex-col gap-4 opacity-0 w-60 transform transition-all fixed duration-700 text-white flex justify-center p-2"
 
 const activeButton = "w-10 lg:w-14  lg:h-14 border-gold h-10 p-2  top-0 cursor-pointer transition-all transform duration-700 flex items-center justify-center"
-const normalButton = "w-10 lg:w-14 border-2 border-gold border-r-0 lg:h-14 h-10 p-2 bg-pr top-0 cursor-pointer transition-translate transform duration-700 flex items-center justify-center translate-y-[50px] translate-x-[-250px]"
+const normalButton = "w-10 lg:w-14 border-2 border-gold border-r-0 lg:h-14 h-10 p-2 bg-pr top-0 cursor-pointer transition-translate transform duration-700 flex items-center justify-center translate-y-[50px] translate-x-[-230px]"
 
 function Entry({ label, link }: { label: string, link: string }) {
     return <ReactScrollLink offset={-20} className='cursor-pointer' to={link} smooth={true} >
@@ -31,10 +31,10 @@ export function Menu() {
     const pathname = usePathname();
     const [active, setActive] = useState(false)
 
-    return (<div className="flex">
+    return (<div className="flex z-200">
         <div className={active ? normalButton : activeButton}
             onClick={() => setActive(prev => !prev)} >
-            <Image src='/menu_bar.svg' height={90} width={90} alt='logo' />
+            <Image src='/menu_bar.svg' height={80} width={80} alt='logo' />
         </div>
 
         <div className="flex  transform relative transition-all duration-1000">
