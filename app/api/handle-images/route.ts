@@ -15,7 +15,11 @@ export async function POST(req: NextRequest) {
         } else {
             fileType = "jpeg"
         }
-        fs.writeFileSync(`./public/images/temp/${fileName}.${fileType}`, buffer);
+        try {
+            fs.writeFileSync(`./public/images/temp/${fileName}.${fileType}`, buffer);
+        } catch (e) {
+            console.log("could not write to file ", e);
+        }
         return NextResponse.json({ fileName: `${fileName}.${fileType}` }, { status: 200 })
     } catch (e) {
         console.log(e);

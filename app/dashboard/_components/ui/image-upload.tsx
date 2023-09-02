@@ -65,6 +65,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               .catch((e) => {
                 toast.error("could not upload this image")
                 console.log("There was a problem");
+                console.log(e)
                 reject(e);
               });
             //resolve(data?.fileName);
