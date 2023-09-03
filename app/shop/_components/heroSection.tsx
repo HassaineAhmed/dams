@@ -16,18 +16,6 @@ export function HeroSection() {
   const [loading3, setLoading3] = useState(true);
   const [loading, setLoading] = useState(true);
 
-
-  useEffect(() => {
-    if (section) {
-      scroller.scrollTo(section, {
-        duration: 1500,
-        delay: 100,
-        smooth: true,
-        offset: -20,
-      })
-    }
-    console.log(document)
-  }, [section])
   useEffect(() => {
     if (!loading1 && !loading2 && !loading3) {
       setLoading(false)

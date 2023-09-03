@@ -1,5 +1,8 @@
 "use client"
+import { useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import Image from "next/image"
+import { scroller } from "react-scroll"
 
 import { revalidatePath } from "next/cache"
 
@@ -9,6 +12,26 @@ export function BrandInfo() {
       <p className="text-black font-bold text-xl text-center lg:text-[30px] lg:font-semibold ">{content}</p>
     </div>
   }
+
+  const [scrolled, setScrolled] = useState(false)
+
+
+  const searchParams = useSearchParams();
+  const section = searchParams.get('section');
+
+  useEffect(() => {
+    if (section && !scrolled) {
+      setScrolled(true)
+      console.log("scrolling")
+      scroller.scrollTo(section, {
+        duration: 1500,
+        delay: 100,
+        smooth: true,
+        offset: -230,
+      })
+    }
+    console.log(document)
+  }, [section])
 
   const cards = ["1- World Class Quality",
     "2- Very Fast Delivery",

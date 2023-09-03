@@ -10,6 +10,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.405.0",
+    "@aws-sdk/s3-presigned-post": "^3.405.0",
+    "@aws-sdk/s3-request-presigner": "^3.405.0",
     "@clerk/nextjs": "^4.23.2",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -64,6 +67,7 @@
     "tailwindcss-animate": "^1.0.6",
     "typescript": "5.1.6",
     "uuid": "^9.0.0",
+    "uuidv4": "^6.2.13",
     "zod": "^3.21.4",
     "zustand": "^4.3.8"
   },

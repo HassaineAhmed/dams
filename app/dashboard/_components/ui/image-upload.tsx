@@ -23,6 +23,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   value,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
+  const [clientImageUrl, setClientImageUrl] = useState("")
 
   useEffect(() => {
     setIsMounted(true);
@@ -77,6 +78,20 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
     async function handleChange(event: any) {
       const files = event.target.files;
+      const { data } = await axios.get("/api/handle-images/get-presigned-url")
+      const { url, fields } = data
+      const formData = new FormData();
+
+      const s3Option = {
+        ...fields,
+        "Content-Type": files.type,
+        file: files[0],
+      }
+      for (const name in s3Option) {
+        formData.append(name, s3Option[name]);
+      }
+      const res = await axios.post(url, s3Option);
+      console.log(res?.status);
       for (let i = 0; i < files.length; i++) {
         await sendImage(files[i])
           .catch((e) => console.log(e))
