@@ -18,9 +18,11 @@ export async function GET() {
                 imagesNames: { select: { imageName: true } }
             }
         })
+        const products = await prismadb.product.findMany( { include : { imagesNames : { select : { imageName : true }}}});
         const finish = performance.now();
+
         console.log("time taken : ", finish - start);
-        return NextResponse.json({ categories, faqs, tabs_products }, { status: 200 })
+        return NextResponse.json({ categories, faqs, tabs_products, products }, { status: 200 })
     } catch {
         return NextResponse.json("server error", { status: 500 })
     }

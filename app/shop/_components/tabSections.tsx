@@ -43,10 +43,10 @@ export function TabSection({ products }: { products: TProducts }) {
 
             <div className="flex gap-0 w-full border-b-[2px]  border-gold ">
               <button onClick={() => { setGender("male") }} className="border-r-[2px] border-gold outline-0 flex-1 lg:py-6 py-2 bg-[#326967]">
-                <p className="text-2xl text-center font-bold font-mr lg:text-6xl">Men</p>
+                <p className={`${ gender != "male" && "opacity-60"} transition-all duration-500 text-2xl text-center font-bold font-mr lg:text-6xl`}>Men</p>
               </button>
 
-              <button onClick={() => { setGender("female") }} className="outline-0  flex-1 py-2 bg-[#519D99]  border-gold">
+              <button onClick={() => { setGender("female") }} className={`outline-0  flex-1 py-2 bg-[#519D99]  border-gold ${ gender != "female" && "opacity-60"} transition-all duration-500 `}>
                 <p className="text-2xl font-bold text-center font-mr lg:text-6xl">Women</p>
               </button>
             </div>

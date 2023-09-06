@@ -6,6 +6,7 @@ import { PuffSpinner } from "@/_components/ui/loader";
 import Link from "next/link"
 
 type TProduct = {
+	id : string,
 	name: string,
 	price: number,
 	imagesNames: { imageName: string }[]
@@ -25,7 +26,7 @@ export default async function Page({ params }: { params: { categoryName: string 
 					<p className="text-whitish lg:pl-20 text-start text-[35px] lg:text-[60px] font-bold uppercase" >{category?.name}:</p>
 				</div>
 				<div className="flex flex-wrap lg:gap-y-14 gap-y-6 lg:gap-x-1 justify-center lg:justify-start lg:p-10 lg:px-20 pt-5 ">
-					{category?.Product.map((product: TProduct) => <Link key={product.name} href={`/shop/${categoryname}/${product.name}`}>
+					{category?.Product.map((product: TProduct) => <Link key={product.name} href={`/shop/${categoryname}/${product.id}`}>
 						<Itemo src={`/images/${category.name}/${product.name}/${product.imagesNames[0].imageName}`} descreption={product.name} price={product.price} /> </Link>
 					)}
 

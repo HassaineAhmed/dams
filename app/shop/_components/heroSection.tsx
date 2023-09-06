@@ -28,7 +28,7 @@ export function HeroSection() {
       {loading && <Loading />}
       <div className={` ${loading && "hidden"} lg:max-h-[758px] relative justify-center lg:relative  items-center mx-1 lg:mx-2 overflow-hidden border-[2px] border-gold  animate-fadeInOut`} >
 
-        <div className="w-full absolute z-10 lg:top-0 lg:flex lg:justify-center max-w-[97%]">
+        <div className="w-full absolute z-10 lg:top-0 lg:flex lg:justify-center">
           <Navbar variation="" />
         </div>
 
