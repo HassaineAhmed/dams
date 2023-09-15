@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "../../_components/ui/button";
-import Image from "next/image";
-import { ImagePlus, Trash } from "lucide-react";
-import toast, { Toaster } from "react-hot-toast";
+import Image from "next/image"; import { ImagePlus, Trash } from "lucide-react"; import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
 interface ImageUploadProps {
@@ -23,7 +21,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   value,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
-  const [clientImageUrl, setClientImageUrl] = useState("")
 
   useEffect(() => {
     setIsMounted(true);
@@ -56,7 +53,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             const base64Image = event.target?.result;
             await axios
               .post<ApiResponse>(
-                "/api/handle-images",
+                "/api/handle-images/upload-image-s3",
                 JSON.stringify({ image: base64Image }),
                 { headers: { "Content-Type": `application/json` } }
               )
@@ -65,11 +62,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               })
               .catch((e) => {
                 toast.error("could not upload this image")
-                console.log("There was a problem");
                 console.log(e)
                 reject(e);
               });
-            //resolve(data?.fileName);
           };
           reader.readAsDataURL(image);
         }
@@ -78,25 +73,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
     async function handleChange(event: any) {
       const files = event.target.files;
-      const { data } = await axios.get("/api/handle-images/get-presigned-url")
-      const { url, fields } = data
-      const formData = new FormData();
-
-      const s3Option = {
-        ...fields,
-        "Content-Type": files.type,
-        file: files[0],
-      }
-      for (const name in s3Option) {
-        formData.append(name, s3Option[name]);
-      }
-      const res = await axios.post(url, s3Option);
-      console.log(res?.status);
       for (let i = 0; i < files.length; i++) {
         await sendImage(files[i])
           .catch((e) => console.log(e))
           .then((fileName) => {
-            //setTimeout(() => { }, 2000);
             onChange(`${fileName}`);
           });
       }
@@ -121,6 +101,14 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       </div>
     );
   }
+  async function handleRemove(imageName: string) {
+    try {
+      await axios.delete(`/api/handle-images/${imageName}`);
+      onRemove(imageName);
+    } catch (e) {
+      toast.error("can't remove the image, try again.")
+    }
+  }
   return (
     <div>
       <div className="mb-4 flex items-center gap-4">
@@ -133,7 +121,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               <div className="z-10 absolute top-2 right-2">
                 <Button
                   type="button"
-                  onClick={() => onRemove(imageName)}
+                  onClick={() => handleRemove(imageName)}
                   variant="destructive"
                   size="sm"
                 >
@@ -141,7 +129,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 </Button>
               </div>
               {url ? <Image fill className="object-cover" alt="Image" src={`${url}`} /> :
-                <Image fill className="object-cover" alt="Image" src={`/images/temp/${imageName}`} />
+                <Image fill className="object-cover" alt="Image" src={`https://dams-images.s3.eu-central-1.amazonaws.com/${imageName}`} />
               }
             </div>
           ) : (

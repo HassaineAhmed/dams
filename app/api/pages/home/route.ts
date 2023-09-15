@@ -18,7 +18,7 @@ export async function GET() {
                 imagesNames: { select: { imageName: true } }
             }
         })
-        const products = await prismadb.product.findMany( { include : { imagesNames : { select : { imageName : true }}}});
+        const products = await prismadb.product.findMany({ include: { imagesNames: { select: { imageName: true } } } });
         const finish = performance.now();
 
         console.log("time taken : ", finish - start);

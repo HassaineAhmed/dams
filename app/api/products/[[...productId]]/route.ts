@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/font/node_modules/next/server";
+import { deleteImage } from "@/_lib/utils"
 import prismadb from "@/_lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import * as fs from 'fs-extra';
@@ -62,11 +63,13 @@ export async function POST(req: NextRequest) {
         })
 
         // handling images
+        /*
         await createFolder(`./public/images/${categoryName}/${name}`);
         imagesNames.forEach(async ({ imageName }: { imageName: string }) => {
             console.log(imageName);
             await moveImage(`./public/images/temp/${imageName}`, `./public/images/${categoryName}/${name}/${imageName}`)
         })
+        */
         return NextResponse.json("category created successfully", { status: 200 });
 
     } catch (e) {
@@ -81,11 +84,15 @@ export async function DELETE(req: NextRequest, { params }: { params: { productId
         if (!id) {
             return NextResponse.json("problem indentifiying the id", { status: 404 });
         } else {
-            const product = await prismadb.product.delete({ where: { id: id } })
-            const isFolderDeleted = await deleteFolder(`./public/images/${product.categoryName}/${product.name}`);
-            if (!isFolderDeleted) {
-                return NextResponse.json("product deleted, but couldn't delete folder", { status: 500 });
-            }
+            const product = await prismadb.product.delete({ where: { id: id }, include: { imagesNames: { select: { imageName: true } } } })
+            product.imagesNames.forEach((e: any) => deleteImage(e.imageName))
+            /* 
+             const isFolderDeleted = await deleteFolder(`./public/images/${product.categoryName}/${product.name}`);
+             if (!isFolderDeleted) {
+                 return NextResponse.json("product deleted, but couldn't delete folder", { status: 500 });
+             }
+             */
+
             return NextResponse.json("Product Deleted Successfuly", { status: 200 });
         }
     } catch (e) {
@@ -122,8 +129,6 @@ export async function PATCH(req: NextRequest, { params }: { params: { productId:
             fit,
         }: ReceivedData = data;
 
-        console.log('initial data', initialData)
-        console.log("new data", data)
         // look for deletd images to tell prisma to delete them from the database
         async function findDeletedImages() {
             let deletedImages: Array<{ imageName: string }> = [];
@@ -136,12 +141,13 @@ export async function PATCH(req: NextRequest, { params }: { params: { productId:
                     }
                 }
                 if (!found) {
-                    console.log(`./public/images/${categoryName}/${name}/${initialData.imagesNames[initialImageName].imageName}`)
+                    /*
                     if (initialData.imagesNames[initialImageName].url) {
                         await deleteFolder(`./public${initialData.imagesNames[initialImageName].url}`)
                     } else {
                         await deleteFolder(`./public/images/${categoryName}/${name}/${initialData.imagesNames[initialImageName].imageName}`)
                     }
+                    */
                     deletedImages.push({ imageName: initialData.imagesNames[initialImageName].imageName })
                 }
             }
@@ -149,7 +155,6 @@ export async function PATCH(req: NextRequest, { params }: { params: { productId:
         }
 
         const deletedImages = await findDeletedImages()
-        console.log('the final result: ', deletedImages)
         await prismadb.product.update({
             where: { id: id },
             data: {
@@ -172,14 +177,15 @@ export async function PATCH(req: NextRequest, { params }: { params: { productId:
                 design: design ? design : "",
             },
         })
-
-        if (categoryName != initialData.categoryName) {
-            await moveImage(`./public/images/${initialData.categoryName}/${initialData.name}`, `./public/images/${categoryName}/${initialData.name}`)
-        }
-
-        if (name != initialData.name) {
-            await moveImage(`./public/images/${categoryName}/${initialData.name}`, `./public/images/${categoryName}/${name}`)
-        }
+        /*
+                if (categoryName != initialData.categoryName) {
+                    await moveImage(`./public/images/${initialData.categoryName}/${initialData.name}`, `./public/images/${categoryName}/${initialData.name}`)
+                }
+        
+                if (name != initialData.name) {
+                    await moveImage(`./public/images/${categoryName}/${initialData.name}`, `./public/images/${categoryName}/${name}`)
+                }
+                */
 
         let found = false;
         let newImageName = ''
@@ -191,11 +197,12 @@ export async function PATCH(req: NextRequest, { params }: { params: { productId:
                     found = true;
                 }
             }
+            /*
             if (!found) {
                 await moveImage(`./public/images/temp/${newImageName}`, `./public/images/${categoryName}/${name}/${newImageName}`)
                 await deleteFolder(`./public/images/temp/${newImageName}`)
-                console.log(`./public/images/${categoryName}/${name}/${newImageName}`)
             }
+            */
         }
 
         return NextResponse.json('You are the best programmer in the world', { status: 200 });

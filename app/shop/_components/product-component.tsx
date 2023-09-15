@@ -12,7 +12,7 @@ export default function ProductComponent({ product }: { product: Product & { ima
 				<div className="absolute z-0">
 					<PuffSpinner color={"#D8B4A0"} />
 				</div>
-				<Image className="z-10 bg-sd" src={`/images/${product.categoryName}/${product.name}/${product.imagesNames[0].imageName}`} height={800} width={800} alt="product" />
+				<Image className="z-10 bg-sd" src={`https://dams-images.s3.eu-central-1.amazonaws.com/${product.imagesNames[0].imageName}`} height={800} width={800} alt="product" />
 			</div>
 			<div className="flex flex-col justify-start ml-[1px] items-start gap-0">
 				<p className="uppercase font-bold text-[15px]  lg:text-[25px] lg:font-bold font-mr">{product.name}</p>

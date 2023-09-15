@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/font/node_modules/next/server";
 import prismadb from "@/_lib/prismadb";
+import { deleteImage } from "@/_lib/utils";
 import { auth } from "@clerk/nextjs";
 import * as fs from 'fs-extra';
-
 
 interface ReceivedData {
   name: string;
@@ -14,15 +14,12 @@ interface ReceivedData {
 export async function POST(req: NextRequest) {
   try {
     const { userId } = auth();
+    if (!userId) { return NextResponse.json("Unauthenticated!", { status: 400 }); }
     let { name, imageName, sizingSystem }: ReceivedData = await req.json();
     const imageNameStr: string = imageName[0].imageName;
-    if (!userId) {
-      return NextResponse.json("Unauthenticated!", { status: 400 });
-    }
     if (!name || !imageNameStr || !sizingSystem) {
       return NextResponse.json("invalid input data", { status: 400 });
     }
-
     await prismadb.category.create({
       data: {
         name: name,
@@ -30,22 +27,25 @@ export async function POST(req: NextRequest) {
         sizingSystem: sizingSystem == "letters" ? "letters" : sizingSystem == "numbers" ? "numbers" : "letters"
       }
     })
-
-    const isFolderCreated: boolean = await createFolder(`./public/images/${name}`);
-    if (isFolderCreated) {
-      const isImageMoved: boolean = await moveImage(`./public/images/temp/${imageNameStr}`, `./public/images/${name}/${imageNameStr}`)
-      if (isImageMoved) {
-        return NextResponse.json("category created successfully", { status: 200 });
-      } else {
-        return NextResponse.json("server error", { status: 500 });
-      }
-    } else {
-      return NextResponse.json("server error", { status: 500 });
-    }
+    /*
+        const isFolderCreated: boolean = await createFolder(`./public/images/${name}`);
+        if (isFolderCreated) {
+          const isImageMoved: boolean = await moveImage(`./public/images/temp/${imageNameStr}`, `./public/images/${name}/${imageNameStr}`)
+          if (isImageMoved) {
+            return NextResponse.json("category created successfully", { status: 200 });
+          } else {
+            return NextResponse.json("server error", { status: 500 });
+          }
+  } else {
+    return NextResponse.json("server error", { status: 500 });
+  }
+          */
   } catch (e) {
-    console.log(e);
+    console.log("error creating the category : ", e);
     return NextResponse.json({ msg: "server error" }, { status: 500 });
   }
+  return NextResponse.json('success', { status: 200 });
+
 }
 
 export async function DELETE(req: NextRequest, { params }: { params: { categoryId: Array<string> } }) {
@@ -54,26 +54,32 @@ export async function DELETE(req: NextRequest, { params }: { params: { categoryI
     if (!id) {
       return NextResponse.json("problem indentifiying the id", { status: 404 });
     } else {
-      const category = await prismadb.category.delete({ where: { id: id } })
+      const category = await prismadb.category.delete({ where: { id: id }, include: { imageName: { select: { imageName: true } } } })
+      deleteImage(category.imageName[0].imageName);
+      /*
       const isFolderDeleted = await deleteFolder(`./public/images/${category.name}`);
       if (!isFolderDeleted) {
         return NextResponse.json("category deleted, but couldn't delete folder", { status: 500 });
       }
       return NextResponse.json("Category Deleted Successfuly", { status: 202 });
+    */
     }
   } catch (e) {
-    console.log("there was an error deleting a category");
+    console.log("there was an error deleting a category", e);
     return NextResponse.json("internal server error", { status: 500 });
   }
+  return NextResponse.json("success", { status: 200 });
 }
 
 export async function PATCH(req: NextRequest, { params }: { params: { categoryId: Array<string> } }) {
   try {
+    const { userId } = auth();
+    if (!userId) { return NextResponse.json("Unauthenticated!", { status: 400 }); }
     const { data, initialData } = await req.json();
     const { name, imageName, sizingSystem }: ReceivedData = data;
     const imageNameStr = imageName[0].imageName;
     const categoryId = params.categoryId[0]
-    const newCategory = await prismadb.category.update({
+    await prismadb.category.update({
       where: { id: categoryId },
       data: {
         name: name,
@@ -90,19 +96,20 @@ export async function PATCH(req: NextRequest, { params }: { params: { categoryId
         imageName: { select: { imageName: true } }
       }
     })
-
-    if (name != initialData.name) {
-      await moveImage(`./public/images/${initialData.name}`, `./public/images/${name}`)
-      if (imageNameStr != initialData.imageName[0].imageName) {
-        await moveImage(`./public/images/temp/${imageNameStr}`, `./public/images/${name}/${imageNameStr}`)
-        
-        await deleteFolder(`./public/temp/${imageNameStr}`);
-        await deleteFolder(`./public/images/${name}/${initialData.imageName[0].imageName}`)
-      }
-
-    } else if (imageNameStr != initialData.imageName[0].imageName) {
-      await moveImage(`./public/images/${initialData.name}/${imageNameStr}`, `./public/images/${initialData.name}/${newCategory.imageName[0].imageName}`)
-    }
+    /*
+        if (name != initialData.name) {
+          await moveImage(`./public/images/${initialData.name}`, `./public/images/${name}`)
+          if (imageNameStr != initialData.imageName[0].imageName) {
+            await moveImage(`./public/images/temp/${imageNameStr}`, `./public/images/${name}/${imageNameStr}`)
+    
+            await deleteFolder(`./public/temp/${imageNameStr}`);
+            await deleteFolder(`./public/images/${name}/${initialData.imageName[0].imageName}`)
+          }
+    
+        } else if (imageNameStr != initialData.imageName[0].imageName) {
+          await moveImage(`./public/images/${initialData.name}/${imageNameStr}`, `./public/images/${initialData.name}/${newCategory.imageName[0].imageName}`)
+        }
+        */
 
     return NextResponse.json('You are the best programmer in the world', { status: 200 });
   } catch (e) {

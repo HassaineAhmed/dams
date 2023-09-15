@@ -3,15 +3,17 @@
 import { useState } from "react"
 import Image from "next/image"
 
-export function ImagesScroller() {
+export function ImagesScroller({ images }: { images: { imageName: string }[] }) {
   const sliderDiv = "slider w-[100%] pt-[1.12rem] justify-between flex flex-row gap-2 justify-center"
   const picCircles = `w-3.5 h-3.5 bg-sky-200 bg-opacity-50 rounded-full`
   const [currentImage, setCurrentImage] = useState();
 
   return (
 
-    <div className="picslider flex flex-col items-center pt-[5.75rem] lg:h-[100vh] ">
-      <Image className="productpic  border border-gold w-[350px] lg:w-[554px]" height={800} width={800} src="/" alt="pic-product" />
+    <div className="picslider flex flex-col items-center lg:h-[100vh] ">
+      {
+        images.map(({ imageName }, index) => <Image className="border border-gold w-[350px] lg:w-[554px]" height={800} width={800} src={`https://dams-images.s3.eu-central-1.amazonaws.com/${imageName}`} key={index} alt="pic-product" />)
+      }
       <div className={sliderDiv}>
 
         <button className="w-[5%]">

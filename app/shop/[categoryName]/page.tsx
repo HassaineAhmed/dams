@@ -1,12 +1,13 @@
 import { Navbar } from "../_components/navbar"
 import Image from "next/image"
-import { Category, Product } from "@prisma/client"
+import { Category } from "@prisma/client"
 import { DownFooter } from "../_components/footer"
 import { PuffSpinner } from "@/_components/ui/loader";
 import Link from "next/link"
 
+
 type TProduct = {
-	id : string,
+	id: string,
 	name: string,
 	price: number,
 	imagesNames: { imageName: string }[]
@@ -14,20 +15,22 @@ type TProduct = {
 
 export default async function Page({ params }: { params: { categoryName: string } }) {
 	const categoryname = params.categoryName
-	const res = await fetch("https://dams-shop.vercel.app/api/pages/home")
-	const { categories } = await res.json();
+	const res = await fetch("http://localhost:3000/api/pages/home", { next: { tags: ["mainData"] } })
+	const { categories } = await res.json()
 	const category = categories.filter((category: Category) => category.name == categoryname)[0]
 
 	return (
 		<div className="max-w-[100%]  flex flex-col items-between min-h-[100vh] overflow-hidden text-whitish animate-fadeInFromUp">
 			<Navbar variation={"withBg"} />
-			<div className="lg:py-16 py-8 pb-4 lg:pb-16 px-4 flex-1 h-[100%]">
+			<div className="lg:py-10 py-8 pb-4 lg:pb-16 px-4 flex-1 h-[100%]">
 				<div className="">
-					<p className="text-whitish lg:pl-20 text-start text-[35px] lg:text-[60px] font-bold uppercase" >{category?.name}:</p>
+					{category?.name &&
+						<p className="text-whitish lg:pl-20 text-start text-[35px] lg:text-[60px] font-bold uppercase" >{category?.name}:</p>
+					}
 				</div>
 				<div className="flex flex-wrap lg:gap-y-14 gap-y-6 lg:gap-x-1 justify-center lg:justify-start lg:p-10 lg:px-20 pt-5 ">
 					{category?.Product.map((product: TProduct) => <Link key={product.name} href={`/shop/${categoryname}/${product.id}`}>
-						<Itemo src={`/images/${category.name}/${product.name}/${product.imagesNames[0].imageName}`} descreption={product.name} price={product.price} /> </Link>
+						<Itemo src={`https://dams-images.s3.eu-central-1.amazonaws.com/${product.imagesNames[0].imageName}`} descreption={product.name} price={product.price} /> </Link>
 					)}
 
 				</div>

@@ -17,7 +17,7 @@ export function Navbar({ variation }: { variation: string }) {
             <p className='text-xl lg:text-[43px] text-gold font-semibold'>DAMS</p>
           </div>
         </Link>
-        <div className='absolute z-20 right-2 lg:right-8'>
+        <div className='absolute z-20 right-2 lg:right-2'>
           <Menu />
         </div>
 

@@ -21,7 +21,7 @@ function CategoryEntry({ cate }: { cate: Category & { imageName: Array<{ imageNa
         <div className={`p-4 relative ${!isMobile && "hover:w-[320px] hover:h-[270px]"} transition-all duration-700  rounded-xl flex flex-col bg-pr items-center lg:w-[300px] lg:h-[250px] w-[260px] h-[210px]`}>
           <div className="flex flex-1 h-full w-[70%] justify-self-center items-center justify-center ">
             <Image
-              src={`/images/${cate.name}/${cate.imageName[0].imageName}`}
+              src={`https://dams-images.s3.eu-central-1.amazonaws.com/${cate.imageName[0].imageName}`}
               height={200}
               width={200}
               className="pb-10 h-full"

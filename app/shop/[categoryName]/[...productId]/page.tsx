@@ -16,8 +16,6 @@ export default async function Page({ params }: { params: { productId: string } }
 	//const [size, SetSize] = useState("")
 	const res = await fetch("http://localhost:3000/api/pages/home")
 	const data = await res.json()
-	console.log(data)
-	console.log(data.products)
 
 	let products = data.products
 	const product: TProduct = products.filter((product: Product) => product.id == productId)[0];
@@ -31,15 +29,13 @@ export default async function Page({ params }: { params: { productId: string } }
 	const buybutton = "mt-2 text-[2.75rem]  pb-[1.3rem] pt-[1rem] font-bold leading-10 w-[20rem]  bg-teal-900 border border-gold"
 	const sizechart = "w-[9.5rem] pl-[0.2rem] pr-[0.2rem] pt-[0.4rem] bg-teal-900 border border-gold "
 	return (
-		<div className="max-w-[100%]  flex flex-col items-between min-h-[100vh] overflow-hidden text-whitish animate-fadeInFromUp">
+		<div className="max-w-[100%] flex flex-col min-h-[100vh] overflow-hidden text-whitish animate-fadeInFromUp">
 			<Navbar variation={"withBg"} />
-			{/* ----------------------------------- */}
-			<div className="flex flex-col lg:flex-row h-[100%]  flex-1 justify-center items-center gap-8">
 
-				<ImagesScroller />
-
+			<div className="flex flex-col lg:flex-row h-[100%]  lg:pt-[90px] pt-10 flex-1 justify-center items-center gap-8">
+				<ImagesScroller images={product.imagesNames} />
 				{/* ----------------------------------- */}
-				<div className="productinfo flex flex-wrap gap-8 flex-col pt-[2rem] pl-[3rem] pb-[8%] lg:h-[100vh] lg:pt-[5.6rem]">
+				<div className="productinfo flex flex-wrap gap-8 flex-col pl-[3rem] pb-[8%] lg:h-[100vh]">
 
 					<div className="gap-5 flex-col flex">
 						<p className={productinfoFirst}>{product.name}</p>
@@ -56,6 +52,7 @@ export default async function Page({ params }: { params: { productId: string } }
 
 					<button className={buybutton}>BUY NOW</button>
 				</div>
+
 			</div>
 
 			<DownFooter />

@@ -48,7 +48,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
   if (initialData) {
-    initialData.imageName[0].url = `/images/${initialData.name}/${initialData.imageName[0].imageName}`
+    initialData.imageName[0].url = `https://dams-images.s3.eu-central-1.amazonaws.com/${initialData.imageName[0].imageName}`
   }
 
   const [open, setOpen] = useState(false);
@@ -96,12 +96,12 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
             }
           })
           .catch(async (e) => {
-            console.log(e);
+            console.log("post error", e);
             toast.error("Something went wrong.", { duration: 3000 });
           })
       }
     } finally {
-      await axios.get("/api/revlidate-data").catch(e => toast.error("home page is not refreshed"))
+      await axios.get("/api/revalidate-data").catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
     }
   };
