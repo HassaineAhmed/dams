@@ -16,6 +16,10 @@ body,
  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   -webkit-tap-highlight-color: transparent;
+    --swiper-pagination-color: #244A48;
+  --swiper-navigation-color: #244A48;
+    --swiper-navigation-size: 22px;
+
 }
  
 @layer base {

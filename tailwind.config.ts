@@ -208,10 +208,28 @@ const config: Config = {
           "50%": {
             opacity: "0.8"
           }
+        },
+        "swipeImageLeft": {
+          "0%": {
+            transform: "translateX(0px)"
+          },
+          "100%": {
+            transform: "translateX(350px)"
+          }
+        },
+        "swipeImageRight": {
+          "0%": {
+            transform: "translateX(0px)"
+          },
+          "100%": {
+            transform: "translateX(-350px)"
+          }
         }
       },
 
       animation: {
+        "swipeImageLeft": "swipeImageLeft 400ms ease-out forwards",
+        "swipeImageRight": "swipeImageRight 400ms ease-out forwards",
         "pluse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",

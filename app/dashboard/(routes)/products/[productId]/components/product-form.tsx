@@ -68,7 +68,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const action = initialData ? 'Save changes' : 'Create';
   if (initialData) {
     initialData.imagesNames = initialData.imagesNames.map(({ imageName }) =>
-      ({ imageName: imageName, url: `/images/${initialData.categoryName}/${initialData.name}/${imageName}` }))
+      ({ imageName: imageName, url: `https://dams-images.s3.eu-central-1.amazonaws.com/${imageName}` }))
+
   }
 
   const defaultValues = initialData ? {
