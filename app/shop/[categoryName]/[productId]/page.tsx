@@ -1,12 +1,8 @@
 import { Navbar } from "../../_components/navbar"
 
 import { DownFooter } from "../../_components/footer"
-import { SizerPicker } from "../../_components/sizesPicker"
 import { ImagesScroller } from "../../_components/imagesScroller"
-import { QuantityCounter } from "../../_components/quantityCounter"
 import { BuyForm1 } from "../../_components/buyForm1"
-
-import Link from "next/link"
 import { Product } from "@prisma/client"
 
 type TProduct = Product & {
@@ -29,7 +25,7 @@ export default async function Page({ params }: { params: { categoryName: string,
 	return (
 		<div className="flex flex-col min-h-[100vh] text-whitish animate-fadeInFromUp">
 			<Navbar variation={"withBg"} />
-			<div className="flex justify-center items-start lg:pt-[90px] pt-1 min-h-[100vh]">
+			<div className="flex justify-center items-start py-[40px] lg:py-2 lg:pt-[90px] min-h-[100vh]">
 				<div className="flex  flex-col lg:flex-row gap-5 lg:gap-8">
 					<ImagesScroller images={product.imagesNames} />
 					<div className="max-w-[350px] lg:max-w-[100vw] flex gap-2 lg:gap-4 flex-col lg:pl-[3rem]">
@@ -43,10 +39,10 @@ export default async function Page({ params }: { params: { categoryName: string,
 							<p className={productinfoSecond} >FIT: <span className={productinfoSecondSpan}>81%coton, 19%els</span></p>
 							<p className={productinfoSecond}>DESIGN: <span className={productinfoSecondSpan}>81%coton, 19%els</span> </p>
 						</div>
+
 						<BuyForm1 categoryName={categoryName} productId={productId} />
 
 					</div>
-
 				</div>
 			</div>
 

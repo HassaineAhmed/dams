@@ -11,6 +11,7 @@ body,
 :root {
   ::-webkit-scrollbar {
     display: none;
+        outline: none !important;
 }
   max-width: 100%;
  overflow-x: hidden;
@@ -19,9 +20,12 @@ body,
     --swiper-pagination-color: #244A48;
   --swiper-navigation-color: #244A48;
     --swiper-navigation-size: 22px;
+      outline: none !important;
 
 }
- 
+select {
+      outline: none !important;
+}
 @layer base {
   :root {
     --background: 0 0% 100%;

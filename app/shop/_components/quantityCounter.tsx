@@ -1,24 +1,24 @@
 import { Plus, Minus } from "lucide-react";
 
-export function QuantityCounter({ quantity, setQuantity }: any) {
+export function QuantityCounter({ variation, quantity, setQuantity }: any) {
   return (
-    <div className="grid gap-3">
-      <p className="tracking-wide6 text-[2.145rem] font-bold leading-10">QUANTITY: </p>
+    <div className="grid gap-1">
+      <p className="tracking-wide text-[20px] uppercase font-bold leading-10">QUANTITY: </p>
       <div className="flex justify-start">
-        <div className="flex border-gold border-[1px] bg-sd text-whitish gap-0 items-center">
-          <button
-            className="px-4 py-1"
+        <div className={`flex border-gold border-[2px] text-whitish gap-0 items-center ${variation == 2 ? "bg-pr" : "bg-sd"}`}>
+          <div
+            className="px-4 py-1 cursor-pointer"
             onClick={() => { if (quantity != 1) { setQuantity((prev: any) => prev - 1) } }}>
             <Minus color="#D8B4A0" />
-          </button>
-          <p className="px-4 py-1 border-x-[1px] border-gold text-whitish text-[30px] font-bold">
+          </div>
+          <p className="px-4 py-1 border-x-[2px] border-gold text-whitish text-[30px] font-bold">
             {quantity}
           </p>
-          <button
-            className="px-4 py-1"
+          <div
+            className="px-4 py-1 cursor-pointer"
             onClick={() => { setQuantity((prev: any) => prev + 1) }}>
             <Plus color="#D8B4A0" />
-          </button>
+          </div>
         </div>
       </div>
     </div>

@@ -38,7 +38,9 @@ model Product {
   model        String      @default("")
   orders       Order[]
   category     Category    @relation(references: [name], fields: [categoryName], onDelete: Cascade)
+  revenue      Int         @default(0)
   categoryName String
+  isPaid     Boolean
 }
 
 model Category {
@@ -49,8 +51,15 @@ model Category {
   imageName    ImageName[]
 }
 
+enum OrderStage {
+  delivered
+  gettingDelivered
+  preparing
+  returned
+}
+
 model Order {
-  id                Int      @id @default(autoincrement())
+  id                Int        @id @default(autoincrement())
   productName       String
   fullName          String
   phoneNumber       Int
@@ -61,12 +70,9 @@ model Order {
   size              String
   color             String?
   createdAt         DateTime
-  codePromo         String
-  price             Int
-  isPaid            Boolean  @default(false)
-  isReturned        Boolean  @default(false)
-  revenue           Int      @default(0)
-  product           Product  @relation(fields: [productName], references: [name], onDelete: Cascade)
+  codePromo         String?
+  stage             OrderStage
+  product           Product    @relation(fields: [productName], references: [name], onDelete: Cascade)
 }
 
 model CodePromo {

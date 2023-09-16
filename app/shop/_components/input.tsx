@@ -21,4 +21,21 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 )
 Input.displayName = "Input"
 
-export { Input }
+const Input2 = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, ...props }, ref) => {
+    return (
+      <input
+        type={type}
+        className={cn(
+          "flex bg-pr border-[2px] border-gold whitespace-pre-wrap focus:outline-none text-[20px] font-semibold  placeholder:text-opacity-70  lg:w-[300px]  placeholder:text-white placeholder:opacity-50 placeholder:text-[18px] px-3 py-3",
+          className
+        )}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+
+Input2.displayName = "Input"
+export { Input, Input2 }
