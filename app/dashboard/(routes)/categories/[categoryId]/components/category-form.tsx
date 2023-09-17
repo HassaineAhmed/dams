@@ -101,7 +101,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
           })
       }
     } finally {
-      await axios.get("/api/revalidate-data").catch(e => toast.error("home page is not refreshed"))
+      await fetch("http://localhost:3000/api/revalidate-data", { cache: "no-cache" }).catch(() => console.log("data has not been revalidated"))
       setLoading(false);
     }
   };
@@ -118,7 +118,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
         "Make sure you removed all products using this category first."
       );
     } finally {
-      await axios.get("/api/revalidate-data").catch(e => toast.error("home page is not refreshed"))
+      await fetch("http://localhost:3000/api/revalidate-data", { cache: "no-cache" }).catch(() => console.log("data has not been revalidated"))
       setLoading(false);
       setOpen(false);
     }

@@ -4,6 +4,7 @@ import { Product, Category, FAQ } from "@prisma/client"
 type TProducts = Array<Product & { imagesNames: { imageName: string }[] }>
 
 export async function GET() {
+    console.log("going to query prisma");
     try {
         const start = performance.now();
         const categories: Array<Category & { imageName: Array<{ imageName: string }> }> = await prismadb.category.findMany({
@@ -21,7 +22,7 @@ export async function GET() {
         const products = await prismadb.product.findMany({ include: { imagesNames: { select: { imageName: true } } } });
         const finish = performance.now();
 
-        console.log("time taken : ", finish - start);
+        console.log("time taken to revalidate data : ", finish - start);
         return NextResponse.json({ categories, faqs, tabs_products, products }, { status: 200 })
     } catch {
         return NextResponse.json("server error", { status: 500 })

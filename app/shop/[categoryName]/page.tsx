@@ -18,14 +18,15 @@ export default async function Page({ params }: { params: { categoryName: string 
 	const res = await fetch("http://localhost:3000/api/pages/home", { next: { tags: ["mainData"] } })
 	const { categories } = await res.json()
 	const category = categories.filter((category: Category) => category.name == categoryname)[0]
-
 	return (
 		<div className="max-w-[100%]  flex flex-col items-between min-h-[100vh] overflow-hidden text-whitish animate-fadeInFromUp">
 			<Navbar variation={"withBg"} />
 			<div className="lg:py-10 py-8 pb-4 lg:pb-16 px-4 flex-1 h-[100%]">
 				<div className="">
-					{category?.name &&
-						<p className="text-whitish lg:pl-20 text-start text-[35px] lg:text-[60px] font-bold uppercase" >{category?.name}:</p>
+					{category.Product.length >= 1 ?
+						<p className="text-whitish lg:pl-20 text-start text-[35px] lg:text-[60px] font-bold uppercase" >{category?.name}s:</p>
+						:
+						<p className="text-whitish lg:pl-20 text-center text-[30px] lg:text-[50px] font-bold uppercase" >There are no products yet in this category</p>
 					}
 				</div>
 				<div className="flex flex-wrap lg:gap-y-14 gap-y-6 lg:gap-x-1 justify-center lg:justify-start lg:p-10 lg:px-20 pt-5 ">

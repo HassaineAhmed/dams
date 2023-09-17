@@ -66,8 +66,6 @@ export async function GET(req: NextRequest) {
             bucket: BUCKET,
             key: KEY,
         });
-        console.log(" the no client url ", noClientUrl);
-        //await put(noClientUrl, "Hello World 2");
         return NextResponse.json({ url: noClientUrl }, { status: 200 });
 
     } catch (e) {

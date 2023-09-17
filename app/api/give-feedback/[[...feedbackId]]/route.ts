@@ -7,9 +7,7 @@ function parseStringToNumber(input: any): number | null {
 }
 
 export async function POST(req: NextRequest) {
-    console.log('receievd')
     const { name, email, phone_number, message } = await req.json();
-    console.log(name, email, message)
     try {
         await prismadb.feedback.create({
             data: {

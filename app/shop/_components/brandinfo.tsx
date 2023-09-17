@@ -22,7 +22,6 @@ export function BrandInfo() {
   useEffect(() => {
     if (section && !scrolled) {
       setScrolled(true)
-      console.log("scrolling")
       scroller.scrollTo(section, {
         duration: 1500,
         delay: 100,
@@ -30,7 +29,6 @@ export function BrandInfo() {
         offset: -230,
       })
     }
-    console.log(document)
   }, [section])
 
   const cards = ["1- World Class Quality",

@@ -13,7 +13,6 @@ import { getSignedUrl, S3RequestPresigner } from "@aws-sdk/s3-request-presigner"
 export async function POST(req: NextRequest) {
     const { fileName } = await req.json();
     const bucketName = "dams-images"
-    console.log(fileName);
     const listBucketsCommand = new ListBucketsCommand({});
     const client = new S3Client({
         region: "eu-central-1",
@@ -31,6 +30,5 @@ export async function POST(req: NextRequest) {
     });
 
     const image = await client.send(command)
-    console.log("image : ", image);
     return NextResponse.json({ buckets: image }, { status: 200 })
 }

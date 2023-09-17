@@ -3,7 +3,6 @@ import prismadb from "../../../dashboard/_lib/prismadb";
 
 
 export async function POST(req: NextRequest) {
-    console.log('receievd')
     const { question, answer } = await req.json();
     try {
         await prismadb.fAQ.create({
@@ -22,7 +21,6 @@ export async function POST(req: NextRequest) {
 export async function PATCH(req: NextRequest, { params }: { params: { faqId: Array<string> } }) {
     const { answer, question } = await req.json();
     const [id] = params.faqId
-    console.log(question, answer)
     try {
         const newfaq = await prismadb.fAQ.update({
             where: {

@@ -130,10 +130,11 @@ export function BuyForm2({ product, params }: any) {
           { headers: { "Content-Type": `application/json` } }
         )
         .then(res => {
+          console.log(res.status);
           if (res.status == 200) {
-            toast.success(toastMessage, { duration: 2000 });
+            toast.success(toastMessage);
             router.refresh();
-            //setTimeout(() => { router.push(`/shop`) }, 2000)
+            setTimeout(() => { router.push(`/shop`) }, 2000)
           }
         })
         .catch(async (e) => {
@@ -145,32 +146,8 @@ export function BuyForm2({ product, params }: any) {
     }
   };
 
-  const onDelete = async () => {
-    try {
-      setLoading(true);
-      await axios.delete(`/api/categories/${params.categoryId}`);
-      router.refresh();
-      router.push(`/dashboard/categories`);
-      toast.success("Category deleted.");
-    } catch (error: any) {
-      toast.error(
-        "Make sure you removed all products using this category first."
-      );
-    } finally {
-      await axios.get("/api/revalidate-data").catch(e => toast.error("home page is not refreshed"))
-      setLoading(false);
-      setOpen(false);
-    }
-  };
-
   return (
     <div className="px-10 lg:px-[80px] grid gap-4 py-8">
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onDelete}
-        loading={loading}
-      />
       <div className="flex items-start justify-between">
         <Heading title={title} description={description} />
       </div>

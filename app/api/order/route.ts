@@ -23,18 +23,11 @@ export async function POST(req: NextRequest) {
             size,
             quantity,
             address,
-            productName
         }: formData
             = await req.json();
-        console.log(productName);
-        const product = await prismadb.product.findUnique({ where: { name: productName } })
-        const allProducts = await prismadb.product.findMany();
-        console.log("all prroducts ", allProducts);
-
-        console.log("I found the product:", product)
         await prismadb.order.create({
             data: {
-                product: { connect: { name: productName } },
+                product: { connect: { id: productId } },
                 fullName: name,
                 phoneNumber: phoneNumber,
                 wilaya: wilaya,

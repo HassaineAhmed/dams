@@ -21,6 +21,7 @@ export type ReceivedData = {
     model: string,
     design: string,
     fit: string,
+    revenue: number,
 }
 
 export async function POST(req: NextRequest) {
@@ -43,6 +44,7 @@ export async function POST(req: NextRequest) {
             model,
             design,
             fit,
+            revenue,
         }: ReceivedData = await req.json();
 
         await prismadb.product.create({
@@ -50,6 +52,7 @@ export async function POST(req: NextRequest) {
                 name: name,
                 imagesNames: { create: imagesNames.map(image => ({ imageName: image.imageName })) },
                 price: price,
+                revenue: revenue,
                 isAvailable: isAvailable,
                 isTrending: isTrending,
                 isNewArrival: isNewArrival,
@@ -60,6 +63,7 @@ export async function POST(req: NextRequest) {
                 fit: fit ? fit : "",
                 category: { connect: { name: categoryName } },
                 design: design ? design : "",
+                isPaid: false,
             },
         })
 
@@ -128,6 +132,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { productId:
             model,
             design,
             fit,
+            revenue,
         }: ReceivedData = data;
 
         // look for deletd images to tell prisma to delete them from the database
@@ -176,6 +181,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { productId:
                 fit: fit ? fit : "",
                 category: { connect: { name: categoryName } },
                 design: design ? design : "",
+                revenue: revenue,
             },
         })
         /*

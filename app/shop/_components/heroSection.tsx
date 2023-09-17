@@ -8,9 +8,8 @@ import { Loading } from "../_components/loading"
 
 
 export function HeroSection() {
-  const searchParams = useSearchParams();
-  const section = searchParams.get('section');
-  console.log(section)
+//  const searchParams = useSearchParams();
+ // const section = searchParams.get('section');
   const [loading1, setLoading1] = useState(true);
   const [loading2, setLoading2] = useState(true);
   const [loading3, setLoading3] = useState(true);

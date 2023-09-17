@@ -33,6 +33,7 @@ const formSchema = z.object({
   name: z.string().min(1),
   imagesNames: z.object({ imageName: z.string(), url: z.string().optional() }).array().min(1),
   price: z.coerce.number().min(1),
+  revenue: z.coerce.number().min(1),
   categoryName: z.string().min(1),
   isAvailable: z.boolean().default(false),
   isNewArrival: z.boolean().default(true),
@@ -84,6 +85,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     isTrending: false,
     name: 'product',
     price: 3500,
+    revenue: 1000,
     model: 'Einstein',
     fit: '',
     design: '',
@@ -214,6 +216,19 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Price</FormLabel>
+                  <FormControl>
+                    <Input type="number" disabled={loading} placeholder="9.99" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="revenue"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Revenue</FormLabel>
                   <FormControl>
                     <Input type="number" disabled={loading} placeholder="9.99" {...field} />
                   </FormControl>

@@ -40,7 +40,6 @@ model Product {
   category     Category    @relation(references: [name], fields: [categoryName], onDelete: Cascade)
   revenue      Int         @default(0)
   categoryName String
-  isPaid     Boolean
 }
 
 model Category {

@@ -10,7 +10,7 @@ type TProduct = Product & {
 }
 
 export default async function Page({ params }: { params: { categoryName: string, productId: string } }) {
-	await fetch("http://localhost:3000/api/revalidate-data")
+    await fetch("http://localhost:3000/api/revalidate-data", { cache: "no-cache" }).catch(() => console.log("data has not been revalidated"))
 	const productId = params.productId
 	const categoryName = params.categoryName
 	const res = await fetch("http://localhost:3000/api/pages/home")

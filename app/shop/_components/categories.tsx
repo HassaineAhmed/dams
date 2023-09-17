@@ -42,7 +42,7 @@ export function Categories({ categories }: PropsType) {
         <div className="bg-td flex flex-col justify-center items-center border-[2px] border-gold mx-1 lg:mx-2 gap-8 py-[40px] pb-[60px] ">
           <p className="text-black font-mr font-bold text-4xl pb-3 lg:text-[50px]">Our Categories</p>
           <div style={{ WebkitOverflowScrolling: "touch" }} className="flex lg:gap-8 flex-col lg:flex-row flex-wrap justify-center items-center gap-4">
-            {categories.map((cate) => {
+            {categories?.map((cate) => {
               return <CategoryEntry key={cate.name} cate={cate} />
             }
             )}
