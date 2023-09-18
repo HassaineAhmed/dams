@@ -1,12 +1,13 @@
 import Image from "next/image"
 import { Product } from "@prisma/client"
 import { PuffSpinner } from "../../dashboard/_components/ui/loader"
+import Link from "next/link"
 
 export default function ProductComponent({ product }: { product: Product & { imagesNames: Array<{ imageName: string }> } }) {
 	if (!product) {
 		return <></>
 	}
-	return <div className="flex max-w-[50vw] lg:max-w-[405px] justify-center items-center">
+	return <Link href={`/shop/${product.categoryName}/${product.id}/`} className="flex max-w-[50vw] lg:max-w-[405px] justify-center items-center">
 		<div className="flex flex-col justify-center items-start gap-2">
 			<div className="p-0 w-auto px-0 mx-0 overflow-hidden flex justify-center items-center animate-pulse">
 				<div className="absolute z-0">
@@ -19,5 +20,5 @@ export default function ProductComponent({ product }: { product: Product & { ima
 				<p className="text-[15px] font-semibold lg:font-medium lg:text-[22px]">{product.price} DZD</p>
 			</div>
 		</div>
-	</div>
+	</Link>
 }

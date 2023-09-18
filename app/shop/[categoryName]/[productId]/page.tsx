@@ -4,20 +4,24 @@ import { DownFooter } from "../../_components/footer"
 import { ImagesScroller } from "../../_components/imagesScroller"
 import { BuyForm1 } from "../../_components/buyForm1"
 import { Product } from "@prisma/client"
+import { NotFoundPage } from "../../_components/notFoundPage"
 
 type TProduct = Product & {
 	imagesNames: { imageName: string }[]
 }
 
 export default async function Page({ params }: { params: { categoryName: string, productId: string } }) {
-    await fetch("http://localhost:3000/api/revalidate-data", { cache: "no-cache" }).catch(() => console.log("data has not been revalidated"))
 	const productId = params.productId
 	const categoryName = params.categoryName
-	const res = await fetch("http://localhost:3000/api/pages/home")
+	const res = await fetch("http://localhost:3000/api/pages/home", { next: { tags: ["mainData"] } })
 	const data = await res.json()
 
 	let products = data.products
 	const product: TProduct = products.filter((product: Product) => product.id == productId)[0];
+	if (!product) {
+		return <NotFoundPage />
+	}
+
 	const productinfoFirst = "uppercase lg:text-[2.9rem] text-[29px] font-bold leading-10"
 	const productinfoFirst2 = " uppercase lg:text-[2.6rem] text-[29px] font-bold leading-10"
 	const productinfoSecond = "text-gold w-96 text-[19px] lg:text-[1.47rem] text-gold font-bold leading-relaxed tracking-widest"

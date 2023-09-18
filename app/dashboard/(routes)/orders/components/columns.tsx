@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { CellAction } from "./cell-action"
+import { CellAction, StageCellAction } from "./cell-action"
 
 
 export type OrderColumn = {
@@ -12,6 +12,7 @@ export type OrderColumn = {
   wilaya: string,
   address: string,
   revenue: number,
+  stage: string
 }
 
 export const columns: ColumnDef<OrderColumn>[] = [
@@ -26,6 +27,10 @@ export const columns: ColumnDef<OrderColumn>[] = [
   {
     accessorKey: "date",
     header: "Date",
+  },
+  {
+    accessorKey: "name",
+    header: "Name",
   },
   {
     accessorKey: "phoneNumber",
@@ -44,11 +49,11 @@ export const columns: ColumnDef<OrderColumn>[] = [
     header: "Revenue",
   },
   {
-    accessorKey: "stage",
-    header: "Stage",
+    header: "stage",
+    cell: ({ row }) => <StageCellAction orderId={row.original.id} previousStage={row.original.stage} />,
   },
   {
     id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />
+    cell: ({ row }) => { return <CellAction data={row.original} /> }
   },
 ];

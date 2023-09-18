@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server"
-import prismadb from "../../dashboard/_lib/prismadb";
+import prismadb from "../../../dashboard/_lib/prismadb";
 
 
 type formData = {
@@ -12,6 +12,32 @@ type formData = {
     quantity: number,
     address: string,
 }
+
+export async function PATCH(req: NextRequest) {
+    try {
+        const { stage, orderId } = await req.json();
+        console.log(orderId)
+        await prismadb.order.update({ where: { id: orderId }, data: { stage: stage } })
+        return NextResponse.json("order staged updated succesffuly", { status: 200 })
+    } catch (e) {
+        console.log(e)
+        return NextResponse.json("server error", { status: 500 })
+    }
+}
+
+export async function DELETE(req: NextRequest, { params }: { params: { orderId: Array<number> } }) {
+    try {
+        const [orderId] = params.orderId
+        if (orderId && !isNaN(Number(orderId))) {
+            await prismadb.order.delete({ where: { id: Number(orderId) } })
+        }
+        return NextResponse.json("order deleted updated succesffuly", { status: 200 })
+    } catch (e) {
+        console.log(e)
+        return NextResponse.json("server error", { status: 500 })
+    }
+}
+
 
 export async function POST(req: NextRequest) {
     try {

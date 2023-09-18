@@ -4,7 +4,7 @@ import * as z from "zod";
 import axios from "~/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react"
 import { QuantityCounter } from "./quantityCounter";
@@ -21,7 +21,6 @@ import {
 } from "@/_components/ui/form";
 import { Separator } from "@/_components/ui/separator";
 import { Heading } from "@/_components/ui/heading";
-import { AlertModal } from "@/_components/modals/alert-modal";
 import {
   Select,
   SelectContent,
@@ -31,56 +30,7 @@ import {
 } from "@/_components/ui/select";
 import { SizerPicker } from "./sizesPicker";
 
-const wilayas = [
-  "Adrar - 01",
-  "Chlef - 02",
-  "Laghouat - 03",
-  "Oum El Bouaghi - 04",
-  "Batna - 05",
-  "Béjaïa - 06",
-  "Biskra - 07",
-  "Béchar - 08",
-  "Blida - 09",
-  "Bouira - 10",
-  "Tamanghasset - 11",
-  "Tébessa - 12",
-  "Tlemcen - 13",
-  "Tiaret - 14",
-  "Tizi Ouzou - 15",
-  "Algiers - 16",
-  "Djelfa - 17",
-  "Jijel - 18",
-  "Sétif - 19",
-  "Saïda - 20",
-  "Skikda - 21",
-  "Sidi Bel Abbès - 22",
-  "Annaba - 23",
-  "Guelma - 24",
-  "Constantine - 25",
-  "Médéa - 26",
-  "Mostaganem - 27",
-  "M'Sila - 28",
-  "Mascara - 29",
-  "Ouargla - 30",
-  "Oran - 31",
-  "El Bayadh - 32",
-  "Illizi - 33",
-  "Bordj Bou Arréridj - 34",
-  "Boumerdès - 35",
-  "El Tarf - 36",
-  "Tindouf - 37",
-  "Tissemsilt - 38",
-  "El Oued - 39",
-  "Khenchela - 40",
-  "Souk Ahras - 41",
-  "Tipaza - 42",
-  "Mila - 43",
-  "Aïn Defla - 44",
-  "Naâma - 45",
-  "Aïn Témouchent - 46",
-  "Ghardaïa - 47",
-  "Relizane - 48",
-];
+const wilayas = ["Adrar - 01", "Chlef - 02", "Laghouat - 03", "Oum El Bouaghi - 04", "Batna - 05", "Béjaïa - 06", "Biskra - 07", "Béchar - 08", "Blida - 09", "Bouira - 10", "Tamanghasset - 11", "Tébessa - 12", "Tlemcen - 13", "Tiaret - 14", "Tizi Ouzou - 15", "Algiers - 16", "Djelfa - 17", "Jijel - 18", "Sétif - 19", "Saïda - 20", "Skikda - 21", "Sidi Bel Abbès - 22", "Annaba - 23", "Guelma - 24", "Constantine - 25", "Médéa - 26", "Mostaganem - 27", "M'Sila - 28", "Mascara - 29", "Ouargla - 30", "Oran - 31", "El Bayadh - 32", "Illizi - 33", "Bordj Bou Arréridj - 34", "Boumerdès - 35", "El Tarf - 36", "Tindouf - 37", "Tissemsilt - 38", "El Oued - 39", "Khenchela - 40", "Souk Ahras - 41", "Tipaza - 42", "Mila - 43", "Aïn Defla - 44", "Naâma - 45", "Aïn Témouchent - 46", "Ghardaïa - 47", "Relizane - 48",];
 
 const formSchema = z.object({
   name: z.string().min(2),
@@ -98,7 +48,7 @@ export function BuyForm2({ product, params }: any) {
   const router = useRouter();
   const querySize = queryList.get('size')
   const nullableQuantity = queryList.get("quantity");
-  const [open, setOpen] = useState(false);
+  //const [open, setOpen] = useState(false);
   const [quantity, setQuantity] = useState(nullableQuantity ? parseInt(nullableQuantity) : 1);
   const [size, setSize] = useState(querySize ? querySize : "");
   const [loading, setLoading] = useState(false);
@@ -129,13 +79,10 @@ export function BuyForm2({ product, params }: any) {
           { ...data, productName: product.name, size, quantity, productId: product.id },
           { headers: { "Content-Type": `application/json` } }
         )
-        .then(res => {
-          console.log(res.status);
-          if (res.status == 200) {
-            toast.success(toastMessage);
-            router.refresh();
-            setTimeout(() => { router.push(`/shop`) }, 2000)
-          }
+        .then((res) => {
+          toast.success(toastMessage, { duration: 3000 });
+          router.refresh();
+          setTimeout(() => { router.push(`/shop`) }, 3000)
         })
         .catch(async (e) => {
           console.log(e);
@@ -148,6 +95,7 @@ export function BuyForm2({ product, params }: any) {
 
   return (
     <div className="px-10 lg:px-[80px] grid gap-4 py-8">
+      <Toaster />
       <div className="flex items-start justify-between">
         <Heading title={title} description={description} />
       </div>
@@ -207,7 +155,7 @@ export function BuyForm2({ product, params }: any) {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger className="focus-visible:ring-0 border-gold bg-pr rounded-none border-[2px] text-whitish h-[60px] outline-none !important">
+                        <SelectTrigger disabled={loading} className="focus-visible:ring-0 border-gold bg-pr rounded-none border-[2px] text-whitish h-[60px] outline-none !important">
                           <SelectValue
                             defaultValue={field.value}
                             placeholder="Wilaya"
@@ -252,7 +200,7 @@ export function BuyForm2({ product, params }: any) {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <QuantityCounter variation={2} quantity={quantity} setQuantity={setQuantity} />
+                    <QuantityCounter disabled={loading} variation={2} quantity={quantity} setQuantity={setQuantity} />
                   </FormControl>
                 </FormItem>
               )} />
@@ -262,7 +210,7 @@ export function BuyForm2({ product, params }: any) {
               render={({ field }) => (
                 <FormItem>
                   <FormControl >
-                    <SizerPicker size={size} setSize={setSize} variation={2} />
+                    <SizerPicker disabled={loading} size={size} setSize={setSize} variation={2} />
                   </FormControl>
                 </FormItem>
               )} />

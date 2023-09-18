@@ -45,9 +45,6 @@ export function DataTable<TData, TValue>({
       columnFilters,
     }
   });
-  const tableRowsContent = table.getRowModel().flatRows;
-  console.log(data)
-
   return (
     <div>
       <div className="flex items-center py-4">
@@ -64,8 +61,9 @@ export function DataTable<TData, TValue>({
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
+              <TableRow
+                key={headerGroup.id}>
+                {headerGroup.headers.map((header: any) => {
                   return (
                     <TableHead key={header.id}>
                       {header.isPlaceholder
@@ -88,11 +86,8 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
+                  data-state={row.getIsSelected() && "selected"} >
                   {row.getVisibleCells().map((cell) => {
-                    //console.log("column:", cell.column.columnDef?.accessorKey)
-                    //console.log("context :", cell.getContext())
                     return (
                       <TableCell key={cell.id}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}

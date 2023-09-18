@@ -4,8 +4,7 @@ import { OrderColumn } from "./components/columns"
 import { OrdersClient } from "./components/client";
 
 const CategoriesPage = async () => {
-  const orders = await prismadb.order.findMany({ include: { product: { select: { revenue: true } } } });
-
+  const orders = await prismadb.order.findMany({ orderBy: [{ id: "desc" }], include: { product: { select: { revenue: true } } } });
   const formattedOrders: OrderColumn[] = orders.map((item) => ({
     id: item.id,
     product: item.productName,
@@ -13,7 +12,9 @@ const CategoriesPage = async () => {
     wilaya: item.wilaya,
     address: item.fullAdress,
     revenue: item.product.revenue,
-    phoneNumber: item.phoneNumber
+    phoneNumber: item.phoneNumber,
+    name: item.fullName,
+    stage: item.stage
   }));
 
   return (

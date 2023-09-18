@@ -4,8 +4,6 @@ import { useSearchParams } from "next/navigation"
 import Image from "next/image"
 import { scroller } from "react-scroll"
 
-import { revalidatePath } from "next/cache"
-
 export function BrandInfo() {
   function Card({ content }: { content: string }) {
     return <div className={` lg:w-[390px] lg:h-[70px] animate-slideInFromLeft flex justify-center items-center bg-td py-3 lg:py-[16px] text-center w-[90%]`}>

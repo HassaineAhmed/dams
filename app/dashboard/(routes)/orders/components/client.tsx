@@ -2,7 +2,6 @@
 
 import { useParams, useRouter } from "next/navigation";
 
-import { Button } from "@/_components/ui/button";
 import { DataTable } from "@/_components/ui/orderDataTable";
 import { Heading } from "@/_components/ui/heading";
 import { Separator } from "@/_components/ui/separator";
@@ -20,10 +19,10 @@ export const OrdersClient: React.FC<CategoriesClientProps> = ({
   return (
     <>
       <div className="flex flex-col lg:flex-row lg:items-center items-start gap-4 justify-between">
-        <Heading title={`Categories (${data.length})`} description="Manage Order for your store" />
+        <Heading title={`Orders (${data.length})`} description="Manage Order for your store" />
       </div>
       <Separator />
-      <DataTable searchKey="name" columns={columns} data={data} />
+      <DataTable searchKey="phoneNumber" columns={columns} data={data} />
     </>
   );
 };
