@@ -13,7 +13,7 @@ type TProduct = Product & {
 export default async function Page({ params }: { params: { categoryName: string, productId: string } }) {
 	const productId = params.productId
 	const categoryName = params.categoryName
-	const res = await fetch("http://localhost:3000/api/pages/home", { next: { tags: ["mainData"] } })
+	const res = await fetch("https://dams-shop.vercel.app/api/pages/home", { next: { tags: ["mainData"] } })
 	const data = await res.json()
 
 	let products = data.products

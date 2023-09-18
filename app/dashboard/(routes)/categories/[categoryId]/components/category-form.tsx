@@ -101,7 +101,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
           })
       }
     } finally {
-      await fetch("http://localhost:3000/api/revalidate-data", { cache: "no-cache" }).catch(() => console.log("data has not been revalidated"))
+      await fetch("https://dams-shop.vercel.app/api/revalidate-data", { cache: "no-cache" }).catch(() => console.log("data has not been revalidated"))
       setLoading(false);
     }
   };
@@ -118,7 +118,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
         "Make sure you removed all products using this category first."
       );
     } finally {
-      await fetch("http://localhost:3000/api/revalidate-data", { cache: "no-cache" }).catch(() => console.log("data has not been revalidated"))
+      await fetch("https://dams-shop.vercel.app/api/revalidate-data", { cache: "no-cache" }).catch(() => console.log("data has not been revalidated"))
       setLoading(false);
       setOpen(false);
     }
