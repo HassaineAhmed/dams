@@ -36,7 +36,8 @@ const ProductPage = async ({
       imagesNames: unFormatedProduct.imagesNames,
       model: unFormatedProduct.model,
       fit: unFormatedProduct.fit,
-      design: unFormatedProduct.design
+      design: unFormatedProduct.design,
+      revenue: unFormatedProduct.revenue
     }
   }
 

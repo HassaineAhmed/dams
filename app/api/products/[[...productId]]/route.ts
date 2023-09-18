@@ -63,7 +63,6 @@ export async function POST(req: NextRequest) {
                 fit: fit ? fit : "",
                 category: { connect: { name: categoryName } },
                 design: design ? design : "",
-                isPaid: false,
             },
         })
 
