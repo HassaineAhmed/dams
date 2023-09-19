@@ -101,7 +101,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
           })
       }
     } finally {
-      await fetch("https://dams-shop.vercel.app/api/revalidate-data", { cache: "no-cache" }).catch(() => console.log("data has not been revalidated"))
+      await fetch("https://dams-shop.vercel.app/api/revalidate-data", { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
+        .catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
     }
   };
@@ -118,7 +119,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
         "Make sure you removed all products using this category first."
       );
     } finally {
-      await fetch("https://dams-shop.vercel.app/api/revalidate-data", { cache: "no-cache" }).catch(() => console.log("data has not been revalidated"))
+      await fetch("https://dams-shop.vercel.app/api/revalidate-data", { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
+        .catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
       setOpen(false);
     }

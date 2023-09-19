@@ -88,7 +88,8 @@ export const FAQsForm: React.FC<FAQsFormProps> = ({ initialData }) => {
           })
       }
     } finally {
-      await axios.get("/api/revalidate-data").catch(e => toast.error("home page is not refreshed"))
+      await fetch("https://dams-shop.vercel.app/api/revalidate-data", { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
+        .catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
     }
   };
@@ -105,7 +106,8 @@ export const FAQsForm: React.FC<FAQsFormProps> = ({ initialData }) => {
         "There is an error"
       );
     } finally {
-      await axios.get("/api/revalidate-data").catch(e => toast.error("home page is not refreshed"))
+      await fetch("https://dams-shop.vercel.app/api/revalidate-data", { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
+        .catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
       setOpen(false);
     }

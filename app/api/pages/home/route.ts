@@ -1,11 +1,12 @@
-import { NextResponse, NextRequest } from "next/server";
-import prismadb from "next/font/app/dashboard/_lib/prismadb";
+import { NextResponse } from "next/server";
 import { Product, Category, FAQ } from "@prisma/client"
+import prismadb from "next/font/app/dashboard/_lib/prismadb";
 type TProducts = Array<Product & { imagesNames: { imageName: string }[] }>
 
 export async function GET() {
     console.log("going to query prisma");
     try {
+        console.log("why is this not working!");
         const start = performance.now();
         const categories: Array<Category & { imageName: Array<{ imageName: string }> }> = await prismadb.category.findMany({
             include:
@@ -24,7 +25,8 @@ export async function GET() {
 
         console.log("time taken to revalidate data : ", finish - start);
         return NextResponse.json({ categories, faqs, tabs_products, products }, { status: 200 })
-    } catch {
+    } catch (e) {
+        console.log(e)
         return NextResponse.json("server error", { status: 500 })
     }
 }
