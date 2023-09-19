@@ -24,6 +24,7 @@ import { Separator } from "@/_components/ui/separator";
 import { Heading } from "@/_components/ui/heading";
 import { AlertModal } from "@/_components/modals/alert-modal";
 
+
 const formSchema = z.object({
   question: z.string().min(2),
   answer: z.string().min(2),
@@ -88,7 +89,7 @@ export const FAQsForm: React.FC<FAQsFormProps> = ({ initialData }) => {
           })
       }
     } finally {
-      await fetch("https://dams-shop.vercel.app/api/revalidate-data", { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
+      await fetch(`/api/revalidate-data`, { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
         .catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
     }
@@ -106,7 +107,7 @@ export const FAQsForm: React.FC<FAQsFormProps> = ({ initialData }) => {
         "There is an error"
       );
     } finally {
-      await fetch("https://dams-shop.vercel.app/api/revalidate-data", { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
+      await fetch(`/api/revalidate-data`, { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
         .catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
       setOpen(false);

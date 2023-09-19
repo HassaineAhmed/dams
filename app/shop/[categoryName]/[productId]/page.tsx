@@ -6,14 +6,17 @@ import { BuyForm1 } from "../../_components/buyForm1"
 import { Product } from "@prisma/client"
 import { NotFoundPage } from "../../_components/notFoundPage"
 
+
 type TProduct = Product & {
 	imagesNames: { imageName: string }[]
 }
 
+const domainName = process.env.DOMAIN_NAME
+
 export default async function Page({ params }: { params: { categoryName: string, productId: string } }) {
 	const productId = params.productId
 	const categoryName = params.categoryName
-	const res = await fetch("https://dams-shop.vercel.app/api/pages/home", { next: { tags: ["mainData"] } })
+	const res = await fetch(`${domainName}/api/pages/home`, { next: { tags: ["mainData"] } })
 	const data = await res.json()
 
 	let products = data.products

@@ -32,6 +32,7 @@ import {
   SelectValue,
 } from "@/_components/ui/select";
 
+
 const formSchema = z.object({
   name: z.string().min(2),
   imageName: z.object({ imageName: z.string(), url: z.string().optional() }).array(),
@@ -103,7 +104,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     } finally {
       console.log("going to revalidate");
       await axios.get("/api/revalidate-data");
-      await fetch("https://dams-shop.vercel.app/api/revalidate-data", { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
+      await fetch(`/api/revalidate-data`, { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
         .catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
     }
@@ -112,16 +113,16 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/categories/${params.categoryId}`);
+      await axios.delete(`/ api / categories / ${params.categoryId}`);
       router.refresh();
-      router.push(`/dashboard/categories`);
+      router.push(`/ dashboard / categories`);
       toast.success("Category deleted.");
     } catch (error: any) {
       toast.error(
         "Make sure you removed all products using this category first."
       );
     } finally {
-      await fetch("https://dams-shop.vercel.app/api/revalidate-data", { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
+      await fetch(`/api/revalidate-data`, { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
         .catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
       setOpen(false);

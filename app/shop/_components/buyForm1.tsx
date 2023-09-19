@@ -11,7 +11,7 @@ export function BuyForm1({ categoryName, productId }: { categoryName: string, pr
   return <div className="grid gap-5">
     <div className="grid gap-3">
       <SizerPicker size={size} setSize={setSize} />
-      { showError && <p className="uppercase text-red-300 font-bold">please pick a size</p>}
+      {(showError && size == "") && <p className="uppercase text-red-300 font-bold">please pick a size</p>}
       <QuantityCounter quantity={quantity} setQuantity={setQuantity} />
     </div>
     {size == "" ?

@@ -6,7 +6,6 @@ type TProducts = Array<Product & { imagesNames: { imageName: string }[] }>
 export async function GET() {
     console.log("going to query prisma");
     try {
-        console.log("why is this not working!");
         const start = performance.now();
         const categories: Array<Category & { imageName: Array<{ imageName: string }> }> = await prismadb.category.findMany({
             include:

@@ -4,12 +4,14 @@ import { Categories } from "./_components/categories"
 import { TabSection } from "./_components/tabSections"
 import { FAQs } from "./_components/faqs"
 import { ContactFooter, DownFooter } from "./_components/footer"
+import { revalidateTag } from "next/cache"
 
 export default async function Shop() {
-  console.log("home page");
-  const res = await fetch("https://dams-shop.vercel.app/api/pages/home", { next: { tags: ["mainData"] }, method: "GET", cache: "no-cache" })
-  const { categories, tabs_products, products, faqs } = await res.json()
-  console.log(products);
+  const domainName = process.env.DOMAIN_NAME
+  //revalidateTag("mainData")
+//  await fetch(`${domainName}/api/revalidate-data` , { method : "GET", cache : "no-cache"}).then( res => console.log("data revalidated"));
+  const res = await fetch(`${domainName}/api/pages/home`, { next: { tags: ["mainData"] }, method: "GET" })
+  const { categories, tabs_products, faqs } = await res.json()
 
   return (<div className="pt-1 lg:pt-2 flex bg-pr lg:gap-2 flex-col gap-1">
     <HeroSection />

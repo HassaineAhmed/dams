@@ -1,6 +1,9 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import { DM_Sans, Inter, Lora, Merriweather } from "next/font/google";
 import './globals.css'
+import dotenv from "dotenv"
+
+dotenv.config();
 
 const inter = Inter({ subsets: ["latin"] });
 const dm_sans = DM_Sans({ subsets: ["latin"], variable: "--font-ds", display: "swap" });

@@ -13,9 +13,11 @@ type TProduct = {
 	imagesNames: { imageName: string }[]
 }
 
+const domainName = process.env.DOMAIN_NAME
+
 export default async function Page({ params }: { params: { categoryName: string } }) {
 	const categoryname = params.categoryName
-	const res = await fetch("https://dams-shop.vercel.app/api/pages/home", { next: { tags: ["mainData"] } })
+	const res = await fetch(`${domainName}/api/pages/home`, { next: { tags: ["mainData"] } })
 	const { categories } = await res.json()
 	const category = categories.filter((category: Category) => category.name == categoryname)[0]
 	return (
@@ -32,12 +34,13 @@ export default async function Page({ params }: { params: { categoryName: string 
 				<div className="flex flex-wrap lg:gap-y-14 gap-y-6 lg:gap-x-1 justify-center lg:justify-start lg:p-10 lg:px-20 pt-5 ">
 					{category?.Product.map((product: TProduct) => <Link key={product.name} href={`/shop/${categoryname}/${product.id}`}>
 						<Itemo src={`https://dams-images.s3.eu-central-1.amazonaws.com/${product.imagesNames[0].imageName}`} descreption={product.name} price={product.price} /> </Link>
-					)}
+					)
+					}
 
-				</div>
-			</div>
+				</div >
+			</div >
 			<DownFooter />
-		</div>
+		</div >
 	)
 }
 

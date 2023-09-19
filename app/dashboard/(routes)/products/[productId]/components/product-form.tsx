@@ -29,6 +29,8 @@ import ImageUpload from "@/_components/ui/image-upload"
 import { Checkbox } from "@/_components/ui/checkbox"
 
 
+
+
 const formSchema = z.object({
   name: z.string().min(1),
   imagesNames: z.object({ imageName: z.string(), url: z.string().optional() }).array().min(1),
@@ -119,11 +121,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         await axios.post(`/api/products`, data)
           .then(async (res) => {
             if (res.status == 200) {
-              console.log("going to revalidate");
-              await axios.get("/api/revalidate-data");
-              console.log("going to revalidate for the first time")
-              await fetch("https://dams-shop.vercel.app/api/revalidate-data", { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
-                .catch(e => toast.error("home page is not refreshed"))
               router.refresh();
               router.push(`/dashboard/products`);
               toast.success(toastMessage);
@@ -137,9 +134,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     } catch (error: any) {
       toast.error('Something went wrong.');
     } finally {
-      console.log("going to revalidate");
-      await axios.get("/api/revalidate-data");
-      await fetch("https://dams-shop.vercel.app/api/revalidate-data", { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
+      await fetch(`/api/revalidate-data`, { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
         .catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
     }
@@ -155,7 +150,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     } catch (error: any) {
       toast.error('Something went wrong.');
     } finally {
-      await fetch("https://dams-shop.vercel.app/api/revalidate-data", { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
+      await fetch(`/api/revalidate-data`, { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
         .catch(e => toast.error("home page is not refreshed"))
       setLoading(false);
       setOpen(false);

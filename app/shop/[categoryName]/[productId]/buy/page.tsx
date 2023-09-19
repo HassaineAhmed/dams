@@ -1,10 +1,13 @@
 import { BuyForm2 } from "../../../_components/buyForm2";
 import { DownFooter } from "../../../_components/footer";
 import { Navbar } from "../../../_components/navbar";
+
+const domainName = process.env.DOMAIN_NAME
+
 export default async function BuyPage({ params }: any) {
     //const categoryName = params.categoryName;
     const productId = params.productId;
-    const res = await fetch("https://dams-shop.vercel.app/api/pages/home", { next: { tags: ["mainData"] } });
+    const res = await fetch(`${domainName}/api/pages/home`, { next: { tags: ["mainData"] } });
     const { products } = await res.json();
     const product = products.filter((p: any) => p.id == productId)[0];
     return (
