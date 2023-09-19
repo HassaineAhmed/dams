@@ -3,17 +3,18 @@ import { Product } from "@prisma/client"
 import { PuffSpinner } from "../../dashboard/_components/ui/loader"
 import Link from "next/link"
 
+
 export default function ProductComponent({ product }: { product: Product & { imagesNames: Array<{ imageName: string }> } }) {
 	if (!product) {
 		return <></>
 	}
-	return <Link href={`/shop/${product.categoryName}/${product.id}/`} className="flex max-w-[50vw] lg:max-w-[405px] justify-center items-center">
+	return <Link href={`/shop/${product.categoryName}/${product.id}/`} className="flex mx-[0px] lg:mx-[8px] max-w-[50vw] lg:max-w-[405px] justify-center items-center">
 		<div className="flex flex-col justify-center items-start gap-2">
-			<div className="p-0 w-auto px-0 mx-0 overflow-hidden flex justify-center items-center animate-pulse">
+			<div className="bg-sd relative max-w-[180px] flex justify-center items-center lg:max-w-[420px] lg:max-h-[420px] max-h-[180px] animate-pulse">
 				<div className="absolute z-0">
 					<PuffSpinner color={"#D8B4A0"} />
 				</div>
-				<Image className="z-10 bg-sd" src={`https://dams-images.s3.eu-central-1.amazonaws.com/${product.imagesNames[0].imageName}`} height={800} width={800} alt="product" />
+				<Image className="w-[350px] z-10 lg:w-[420px] lg:h-[420px] border-0 h-[350]" alt="product image" height={800} width={800} src={`https://dams-images.s3.eu-central-1.amazonaws.com/${product.imagesNames[0].imageName}`} />
 			</div>
 			<div className="flex flex-col justify-start ml-[1px] items-start gap-0">
 				<p className="uppercase font-bold text-[15px]  lg:text-[25px] lg:font-bold font-mr">{product.name}</p>

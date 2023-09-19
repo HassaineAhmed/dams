@@ -10,6 +10,7 @@ type TProducts = Array<Product & { imagesNames: { imageName: string }[] }>
 export function TabSection({ products }: { products: TProducts }) {
   const searchParams = useSearchParams()
   const section = searchParams.get('section')
+
   useEffect(() => {
     if (section == "tabSectionMen") {
       setGender("male")
