@@ -7,6 +7,8 @@ import { ContactFooter, DownFooter } from "./_components/footer"
 import { revalidateTag } from "next/cache"
 import axios from "~/axios"
 
+export const dynamic = 'force-dynamic'
+
 export default async function Shop() {
   const domainName = process.env.DOMAIN_NAME
   //revalidateTag("mainData")
