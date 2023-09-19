@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: { categoryName: string 
 			<div className="lg:py-10 py-8 pb-4 lg:pb-16 px-4 flex-1 h-[100%]">
 				<div className="">
 					{category.Product.length >= 1 ?
-						<p className="text-whitish lg:pl-20 text-start text-[35px] lg:text-[60px] font-bold uppercase" >{category?.name}s:</p>
+						<p className="text-whitish lg:pl-20 text-start text-[35px] lg:text-[60px] font-bold uppercase" >{category?.name}:</p>
 						:
 						<p className="text-whitish lg:pl-20 text-center text-[30px] lg:text-[50px] font-bold uppercase" >There are no products yet in this category</p>
 					}
