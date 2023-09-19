@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
-import { Product, Category, FAQ } from "@prisma/client"
+import { NextResponse, NextRequest } from "next/server";
 import prismadb from "next/font/app/dashboard/_lib/prismadb";
+import { Product, Category, FAQ } from "@prisma/client"
 type TProducts = Array<Product & { imagesNames: { imageName: string }[] }>
 
 export async function GET() {
@@ -24,8 +24,7 @@ export async function GET() {
 
         console.log("time taken to revalidate data : ", finish - start);
         return NextResponse.json({ categories, faqs, tabs_products, products }, { status: 200 })
-    } catch (e) {
-        console.log(e)
+    } catch {
         return NextResponse.json("server error", { status: 500 })
     }
 }

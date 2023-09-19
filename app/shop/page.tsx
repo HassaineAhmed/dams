@@ -5,16 +5,17 @@ import { TabSection } from "./_components/tabSections"
 import { FAQs } from "./_components/faqs"
 import { ContactFooter, DownFooter } from "./_components/footer"
 import { revalidateTag } from "next/cache"
-import axios from "~/axios"
+import { getCategories, getFAQs, getTabsProducts } from "./_utils/getMainData"
 
-export const dynamic = 'force-dynamic'
 
 export default async function Shop() {
   const domainName = process.env.DOMAIN_NAME
   //revalidateTag("mainData")
-  //  await fetch(`${domainName}/api/revalidate-data` , { method : "GET", cache : "no-cache"}).then( res => console.log("data revalidated"));
-  const res = await axios.get("/api/pages/home")
-  const { categories, tabs_products, faqs } = res.data
+  //await fetch(`${domainName}/api/revalidate-data` , { method : "GET", cache : "no-cache"}).then( res => console.log("data revalidated"));
+  //const res = await axios.get("/api/pages/home")
+  const categories = await getCategories();
+  const faqs = await getFAQs();
+  const tabs_products = await getTabsProducts();
 
   return (<div className="pt-1 lg:pt-2 flex bg-pr lg:gap-2 flex-col gap-1">
     <HeroSection />
