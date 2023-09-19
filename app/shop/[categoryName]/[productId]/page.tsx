@@ -5,6 +5,7 @@ import { ImagesScroller } from "../../_components/imagesScroller"
 import { BuyForm1 } from "../../_components/buyForm1"
 import { Product } from "@prisma/client"
 import { NotFoundPage } from "../../_components/notFoundPage"
+import { getProducts } from "../../_utils/getMainData"
 
 
 type TProduct = Product & {
@@ -16,10 +17,9 @@ const domainName = process.env.DOMAIN_NAME
 export default async function Page({ params }: { params: { categoryName: string, productId: string } }) {
 	const productId = params.productId
 	const categoryName = params.categoryName
-	const res = await fetch(`${domainName}/api/pages/home`, { next: { tags: ["mainData"] } })
-	const data = await res.json()
+	//const res = await fetch(`${domainName}/api/pages/home`, { next: { tags: ["mainData"] } })
+	const products = await getProducts();
 
-	let products = data.products
 	const product: TProduct = products.filter((product: Product) => product.id == productId)[0];
 	if (!product) {
 		return <NotFoundPage />

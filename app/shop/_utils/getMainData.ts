@@ -10,7 +10,7 @@ type TReturn = {
 }
 
 export async function getCategories() {
-    const categories: Array<Category & { imageName: Array<{ imageName: string }> }> = await prismadb.category.findMany({
+    const categories = await prismadb.category.findMany({
         include:
             { imageName: { select: { imageName: true } }, Product: { include: { imagesNames: { select: { imageName: true } } } } }
     });

@@ -4,6 +4,7 @@ import { Category } from "@prisma/client"
 import { DownFooter } from "../_components/footer"
 import { PuffSpinner } from "@/_components/ui/loader";
 import Link from "next/link"
+import { getCategories } from "../_utils/getMainData";
 
 
 type TProduct = {
@@ -17,8 +18,8 @@ const domainName = process.env.DOMAIN_NAME
 
 export default async function Page({ params }: { params: { categoryName: string } }) {
 	const categoryname = params.categoryName
-	const res = await fetch(`${domainName}/api/pages/home`, { next: { tags: ["mainData"] } })
-	const { categories } = await res.json()
+	//const res = await fetch(`${domainName}/api/pages/home`, { next: { tags: ["mainData"] } })
+	const categories = await getCategories()
 	const category = categories.filter((category: Category) => category.name == categoryname)[0]
 	return (
 		<div className="max-w-[100%]  flex flex-col items-between min-h-[100vh] overflow-hidden text-whitish animate-fadeInFromUp">
@@ -34,8 +35,7 @@ export default async function Page({ params }: { params: { categoryName: string 
 				<div className="flex flex-wrap lg:gap-y-14 gap-y-6 lg:gap-x-1 justify-center lg:justify-start lg:p-10 lg:px-20 pt-5 ">
 					{category?.Product.map((product: TProduct) => <Link key={product.name} href={`/shop/${categoryname}/${product.id}`}>
 						<Itemo src={`https://dams-images.s3.eu-central-1.amazonaws.com/${product.imagesNames[0].imageName}`} descreption={product.name} price={product.price} /> </Link>
-					)
-					}
+					) }
 
 				</div >
 			</div >

@@ -1,14 +1,15 @@
 import { BuyForm2 } from "../../../_components/buyForm2";
 import { DownFooter } from "../../../_components/footer";
 import { Navbar } from "../../../_components/navbar";
+import { getProducts } from "../../../_utils/getMainData";
 
 const domainName = process.env.DOMAIN_NAME
 
 export default async function BuyPage({ params }: any) {
     //const categoryName = params.categoryName;
     const productId = params.productId;
-    const res = await fetch(`${domainName}/api/pages/home`, { next: { tags: ["mainData"] } });
-    const { products } = await res.json();
+    //const res = await fetch(`${domainName}/api/pages/home`, { next: { tags: ["mainData"] } });
+    const products = await getProducts();
     const product = products.filter((p: any) => p.id == productId)[0];
     return (
         <div className="">
