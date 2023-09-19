@@ -101,6 +101,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
           })
       }
     } finally {
+      console.log("going to revalidate");
+      await axios.get("/api/revalidate-data");
       await fetch("https://dams-shop.vercel.app/api/revalidate-data", { cache: "no-cache" }).then(res => console.log("revalidated successfully", res.status))
         .catch(e => toast.error("home page is not refreshed"))
       setLoading(false);

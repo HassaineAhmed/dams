@@ -2,6 +2,7 @@ import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET() {
+    console.log("revalidating ...")
     try {
         revalidateTag('mainData')
         console.log("revalidating ...")
