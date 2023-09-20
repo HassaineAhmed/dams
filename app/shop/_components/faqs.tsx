@@ -12,9 +12,9 @@ import { FAQ } from "@prisma/client"
 export function FAQs({ faqs }: { faqs: FAQ[] }) {
 
   function FAQComponent({ question, answer }: { question: string, answer: string }) {
+    const { inView, ref } = useInView();
     const [open, setOpen] = useState(false);
     const [chevronAnimataion, setChevronAnimation] = useState("")
-    const { inView, ref } = useInView();
 
     function Head() {
       return (
@@ -48,7 +48,7 @@ export function FAQs({ faqs }: { faqs: FAQ[] }) {
       )
     }
     return (
-      <div ref={ref} className={clsx({ "opacity-100 translate-x-0": inView }, "flex-col w-[95%] lg:w-[90%] flex gap-0 translate-x-[0px] transform transition-all duration-700 ease-in-out")}>
+      <div ref={ref} className={clsx({ "animate-fadeInFromRight": inView }, "flex-col w-[95%] lg:w-[90%] flex gap-0 translate-x-[0px] transform transition-all duration-700 ease-in-out")}>
         <Head />
         <Body />
       </div>
