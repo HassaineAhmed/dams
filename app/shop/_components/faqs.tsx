@@ -39,8 +39,8 @@ export function FAQs({ faqs }: { faqs: FAQ[] }) {
     function Body() {
       return (
         <Collapse isOpened={open}>
-          <div className="bg-formGreen px-4 border-[2px] border-gold border-t-0 p-2" >
-            <p className="lg:text-[23px]">
+          <div className="bg-formGreen lg:px-6 px-4 border-[2px] border-gold border-t-0 p-2" >
+            <p className="lg:text-[23px] font-semibold  py-2 lg:py-4 ">
               {answer}
             </p>
           </div>

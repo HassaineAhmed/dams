@@ -4,6 +4,9 @@ import { Link as ReactScrollLink, Element, scroller } from "react-scroll"
 import { Product } from "@prisma/client"
 import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
+import { useInView } from "react-intersection-observer"
+import { clsx } from "clsx"
+
 
 type TProducts = Array<Product & { imagesNames: { imageName: string }[] }>
 
@@ -36,8 +39,9 @@ export function TabSection({ products }: { products: TProducts }) {
     comingSoonProudcts: products.filter(product => product.isComingSoon == true && product.isForMen),
     newArrivalProducts: products.filter(product => product.isNewArrival == true && product.isForMen),
   }
+  const { inView, ref } = useInView();
   return (
-    <div className="lg:pt-20 lg:flex lg:justify-center ">
+    <div ref={ref} className={clsx({ "  animate-fadeInFromRight": inView }, "lg:pt-20 lg:flex lg:justify-center  transition-all duration-700 ease-in-out")}>
       <Element name={'tabSectionMen'}>
         <Element name={'tabSectionWomen'}>
           <div className={`${gender == "male" ? "bg-[#326967]" : "bg-[#519D99]"} lg:w-[1400px] lg:border-x-[2px] mx-1 transition flex justify-center flex-col duration-500 outline-0  border-[2px] border-x-[2px]  border-gold`}>
@@ -102,17 +106,17 @@ export function TabSection({ products }: { products: TProducts }) {
               <div className="flex justify-center items-center">
                 {gender == "male" ?
                   <div className={`animate-fadeInOut flex  pb-1 ${gender != "male" && "hidden"}`}>
-                    <div className={`gap-2 px-1 py-2 items-center justify-evenly transition-all flex duration-500 animate-fadeInOut ${activeTab == 1 ? 'flex' : 'hidden'}`}>
+                    <div className={`gap-2 px-1 py-2 items-start justify-evenly transition-all flex duration-500 animate-fadeInOut ${activeTab == 1 ? 'flex' : 'hidden'}`}>
                       {menProducts.trendingProducts[0] && <ProductComponent product={menProducts.trendingProducts[0]} />}
                       {menProducts.trendingProducts[1] && <ProductComponent product={menProducts.trendingProducts[1]} />}
                     </div>
 
-                    <div className={`gap-2 px-1 py-2 items-center justify-center flex animate-fadeInOut ${activeTab == 2 ? 'flex' : "hidden"} `}>
+                    <div className={`gap-2 px-1 py-2 items-start justify-center flex animate-fadeInOut ${activeTab == 2 ? 'flex' : "hidden"} `}>
                       {menProducts.newArrivalProducts[0] && <ProductComponent product={menProducts.newArrivalProducts[0]} />}
                       {menProducts.newArrivalProducts[1] && <ProductComponent product={menProducts.newArrivalProducts[1]} />}
                     </div>
 
-                    <div className={`gap-2 px-1 py-2 items-center justify-center flex animate-fadeInOut ${activeTab == 3 ? "flex" : "hidden"} `}>
+                    <div className={`gap-2 px-1 py-2 items-start justify-center flex animate-fadeInOut ${activeTab == 3 ? "flex" : "hidden"} `}>
                       {menProducts.comingSoonProudcts[0] && <ProductComponent product={menProducts.comingSoonProudcts[0]} />}
                       {menProducts.comingSoonProudcts[1] && <ProductComponent product={menProducts.comingSoonProudcts[1]} />}
                     </div>
@@ -120,17 +124,17 @@ export function TabSection({ products }: { products: TProducts }) {
 
                   :
                   <div className={`animate-fadeInOut flex pb-4 ${gender != "female" && "hidden"} `}>
-                    <div className={`gap-2 px-1 py-2 items-center justify-evenly transition-all flex duration-500 animate-fadeInOut ${activeTab == 1 ? 'flex' : 'hidden'}`}>
+                    <div className={`gap-2 px-1 py-2 items-start justify-evenly transition-all flex duration-500 animate-fadeInOut ${activeTab == 1 ? 'flex' : 'hidden'}`}>
                       {womenProducts.trendingProducts[0] && <ProductComponent product={womenProducts.trendingProducts[0]} />}
                       {womenProducts.trendingProducts[1] && <ProductComponent product={womenProducts.trendingProducts[1]} />}
                     </div>
 
-                    <div className={`gap-2 px-1 py-2 items-center justify-center flex animate-fadeInOut ${activeTab == 2 ? 'flex' : "hidden"} `}>
+                    <div className={`gap-2 px-1 py-2 items-start justify-center flex animate-fadeInOut ${activeTab == 2 ? 'flex' : "hidden"} `}>
                       {womenProducts.newArrivalProducts[0] && <ProductComponent product={womenProducts.newArrivalProducts[0]} />}
                       {womenProducts.newArrivalProducts[1] && <ProductComponent product={womenProducts.newArrivalProducts[1]} />}
                     </div>
 
-                    <div className={`gap-2 px-1 py-2 items-center justify-center flex animate-fadeInOut ${activeTab == 3 ? "flex" : "hidden"} `}>
+                    <div className={`gap-2 px-1 py-2 items-start justify-center flex animate-fadeInOut ${activeTab == 3 ? "flex" : "hidden"} `}>
                       {womenProducts.comingSoonProudcts[0] && <ProductComponent product={womenProducts.comingSoonProudcts[0]} />}
                       {womenProducts.comingSoonProudcts[1] && <ProductComponent product={womenProducts.comingSoonProudcts[1]} />}
                     </div>

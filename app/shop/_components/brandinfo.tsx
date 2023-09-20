@@ -3,12 +3,17 @@ import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import Image from "next/image"
 import { scroller } from "react-scroll"
+import { useInView } from "react-intersection-observer"
+import { clsx } from "clsx"
 
 export function BrandInfo() {
+
   function Card({ content }: { content: string }) {
-    return <div className={` lg:w-[390px] lg:h-[70px] animate-slideInFromLeft flex justify-center items-center bg-td py-3 lg:py-[16px] text-center w-[90%]`}>
-      <p className="text-black font-bold text-xl text-center lg:text-[30px] lg:font-semibold ">{content}</p>
-    </div>
+    const { inView, ref } = useInView();
+    return (
+      <div ref={ref} className={clsx({ "  animate-fadeInFromRight": inView }, "lg:w-[390px] lg:h-[70px] flex justify-center items-center bg-td py-3 lg:py-[16px] text-center w-[90%]  transition-all duration-700 ease-in-out")}>
+        <p className="text-black font-bold  text-xl text-center lg:text-[30px] lg:font-semibold ">{content}</p>
+      </div>)
   }
 
   const [scrolled, setScrolled] = useState(false)
@@ -30,14 +35,15 @@ export function BrandInfo() {
   }, [section])
 
   const cards = ["1- World Class Quality",
+
     "2- Very Fast Delivery",
     "3- Artistic Design"
   ]
 
-  return <div className="mx-1 lg:mx-2 bg-sd border-[2px] grid gap-4 lg:gap-8 border-gold py-[40px] px-2 animate-fadeInOut">
+  return <div className="mx-1 lg:mx-2 bg-sd border-[2px] grid gap-4 lg:gap-8 border-gold py-[40px] px-2 delay-300 ">
     <div className="grid gap-3">
 
-      <div className="flex gap-2 lg:gap-4 justify-center items-center">
+      <div className="flex gap-2 lg:gap-4 justify-center items-center animate-fadeInOut">
         <div className="lg:w-[82px] w-[50px]">
           <Image src='/logo.svg' height={100} width={100} alt="logo" />
         </div>
