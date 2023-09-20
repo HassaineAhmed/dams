@@ -9,7 +9,12 @@ type TReturn = {
     products?: any,
 }
 
-export async function getCategories() {
+type TCategory = Category & {
+    Product: { imagesNames: { imageName: string }[], id: string, name: string, price: number, isForMen: boolean, isForWomen: boolean }[],
+    imageName: { imageName: string }[]
+}
+
+export async function getCategories(): Promise<TCategory[]> {
     const categories = await prismadb.category.findMany({
         include:
             { imageName: { select: { imageName: true } }, Product: { include: { imagesNames: { select: { imageName: true } } } } }

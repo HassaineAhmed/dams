@@ -1,9 +1,6 @@
 import { Navbar } from "../_components/navbar"
-import Image from "next/image"
 import { Category } from "@prisma/client"
 import { DownFooter } from "../_components/footer"
-import { PuffSpinner } from "@/_components/ui/loader";
-import Link from "next/link"
 import { getCategories } from "../_utils/getMainData";
 import { CategoryContent } from "../_components/categoryContent";
 

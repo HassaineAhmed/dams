@@ -19,7 +19,7 @@ type TProduct = {
 
 type TCategory = Category & {
   Product: { imagesNames: { imageName: string }[], id: string, name: string, price: number, isForMen: boolean, isForWomen: boolean }[],
-  imageName: { imageName: string }
+  imageName: { imageName: string }[]
 }
 
 function Itemo({ src, descreption, price }: { src: string, descreption: string, price: number }) {
