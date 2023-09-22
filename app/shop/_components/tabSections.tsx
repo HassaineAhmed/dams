@@ -106,7 +106,7 @@ export function TabSection({ products }: { products: TProducts }) {
               <div className="flex justify-center items-center">
                 {gender == "male" ?
                   <div className={`animate-fadeInOut flex  pb-1 ${gender != "male" && "hidden"}`}>
-                    <div className={`gap-2 px-1 py-2 items-start justify-evenly transition-all flex duration-500 animate-fadeInOut ${activeTab == 1 ? 'flex' : 'hidden'}`}>
+                    <div className={`gap-2 px-1 py-2 items-start justify-center transition-all flex duration-500 animate-fadeInOut ${activeTab == 1 ? 'flex' : 'hidden'}`}>
                       {menProducts.trendingProducts[0] && <ProductComponent product={menProducts.trendingProducts[0]} />}
                       {menProducts.trendingProducts[1] && <ProductComponent product={menProducts.trendingProducts[1]} />}
                     </div>

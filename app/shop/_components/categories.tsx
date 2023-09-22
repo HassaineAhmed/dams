@@ -19,7 +19,7 @@ function CategoryEntry({ cate }: { cate: Category & { imageName: Array<{ imageNa
   return (
     <div ref={ref} className={clsx({ "animate-fadeInFromRight": inView }, "  transition-all duration-700 ease-in-out")}>
       <Link href={`/shop/${cate.name}`}>
-        <div className={`p-4 relative ${!isMobile && "hover:w-[320px] hover:h-[270px]"} transition-all duration-700  rounded-xl flex flex-col bg-pr items-center lg:w-[300px] lg:h-[250px] w-[260px] h-[210px]`}>
+        <div className={`p-4 relative ${!isMobile && "hover:w-[300px] hover:h-[250px]"} transition-all duration-400  rounded-xl flex flex-col bg-pr items-center lg:w-[300px] lg:h-[250px] w-[260px] h-[210px]`}>
           <div className="flex flex-1 h-full w-[70%] justify-self-center items-center justify-center ">
             <Image
               src={`https://dams-images.s3.eu-central-1.amazonaws.com/${cate.imageName[0].imageName}`}

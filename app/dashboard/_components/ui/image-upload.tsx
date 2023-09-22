@@ -20,6 +20,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   isMultiple,
   value,
 }) => {
+  console.log(value);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {

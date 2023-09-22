@@ -27,8 +27,8 @@ export default async function Page({ params }: { params: { categoryName: string,
 
 	const productinfoFirst = "uppercase lg:text-[2.9rem] text-[29px] font-bold leading-10"
 	const productinfoFirst2 = " uppercase lg:text-[2.6rem] text-[29px] font-bold leading-10"
-	const productinfoSecond = "text-gold w-96 text-[19px] lg:text-[1.47rem] text-gold font-bold leading-relaxed tracking-widest"
-	const productinfoSecondSpan = "inline-block h-6 text-whitish text-[17px] leading-relaxed font-regular font-[600] font-lora"
+	const productinfoSecond = "w-full text-gold w-96 text-[19px] lg:text-[1.47rem] text-gold font-bold leading-relaxed tracking-widest"
+	const productinfoSecondSpan = "h-6 text-whitish text-[19px] lg:text-[21px] leading-relaxed font-regular font-[600] font-lora"
 	return (
 		<div className="flex flex-col min-h-[100vh] text-whitish animate-fadeInFromUp">
 			<Navbar variation={"withBg"} />
@@ -42,9 +42,15 @@ export default async function Page({ params }: { params: { categoryName: string,
 						</div>
 
 						<div className="flex flex-col ">
-							<p className={productinfoSecond} >MATERIAL: <span className={productinfoSecondSpan} >81%coton, 19%els</span></p>
-							<p className={productinfoSecond} >FIT: <span className={productinfoSecondSpan}>81%coton, 19%els</span></p>
-							<p className={productinfoSecond}>DESIGN: <span className={productinfoSecondSpan}>81%coton, 19%els</span> </p>
+							{
+								product.fit != "" && <p className={productinfoSecond} >FIT: <span className={productinfoSecondSpan} >{product.fit}</span></p>
+							}
+							{
+								product.design != "" && <p className={productinfoSecond} >DESIGN: <span className={productinfoSecondSpan} >{product.design}</span></p>
+							}
+							{
+								product.model != "" && <p className={productinfoSecond} >DESIGN: <span className={productinfoSecondSpan} >{product.model}</span></p>
+							}
 						</div>
 
 						<BuyForm1 categoryName={categoryName} productId={productId} />
