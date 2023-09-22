@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
+
 import { v4 as uuidv4 } from "uuid";
+import dotenv from "dotenv"
+dotenv.config();
+
 
 export async function POST(req: NextRequest) {
     // handle the iamge and file type
@@ -17,14 +21,15 @@ export async function POST(req: NextRequest) {
     }
 
     // upload to s3
+    const credentials = {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID ? process.env.AWS_ACCESS_KEY_ID : " ",
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ? process.env.AWS_SECRET_ACCESS_KEY : " "
+    }
     const fileName = uuidv4() + "." + fileType
     try {
         const client = new S3Client({
             region: "eu-central-1",
-            credentials: {
-                accessKeyId: "AKIA2AT3OT7I3KI6J5AK",
-                secretAccessKey: "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"
-            }
+            credentials: credentials
         });
         const bucket = await client.send(
             new PutObjectCommand({
