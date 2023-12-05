@@ -1,18 +1,20 @@
 import { ClerkProvider } from "@clerk/nextjs";
-import { DM_Sans, Inter, Lora, Merriweather } from "next/font/google";
+import { Merriweather_Sans, Changa, Inter, DM_Sans } from "next/font/google";
 import './globals.css'
 import dotenv from "dotenv"
 
 dotenv.config();
 
 const inter = Inter({ subsets: ["latin"] });
+const merrisans = Merriweather_Sans({ subsets: ["latin"], weight: ['300', '400', '500', '600', '700', '800'], variable: "--font-merrisans", display: "swap" })
 const dm_sans = DM_Sans({ subsets: ["latin"], variable: "--font-ds", display: "swap" });
-const lora = Lora({ subsets: ["latin"], variable: "--font-lora", display: "swap" });
-const merriweather = Merriweather({ weight: ["300", "400", "700", "900"], subsets: ["latin"], variable: "--font-mr", display: "swap" });
+const changa = Changa({ subsets: ["arabic"], weight: ['300', '400', '500', '600', '700', '800'], variable: "--font-changa", display: "swap" });
+
+
 
 export const metadata = {
-  title: "Dams",
-  description: "Clothing Brand",
+  title: "CDM Formations",
+  description: "",
 };
 
 export default async function RootLayout({
@@ -31,7 +33,7 @@ export default async function RootLayout({
             sizes="<generated>"
           />
         </head>
-        <body className={`${inter.className} ${dm_sans.variable}  ${merriweather.variable} ${lora.variable} max-w-[100%] `}>
+        <body className={`${inter.className} ${dm_sans.className}  ${merrisans.variable} ${changa.variable} max-w-[100%] `}>
           {children}
         </body>
       </html>

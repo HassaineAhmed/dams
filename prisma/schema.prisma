@@ -14,12 +14,14 @@ model Admin {
 }
 
 model ImageName {
-  id         String    @id @default(uuid())
-  imageName  String    @unique
-  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  product    Product?  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId  String?
-  categoryId String?
+  id          String     @id @default(uuid())
+  imageName   String     @unique
+  category    Category?  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  product     Product?   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId   String?
+  categoryId  String?
+  Formation   Formation? @relation(fields: [formationId], references: [id])
+  formationId String?
 }
 
 model Product {
@@ -72,6 +74,8 @@ model Order {
   codePromo         String?
   stage             OrderStage
   product           Product    @relation(fields: [productName], references: [name], onDelete: Cascade)
+  Formation         Formation? @relation(fields: [formationId], references: [id])
+  formationId       String?
 }
 
 model CodePromo {
@@ -97,4 +101,39 @@ model Feedback {
   phoneNumber Int?
   message     String
   date        DateTime
+}
+
+model FormationCategory {
+  id         String      @id @default(uuid())
+  title      String
+  formations Formation[]
+
+  @@unique([title])
+}
+
+model Formation {
+  id                     String             @id @default(uuid())
+  title                  String
+  point1                 String
+  point2                 String
+  point3                 String
+  point4                 String
+  point5                 String
+  point6                 String
+  price                  Int
+  requirements           String[]
+  formationCategory      FormationCategory? @relation(fields: [formationCategoryTitle], references: [title])
+  imagesNames            ImageName[]
+  formationCategoryTitle String?
+  revenue                Int
+  formationOrders        Order[]
+  isAvailable            Boolean            @default(true)
+  FormationOrders        FormationOrder[]
+}
+
+model FormationOrder {
+  id          String    @id @default(uuid())
+  email       String
+  formation   Formation @relation(fields: [formationId], references: [id])
+  formationId String
 }

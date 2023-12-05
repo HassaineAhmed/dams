@@ -5,11 +5,11 @@ import { CategoriesClient } from "./components/client";
 
 
 const CategoriesPage = async () => {
-  const categories = await prismadb.category.findMany();
+  const categories = await prismadb.formationCategory.findMany();
 
   const formattedCategories: CategoryColumn[] = categories.map((item) => ({
     id: item.id,
-    name: item.name,
+    title: item.title,
   }));
 
   return (

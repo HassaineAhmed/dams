@@ -6,22 +6,18 @@ import * as fs from 'fs-extra';
 
 
 export type ReceivedData = {
-    name: string,
+    title: string,
     price: number,
-    categoryId: string,
-    categoryName: string,
-    isAvailable: boolean,
-    isNewArrival: boolean,
-    isForMen: boolean,
-    isForWomen: boolean,
-    isComingSoon: boolean,
-    isTrending: boolean,
-    howManyOrders: number,
+    categoryTitle: string,
     imagesNames: Array<{ imageName: string, url?: string }>
-    model: string,
-    design: string,
-    fit: string,
     revenue: number,
+    isAvailable: boolean,
+    point1: '',
+    point2: '',
+    point3: '',
+    point4: '',
+    point5: '',
+    point6: '',
 }
 
 export async function POST(req: NextRequest) {
@@ -31,38 +27,33 @@ export async function POST(req: NextRequest) {
             return NextResponse.json("Unauthenticated!", { status: 400 });
         }
         let {
-            name,
+            title,
             price,
-            categoryName,
-            isAvailable,
-            isNewArrival,
-            isForMen,
-            isForWomen,
-            isComingSoon,
-            isTrending,
+            categoryTitle,
             imagesNames,
-            model,
-            design,
-            fit,
             revenue,
+            isAvailable,
+            point1,
+            point2,
+            point3,
+            point4,
+            point5,
+            point6,
         }: ReceivedData = await req.json();
 
-        await prismadb.product.create({
+        await prismadb.formation.create({
             data: {
-                name: name,
+                title: title,
                 imagesNames: { create: imagesNames.map(image => ({ imageName: image.imageName })) },
                 price: price,
                 revenue: revenue,
-                isAvailable: isAvailable,
-                isTrending: isTrending,
-                isNewArrival: isNewArrival,
-                isForMen: isForMen,
-                isForWomen: isForWomen,
-                isComingSoon: isComingSoon,
-                model: model ? model : "",
-                fit: fit ? fit : "",
-                category: { connect: { name: categoryName } },
-                design: design ? design : "",
+                point1: point1 ? point1 : '',
+                point2: point1 ? point1 : '',
+                point3: point1 ? point1 : '',
+                point4: point1 ? point1 : '',
+                point5: point1 ? point1 : '',
+                point6: point1 ? point1 : '',
+                formationCategory: { connect: { title: categoryTitle } },
             },
         })
 
@@ -118,21 +109,20 @@ export async function PATCH(req: NextRequest, { params }: { params: { productId:
 
         let { data, initialData } = await req.json();
         let {
-            name,
+            title,
             price,
-            categoryName,
-            isAvailable,
-            isNewArrival,
-            isForMen,
-            isForWomen,
-            isComingSoon,
-            isTrending,
+            categoryTitle,
             imagesNames,
-            model,
-            design,
-            fit,
             revenue,
-        }: ReceivedData = data;
+            isAvailable,
+            point1,
+            point2,
+            point3,
+            point4,
+            point5,
+            point6,
+        }: ReceivedData = await req.json();
+
 
         // look for deletd images to tell prisma to delete them from the database
         async function findDeletedImages() {
@@ -160,27 +150,20 @@ export async function PATCH(req: NextRequest, { params }: { params: { productId:
         }
 
         const deletedImages = await findDeletedImages()
-        await prismadb.product.update({
+        await prismadb.formation.update({
             where: { id: id },
             data: {
-                name: name,
-                imagesNames: {
-                    connectOrCreate:
-                        imagesNames.map(image => ({ create: { imageName: image.imageName }, where: { imageName: image.imageName } })),
-                    delete: deletedImages,
-                },
+                title: title,
+                imagesNames: { create: imagesNames.map(image => ({ imageName: image.imageName })) },
                 price: price,
-                isAvailable: isAvailable,
-                isTrending: isTrending,
-                isNewArrival: isNewArrival,
-                isForMen: isForMen,
-                isForWomen: isForWomen,
-                isComingSoon: isComingSoon,
-                model: model ? model : "",
-                fit: fit ? fit : "",
-                category: { connect: { name: categoryName } },
-                design: design ? design : "",
                 revenue: revenue,
+                point1: point1 ? point1 : '',
+                point2: point1 ? point1 : '',
+                point3: point1 ? point1 : '',
+                point4: point1 ? point1 : '',
+                point5: point1 ? point1 : '',
+                point6: point1 ? point1 : '',
+                formationCategory: { connect: { title: categoryTitle } },
             },
         })
         /*

@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { Trash } from "lucide-react";
-import { Category } from "@prisma/client";
+import { FormationCategory } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
 
 import { Input } from "../../../../_components/ui/input"
@@ -34,23 +34,18 @@ import {
 
 
 const formSchema = z.object({
-  name: z.string().min(2),
-  imageName: z.object({ imageName: z.string(), url: z.string().optional() }).array(),
-  sizingSystem: z.string(),
+  title: z.string().min(2),
 });
 
-type CategoryFormValues = z.infer<typeof formSchema> | Category;
+type CategoryFormValues = z.infer<typeof formSchema> | FormationCategory;
 
 type CategoryFormProps = {
-  initialData: Category & { imageName: Array<{ imageName: string, url?: string }> } | null;
+  initialData: FormationCategory | null;
 }
 
 export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
-  if (initialData) {
-    initialData.imageName[0].url = `https://dams-images.s3.eu-central-1.amazonaws.com/${initialData.imageName[0].imageName}`
-  }
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -63,9 +58,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
-      name: "",
-      imageName: [],
-      sizingSystem: "",
+      title: "",
     },
   });
 
@@ -73,6 +66,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     try {
       setLoading(true);
       if (initialData) {
+        console.log(initialData)
         await axios.patch(`/api/categories/${params.categoryId}`, { data, initialData })
           .then(res => {
             if (res.status == 200) {
@@ -113,9 +107,9 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/ api / categories / ${params.categoryId}`);
+      await axios.delete(`/api/categories/${params.categoryId}`);
       router.refresh();
-      router.push(`/ dashboard / categories`);
+      router.push(`/dashboard/categories`);
       toast.success("Category deleted.");
     } catch (error: any) {
       toast.error(
@@ -159,14 +153,14 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
           <div className="md:grid md:grid-cols-3 gap-8">
             <FormField
               control={form.control}
-              name="name"
+              name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Title</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Category name"
+                      placeholder="Category title"
                       {...field}
                     />
                   </FormControl>
@@ -174,65 +168,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="sizingSystem"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Sizing System</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a sizing system"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value={"letters"}>
-                        Letters: S, M, L...
-                      </SelectItem>
-                      <SelectItem value={"numbers"}>
-                        Numbers: 40, 41, 42...
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </div>
-          <FormField
-            control={form.control}
-            name="imageName"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>Image</FormLabel>
-                  <FormControl>
-                    <ImageUpload
-                      value={field.value}
-                      disabled={loading}
-                      onChange={(imageName) => {
-                        field.onChange([{ imageName }]);
-                      }}
-                      onRemove={() =>
-                        field.onChange([])
-                      }
-                      isMultiple={false}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}
           </Button>

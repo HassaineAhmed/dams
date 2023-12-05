@@ -5,13 +5,13 @@ import { CellAction } from "./cell-action"
 
 export type CategoryColumn = {
   id: string
-  name: string;
+  title: string;
 }
 
 export const columns: ColumnDef<CategoryColumn>[] = [
   {
-    accessorKey: "name",
-    header: "Name",
+    accessorKey: "title",
+    header: "title",
   },
   {
     id: "actions",

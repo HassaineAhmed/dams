@@ -7,18 +7,10 @@ const CategoryPage = async ({
 }: {
   params: { categoryId: string }
 }) => {
-  const category = await prismadb.category.findUnique({
+  const category = await prismadb.formationCategory.findUnique({
     where: {
       id: params.categoryId
     },
-    include: {
-      imageName: {
-        select: {
-          id: true,
-          imageName: true
-        }
-      }
-    }
   });
 
   return (
